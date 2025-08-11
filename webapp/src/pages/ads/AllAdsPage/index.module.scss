@@ -1,0 +1,12 @@
+@use '../../../styles/vars' as *;
+@use '../../../styles/mixins' as *;
+
+.filter {
+  margin-bottom: 10px;
+}
+
+.more {
+  margin-top: 10px;
+}
+
+// Не должно быть scss файлов, а только клмпоненты !!!

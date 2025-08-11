@@ -1,0 +1,56 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String           @id @default(uuid())
+  name        String
+  email       String           @unique
+  password    String
+  description String           @default("")
+  phone       String           @default("")
+  avatar      String?
+  createdAt   DateTime         @default(now())
+  ads         Ad[]
+  adsLikes    AdLike[]
+  permissions UserPermission[]
+}
+
+enum UserPermission {
+  BLOCK_ADS
+  ALL
+}
+
+model Ad {
+  id           String    @id @default(uuid())
+  serialNumber Int       @unique @default(autoincrement())
+  category     String
+  subcategory  String
+  title        String
+  description  String
+  price        String
+  city         String
+  images       String[]
+  createdAt    DateTime  @default(now())
+  authorId     String
+  author       User      @relation(fields: [authorId], references: [id])
+  adsLikes     AdLike[]
+  blockedAt    DateTime?
+}
+
+model AdLike {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  ad        Ad       @relation(fields: [adId], references: [id])
+  adId      String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@unique([adId, userId])
+}

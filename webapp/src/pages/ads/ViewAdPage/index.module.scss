@@ -1,0 +1,58 @@
+@use '../../../styles/vars' as *;
+@use '../../../styles/mixins' as *;
+
+// Не должно быть scss файлов, а только клмпоненты !!!
+
+.createdAt {
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.author {
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 10px 0;
+  align-items: center;
+
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  .name {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+  }
+}
+
+.gallery {
+  margin: 10px 0;
+}
+
+.text {
+  font-size: 14px;
+
+  & > *:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+.likes {
+  margin-top: 20px;
+
+  .likeButton {
+    @include link;
+  }
+}
+
+.editButton {
+  margin-top: 20px;
+}
+
+.blockAd {
+  margin-top: 20px;
+}
+
+// Не должно быть scss файлов, а только клмпоненты !!!

@@ -1,0 +1,19 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.main {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.FormWrapper {
+  &.type-small {
+    width: 280px;
+  }
+
+  &.type-big {
+    width: 420px;
+  }
+}

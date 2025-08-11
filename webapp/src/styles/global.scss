@@ -1,0 +1,29 @@
+@forward '../../node_modules/reset-css/sass/reset';
+@forward '../../node_modules/react-image-gallery/styles/scss/image-gallery';
+@use './vars' as *;
+
+html,
+body,
+#root {
+  height: 100%;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+body {
+  font-family: $font-family;
+  font-size: $font-size-3;
+  background: $background-color-1;
+  color: $text-color-1;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}

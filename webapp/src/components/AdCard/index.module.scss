@@ -1,0 +1,88 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.card {
+  width: 205px;
+  height: 260px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 205px;
+  position: relative;
+  overflow: hidden;
+}
+
+.mainImage {
+  border-radius: $border-radius-3;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.dotsContainer {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.imageContainer:hover .dotsContainer,
+.imageContainer:active .dotsContainer,
+.dotsContainer[style*="display: flex"] {
+  opacity: 1;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba($background-color-1, 0.5);
+  cursor: pointer;
+}
+
+.activeDot {
+  background-color: rgba($background-color-1, 0.9);
+  transform: scale(1.2);
+}
+
+.info {
+  padding: 5px 0;
+}
+
+.title {
+  font-size: $font-size-2;
+  color: $text-color-1;
+  @include link;
+}
+
+.price {
+  margin-top: 5px;
+  font-size: $font-size-2;
+  font-weight: 500;
+  color: $text-color-1;
+}
+
+.city {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 5px 5px 5px;
+  border-radius: $border-radius-1;
+  font-size: $font-size-4;
+  background-color: rgba($text-color-1, 0.4);
+  color: $background-color-1;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(1px);
+}

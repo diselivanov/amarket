@@ -1,0 +1,62 @@
+@use 'sass:color';
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  color: $background-color-1;
+  font-size: $font-size-3;
+  font-family: $font-family;
+  border: none;
+  border-radius: $border-radius-1;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.1s ease;
+
+  &.color-green {
+    background-color: $primary-color;
+
+    &:hover {
+      background-color: darken($primary-color, 5%);
+    }
+
+    &:active {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  &.color-red {
+    background-color: $error-color;
+
+    &:hover {
+      background-color: color.scale($error-color, $lightness: 10%);
+    }
+
+    &:active {
+      background-color: color.scale($error-color, $lightness: 30%);
+    }
+  }
+
+  &.disabled {
+    pointer-events: none;
+    color: $background-color-1;
+  }
+
+  &.loading {
+    .text {
+      opacity: 0;
+    }
+  }
+}
+
+.buttons {
+  margin-right: -5px;
+
+  & > * {
+    margin-right: 5px;
+  }
+}

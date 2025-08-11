@@ -1,0 +1,13 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.segment {
+  h1.title {
+    font-size: $font-size-1;
+    font-weight: 500;
+  }
+
+  .content {
+    margin-top: 10px;
+  }
+}

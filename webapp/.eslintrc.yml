@@ -1,0 +1,28 @@
+extends:
+  - react-app
+  - ../.eslintrc.yml
+parserOptions:
+  project: ./tsconfig.json
+overrides:
+  - files:
+      - vite.config.ts
+      - src/lib/parsePublicEnv.ts
+    parserOptions:
+      project: ./tsconfig.node.json
+rules:
+  no-console:
+    - error
+    - allow:
+        - info
+        - error
+        - warn
+  '@typescript-eslint/no-restricted-imports':
+    - error
+    - patterns:
+        - group:
+            - '@amarket/backend/**'
+            - '!@amarket/backend/**/'
+            - '!@amarket/backend/**/input'
+            - '!@amarket/backend/src/utils/can'
+          allowTypeImports: true
+          message: 'Only types and input schemas are allowed to be imported from backend workspace'
