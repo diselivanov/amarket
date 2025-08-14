@@ -3,16 +3,16 @@
 
 .alert {
   padding: 10px;
-  border-radius: $border-radius-2;
+  border-radius: $border-radius-medium;
 
   &.red {
-    background-color: #ffd1d1;
-    color: #631717;
+    background-color: rgba($red, 0.2);
+    color: $red;
   }
 
   &.green {
-    background-color: #d7ffd7;
-    color: #2b6d2b;
+    background-color: rgba($green, 0.2);
+    color: $green;
   }
 
   &.brown {

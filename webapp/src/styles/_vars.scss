@@ -1,22 +1,23 @@
-$background-color-1: #ffffff;
-$background-color-2: #f6f8fa;
+$background-color-primary: #ffffff;
+$background-color-secondary: #f6f8fa;
 
-$text-color-1: #000000;
-$text-color-2: #7c8a9a;
+$text-color-primary: #000000;
+$text-color-secondary: #7c8a9a;
 
-$border-color-1: #dce3eb;
+$border-color: #d5dce3;
 
-$primary-color: #0574f2;
-$error-color: #e33b54;
-$success-color: #2ebd85;
+$blue: #0574f2;
+$red: #e33b54;
+$green: #63d2b4;
 
-$font-size-1: 22px;
-$font-size-2: 16px;
-$font-size-3: 15px;
-$font-size-4: 14px;
+$font-size-header: 22px;
+$font-size-main: 16px;
+$font-size-small: 14px;
 
 $font-family: 'Segoe UI', sans-serif;
 
-$border-radius-1: 6px;
-$border-radius-2: 8px;
-$border-radius-3: 10px;
+$border-radius-small: 5px;
+$border-radius-medium: 8px;
+$border-radius-large: 10px;
+
+$transition: 150ms;

@@ -128,7 +128,7 @@ export const UploadToCloudinary = <TTypeName extends CloudinaryUploadTypeName>({
             onClick={() => inputEl.current?.click()}
             loading={loading}
             disabled={loading || disabled}
-            color="green"
+            color="blue"
           >
             {value ? 'Изменить' : 'Загрузить'}
           </Button>

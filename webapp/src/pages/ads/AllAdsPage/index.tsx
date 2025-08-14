@@ -41,7 +41,7 @@ export const AllAdsPage = withPageWrapper({
   }
 
   return (
-    <Segment title="Объявления">
+    <Segment title={undefined}>
       <AdSearch
         maxWidth={'100%'}
         label="Поиск"

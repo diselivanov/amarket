@@ -9,7 +9,6 @@ import { useForm } from '../../../lib/form'
 import { withPageWrapper } from '../../../lib/pageWrapper'
 import { trpc } from '../../../lib/trpc'
 import { FormWrapper } from '../../../components/FormWrapper'
-import { HintCreateAd } from '../../../components/HintCreateAd'
 
 export const NewAdPage = withPageWrapper({
   authorizedOnly: true,
@@ -37,8 +36,6 @@ export const NewAdPage = withPageWrapper({
 
   return (
     <FormWrapper type={'big'}>
-      <HintCreateAd />
-
       <form
         onSubmit={(e) => {
           e.preventDefault()

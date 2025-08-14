@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import css from './index.module.scss'
 import CircularProgress from '@mui/material/CircularProgress'
 
-type ButtonColor = 'red' | 'green'
+type ButtonColor = 'red' | 'blue'
 export type ButtonProps = {
   children: React.ReactNode
   loading?: boolean
@@ -15,7 +15,7 @@ export type ButtonProps = {
 export const Button = ({
   children,
   loading = false,
-  color = 'green',
+  color = 'blue',
   type = 'submit',
   disabled,
   onClick,
@@ -52,7 +52,7 @@ export const Button = ({
 export const LinkButton = ({
   children,
   to,
-  color = 'green',
+  color = 'blue',
 }: {
   children: React.ReactNode
   to: string

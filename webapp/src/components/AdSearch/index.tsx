@@ -1,7 +1,8 @@
 import cn from 'classnames'
 import { type FormikProps } from 'formik'
-import { LuSearch } from "react-icons/lu";
+import { LuSearch } from 'react-icons/lu'
 import css from './index.module.scss'
+import { Button } from '../Button'
 
 export const AdSearch = ({
   name,
@@ -58,9 +59,9 @@ export const AdSearch = ({
         </div>
         {invalid && <div className={css.error}>{error}</div>}
       </div>
-      <button className={css.searchButton} onClick={onSearch} disabled={isLoading}>
+      <Button onClick={onSearch} disabled={isLoading}>
         Найти
-      </button>
+      </Button>
     </div>
   )
 }

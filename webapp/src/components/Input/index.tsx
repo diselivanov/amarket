@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import { type FormikProps } from 'formik'
 import css from './index.module.scss'
+import { Icon } from '../Icon'
 
 export const Input = ({
   name,
@@ -44,7 +45,11 @@ export const Input = ({
         id={name}
         disabled={formik.isSubmitting}
       />
-      {invalid && <div className={css.error}>{error}</div>}
+      {invalid && 
+      <div className={css.error}>
+        <Icon name="error" />
+        {error}
+      </div>}
     </div>
   )
 }

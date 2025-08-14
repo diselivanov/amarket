@@ -7,38 +7,45 @@
   }
 
   .label {
-    color: $text-color-1;
-    margin-bottom: 5px;
+    color: $text-color-primary;
+    margin-bottom: 6px;
     display: block;
     user-select: none;
   }
 
   .input {
     display: block;
-    padding: 10px;
+    padding: 8px;
     font-family: $font-family;
-    font-size: $font-size-3;
-    box-shadow: 0 0 0 1px $border-color-1;
-    border: none;
-    border-radius: $border-radius-1;
-    background-color: $background-color-1;
+    font-size: $font-size-main;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-small;
+    background-color: $background-color-primary;
     outline: none;
     width: 100%;
-    transition: box-shadow 0.1s ease;
+    transition: all $transition ease;
 
     &:focus {
-      box-shadow: 0 0 0 1px $primary-color;
+      box-shadow: 0 0 0 2px rgba($blue, 0.4);
+      border-color: $blue;
     }
 
     &.invalid {
-      box-shadow: 0 0 0 1px $error-color;
+      border-color: $red;
+
+      &:focus {
+        border-color: $blue;
+      }
     }
   }
 
   .error {
-    font-size: $font-size-4;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: $font-size-small;
     margin-top: 5px;
-    color: $error-color;
+    color: $red;
     user-select: none;
   }
 }

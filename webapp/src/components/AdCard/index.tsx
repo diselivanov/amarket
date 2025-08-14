@@ -58,7 +58,7 @@ export const AdCard = ({ id, title, price, city, images }: AdCardProps) => {
     if (newIndex !== currentImageIndex) {
       setCurrentImageIndex(newIndex)
     }
-    
+
     setShowDots(true)
   }
 

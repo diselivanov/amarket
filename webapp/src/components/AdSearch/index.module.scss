@@ -23,7 +23,7 @@
   .searchIcon {
     position: absolute;
     left: 10px;
-    color: $text-color-2;
+    color: $text-color-secondary;
     font-size: 20px;
   }
 
@@ -31,73 +31,46 @@
     display: block;
     padding: 10px 10px 10px 40px;
     font-family: $font-family;
-    font-size: $font-size-3;
-    border: 1.5px solid $border-color-1;
-    border-radius: $border-radius-1;
-    background-color: $background-color-1;
+    font-size: $font-size-main;
+    border: 1.5px solid $border-color;
+    border-radius: $border-radius-medium;
+    background-color: $background-color-primary;
     outline: none;
     width: 400px;
     height: 40px;
     box-sizing: border-box;
-    transition: border-color 0.1s ease;
-    
+    transition: border-color $transition ease;
+
     &::placeholder {
-      color: $text-color-2;
+      color: $text-color-secondary;
       opacity: 1;
       font-family: $font-family;
-      font-size: $font-size-3;
+      font-size: $font-size-main;
     }
 
     &:focus {
-      border-color: $primary-color;
-      
+      border-color: $blue;
+
       + .searchIcon {
-        color: $primary-color;
+        color: $blue;
       }
     }
 
     &.invalid {
-      border-color: $error-color;
+      border-color: $red;
     }
 
     &:disabled {
       cursor: not-allowed;
-      background-color: darken($background-color-1, 5%);
+      background-color: darken($background-color-primary, 5%);
     }
   }
 
   .error {
-    font-size: $font-size-4;
+    font-size: $font-size-small;
     margin-top: 5px;
-    color: $error-color;
+    color: $red;
     user-select: none;
     position: absolute;
-  }
-}
-
-.searchButton {
-  height: 40px;
-  padding: 0 20px;
-  font-family: $font-family;
-  font-size: $font-size-3;
-  background-color: $primary-color;
-  color: $background-color-1;
-  border: none;
-  border-radius: $border-radius-1;
-  cursor: pointer;
-  transition: background-color 0.1s ease;
-  
-  &:hover:not(:disabled) {
-    background-color: darken($primary-color, 5%);
-  }
-
-  &:active:not(:disabled) {
-    background-color: darken($primary-color, 10%);
-  }
-
-  &:disabled {
-    background-color: $border-color-1;
-    cursor: not-allowed;
-    opacity: 0.7;
   }
 }

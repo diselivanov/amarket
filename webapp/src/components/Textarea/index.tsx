@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import { type FormikProps } from 'formik'
 import css from './index.module.scss'
+import { Icon } from '../Icon';
 
 export const Textarea = ({ name, label, formik }: { name: string; label: string; formik: FormikProps<any> }) => {
   const value = formik.values[name]
@@ -30,7 +31,10 @@ export const Textarea = ({ name, label, formik }: { name: string; label: string;
         id={name}
         disabled={formik.isSubmitting}
       />
-      {invalid && <div className={css.error}>{error}</div>}
+      {invalid && <div className={css.error}>
+        <Icon name="error" />
+        {error}
+      </div>}
     </div>
   )
 }
