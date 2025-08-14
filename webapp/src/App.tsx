@@ -15,6 +15,7 @@ import { SignOutPage } from './pages/auth/SignOutPage'
 import { SignUpPage } from './pages/auth/SignUpPage'
 import { NotFoundPage } from './pages/other/NotFoundPage'
 import './styles/global.scss'
+import { ProfilePage } from './pages/auth/ProfilePage'
 
 export const App = () => {
   return (
@@ -28,6 +29,7 @@ export const App = () => {
               <Route element={<Layout />}>
                 <Route path={routes.getSignUpRoute.definition} element={<SignUpPage />} />
                 <Route path={routes.getSignInRoute.definition} element={<SignInPage />} />
+                <Route path={routes.getProfileRoute.definition} element={<ProfilePage />} />
                 <Route path={routes.getEditProfileRoute.definition} element={<EditProfilePage />} />
                 <Route path={routes.getAllAdsRoute.definition} element={<AllAdsPage />} />
                 <Route path={routes.getViewAdRoute.definition} element={<ViewAdPage />} />

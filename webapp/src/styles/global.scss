@@ -13,8 +13,9 @@ body,
 
 body {
   font-family: $font-family;
+  font-weight: 500;
   font-size: $font-size-main;
-  background: $background-color-secondary;
+  background: $background-color-primary;
   color: $text-color-primary;
 }
 

@@ -11,6 +11,7 @@ import {
   getSignUpRoute,
 } from '../../lib/routes'
 import css from './index.module.scss'
+import { ProfileButton } from '../ProfileButton'
 
 export const layoutContentElRef = createRef<HTMLDivElement>()
 
@@ -27,21 +28,10 @@ export const Layout = () => {
         <div className={css.menu}>
           {me ? (
             <>
-              <Link className={css.link} to={getNewAdRoute()}>
-                Разместить объявление
-              </Link>
-              <Link className={css.link} to={getEditProfileRoute()}>
-                Редактировать профиль
-              </Link>
-              <Link className={css.link} to={getSignOutRoute()}>
-                Выйти
-              </Link>
+              <ProfileButton/>
             </>
           ) : (
             <>
-              <Link className={css.link} to={getSignUpRoute()}>
-                Создать аккаунт
-              </Link>
               <Link className={css.link} to={getSignInRoute()}>
                 Войти
               </Link>

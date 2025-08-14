@@ -6,6 +6,8 @@ export const getSignInRoute = pgr(() => '/sign-in')
 
 export const getSignOutRoute = pgr(() => '/sign-out')
 
+export const getProfileRoute = pgr(() => '/profile')
+
 export const getEditProfileRoute = pgr(() => '/edit-profile')
 
 export const getAllAdsRoute = pgr(() => '/')

@@ -2,7 +2,10 @@ import cn from 'classnames'
 import { type FormikProps } from 'formik'
 import { LuSearch } from 'react-icons/lu'
 import css from './index.module.scss'
-import { Button } from '../Button'
+import { LinkButton } from '../Button'
+import { getNewAdRoute } from '../../lib/routes'
+import { CategoryMap } from '../CategoryMap'
+import { Icon } from '../Icon'
 
 export const AdSearch = ({
   name,
@@ -17,7 +20,7 @@ export const AdSearch = ({
   label: string
   formik: FormikProps<any>
   maxWidth?: number | string
-  type?: 'text' | 'password'
+  type?: 'text'
   onSearch: () => void
   isLoading: boolean
 }) => {
@@ -27,8 +30,16 @@ export const AdSearch = ({
   const invalid = !!touched && !!error
   const disabled = formik.isSubmitting
 
+  const handleClear = () => {
+    formik.setFieldValue(name, '')
+    // Optionally trigger search after clearing
+    // onSearch()
+  }
+
   return (
     <div className={cn(css.searchContainer)}>
+      <CategoryMap/>
+
       <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
         <div className={css.inputWrapper}>
           <LuSearch className={css.searchIcon} />
@@ -56,12 +67,26 @@ export const AdSearch = ({
             disabled={formik.isSubmitting}
             placeholder={label}
           />
+          {value && (
+            <button 
+              type="button" 
+              className={css.clearButton} 
+              onClick={handleClear}
+              disabled={disabled}
+            >
+              <Icon name={'delete'}/>
+            </button>
+          )}
         </div>
-        {invalid && <div className={css.error}>{error}</div>}
+
+        <button className={css.searchButton} onClick={onSearch} disabled={isLoading}>
+          Найти
+        </button>
       </div>
-      <Button onClick={onSearch} disabled={isLoading}>
-        Найти
-      </Button>
+
+      <LinkButton to={getNewAdRoute()}>
+        Разместить объявление
+      </LinkButton>
     </div>
   )
 }

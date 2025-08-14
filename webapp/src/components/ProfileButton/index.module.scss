@@ -1,0 +1,14 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.link {
+    display: flex;
+    border-radius: $border-radius-large;
+    margin-left: auto;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: $border-radius-large;
+}

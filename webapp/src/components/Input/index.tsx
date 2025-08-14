@@ -45,11 +45,12 @@ export const Input = ({
         id={name}
         disabled={formik.isSubmitting}
       />
-      {invalid && 
-      <div className={css.error}>
-        <Icon name="error" />
-        {error}
-      </div>}
+      {invalid && (
+        <div className={css.error}>
+          <Icon name="error" />
+          {error}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,12 +1,13 @@
 import { createElement } from 'react'
 import { type IconBaseProps } from 'react-icons'
-import { AiFillCloseCircle, AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { TiWarning } from "react-icons/ti";
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { IoCloseOutline } from "react-icons/io5";
+import { TiWarning } from 'react-icons/ti'
 
 const icons = {
   likeEmpty: AiOutlineHeart,
   likeFilled: AiFillHeart,
-  delete: AiFillCloseCircle,
+  delete: IoCloseOutline,
   error: TiWarning,
 }
 

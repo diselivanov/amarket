@@ -2,14 +2,25 @@
 @use '../../styles/mixins' as *;
 
 .searchContainer {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
+  padding: 7px 20px;
+  background-color: $background-color-primary;
 }
 
 .field {
+  display: flex;
+  gap: 5px;
+  border: 1px solid $border-color-dark;
+  border-radius: $border-radius-small;
+  height: 38px;
+  background-color: $background-color-primary;
+
   &.disabled {
     opacity: 0.5;
   }
@@ -27,17 +38,73 @@
     font-size: 20px;
   }
 
+  .searchButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 15px;
+    color: $background-color-primary;
+    background-color: $blue;
+    border: none;
+    font-size: $font-size-main;
+    font-family: $font-family;
+    border-radius: 3px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    line-height: normal;
+    margin: 2px;
+
+     &:hover {
+    background-color:  darken($blue, 4%);
+  }
+
+  &:active {
+    background-color:  darken($blue, 6%);
+  }
+  }
+
+  .clearButton {
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: $text-color-secondary;
+  font-size: $font-size-header;
+  width: $font-size-header;
+  height: $font-size-header;
+  transition: $transition ease;
+  
+  &:hover {
+    background-color: $background-color-tertiary;
+  }
+
+  &:active {
+    background-color: darken($background-color-tertiary, 5%);
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
   .input {
     display: block;
-    padding: 10px 10px 10px 40px;
+    padding: 0 40px;
     font-family: $font-family;
     font-size: $font-size-main;
-    border: 1.5px solid $border-color;
-    border-radius: $border-radius-medium;
+    border: none;
+    border-radius: $border-radius-small;
     background-color: $background-color-primary;
     outline: none;
     width: 400px;
-    height: 40px;
+    height: 100%;
     box-sizing: border-box;
     transition: border-color $transition ease;
 
@@ -46,31 +113,12 @@
       opacity: 1;
       font-family: $font-family;
       font-size: $font-size-main;
-    }
-
-    &:focus {
-      border-color: $blue;
-
-      + .searchIcon {
-        color: $blue;
-      }
-    }
-
-    &.invalid {
-      border-color: $red;
+      user-select: none;
     }
 
     &:disabled {
       cursor: not-allowed;
       background-color: darken($background-color-primary, 5%);
     }
-  }
-
-  .error {
-    font-size: $font-size-small;
-    margin-top: 5px;
-    color: $red;
-    user-select: none;
-    position: absolute;
   }
 }
