@@ -6,6 +6,7 @@ $breakpoint: '<=900px';
 .layout {
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   @include media($breakpoint) {
   }
@@ -19,7 +20,7 @@ $breakpoint: '<=900px';
     position: sticky;
     top: 0;
     z-index: 100;
-    background: white;
+    background-color: $background-color-2;
 
     @include media($breakpoint) {
     }
@@ -43,7 +44,6 @@ $breakpoint: '<=900px';
   .content {
     height: 100%;
     overflow: auto;
-    padding: 10px;
 
     @include media($breakpoint) {
     }

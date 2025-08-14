@@ -1,4 +1,3 @@
-import { omit } from '@amarket/shared/src/omit'
 import { trpcLoggedProcedure } from '../../../lib/trpc'
 import { zGetAdsTrpcInput } from './input'
 
