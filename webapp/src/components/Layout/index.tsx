@@ -20,23 +20,23 @@ export const Layout = () => {
 
   return (
     <div className={css.layout}>
-        <div className={css.menu}>
-          <Link className={css.link} to={getAllAdsRoute()}>
-            <Logo className={css.logo} />
-          </Link>
+      <div className={css.menu}>
+        <Link className={css.link} to={getAllAdsRoute()}>
+          <Logo className={css.logo} />
+        </Link>
 
-          {me ? (
-            <>
-              <ProfileButton />
-            </>
-          ) : (
-            <>
-              <Link className={css.link} to={getSignInRoute()}>
-                Войти
-              </Link>
-            </>
-          )}
-        </div>
+        {me ? (
+          <>
+            <ProfileButton />
+          </>
+        ) : (
+          <>
+            <Link className={css.link} to={getSignInRoute()}>
+              Войти
+            </Link>
+          </>
+        )}
+      </div>
 
       <div className={css.content} ref={layoutContentElRef}>
         <Outlet />

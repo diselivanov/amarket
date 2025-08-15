@@ -10,7 +10,7 @@ import { trpc } from '../../../lib/trpc'
 import css from './index.module.scss'
 import { AdCard } from '../../../components/AdCard'
 import { AdsSection } from '../../../components/AdsSection'
-import { AdSearch } from '../../../components/AdSearch'
+import { AdSearchSection } from '../../../components/AdSearchSection'
 import React from 'react'
 import { LeftSection } from '../../../components/LeftSection'
 import { RightSection } from '../../../components/RightSection'
@@ -44,9 +44,9 @@ export const AllAdsPage = withPageWrapper({
 
   return (
     <Segment title={undefined}>
-      <AdSearch
+      <AdSearchSection
         maxWidth={'100%'}
-        label="Поиск"
+        label="Что хотите найти ?"
         name="search"
         formik={formik}
         onSearch={handleSearch}

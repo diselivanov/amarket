@@ -1,0 +1,186 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.searchContainer {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 7px 20px;
+  background-color: rgba($background-color-primary, $transparency);
+}
+
+.filterContainer {
+  position: absolute;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba($background-color-primary, $transparency);
+  border-bottom: 1px solid $border-color;
+  animation: slideDown $transition ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(110px);
+    opacity: 1;
+  }
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 2px solid $background-color-tertiary;
+  border-radius: $border-radius-circle;
+  height: 50px;
+  background-color: $background-color-tertiary;
+  transition: all $transition ease;
+
+  &.disabled {
+    opacity: 0.5;
+  }
+
+  &:focus-within {
+    border-color: rgba($blue, 0.4);
+    background-color: $background-color-primary;
+  }
+
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  .searchButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 38px;
+    height: 38px;
+    margin-right: 5px;
+    color: $background-color-primary;
+    background-color: $blue;
+    border: 1px solid darken($blue, 5%);
+    font-size: 18px;
+    font-family: $font-family;
+    border-radius: $border-radius-circle;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    line-height: normal;
+
+    &:hover {
+      background-color: darken($blue, 4%);
+    }
+
+    &:active {
+      background-color: darken($blue, 6%);
+    }
+  }
+
+  .clearButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border-radius: $border-radius-circle;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    color: $text-color-secondary;
+    font-size: 21px;
+    width: 23px;
+    height: 23px;
+    transition: $transition ease;
+
+    &:hover {
+      background-color: $background-color-tertiary;
+    }
+
+    &:active {
+      background-color: darken($background-color-tertiary, 5%);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  .filterButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: darken($background-color-tertiary, 4%);
+    border-radius: $border-radius-small;
+    border: 1px solid darken($background-color-tertiary, 8%);
+    cursor: pointer;
+    padding: 0;
+    color: $text-color-secondary;
+    font-size: 21px;
+    width: 32px;
+    height: 32px;
+    transition: $transition ease;
+
+    &:hover {
+      background-color: darken($background-color-tertiary, 7%);
+    }
+
+    &:active {
+      background-color: darken($background-color-tertiary, 9%);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  .input {
+    display: block;
+    padding: 0 20px;
+    font-family: $font-family;
+    font-size: $font-size-main;
+    border: none;
+    border-radius: $border-radius-circle;
+    background-color: transparent;
+    outline: none;
+    width: 400px;
+    height: 100%;
+    box-sizing: border-box;
+    transition: border-color $transition ease;
+
+    &::placeholder {
+      color: $text-color-secondary;
+      opacity: 1;
+      font-family: $font-family;
+      font-size: $font-size-main;
+      user-select: none;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      background-color: darken($background-color-primary, 5%);
+    }
+  }
+}
