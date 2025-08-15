@@ -2,21 +2,32 @@
 @use '../../styles/mixins' as *;
 
 .alert {
-  padding: 10px;
-  border-radius: $border-radius-medium;
-
+  position: fixed;
+  right: 20px;
+  top: 50px;
+  padding: 10px 18px;
+  border-radius: $border-radius-small;
+  max-width: 320px;
+  z-index: 1000;
+  background-color: rgba(30, 30, 30, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  font-weight: 400;
+  line-height: 1.5;
+  
   &.red {
-    background-color: rgba($red, 0.2);
-    color: $red;
+    border-left: 3px solid rgba($red, 0.8);
+    background-color: rgba(40, 20, 20, 0.9);
   }
 
   &.green {
-    background-color: rgba($green, 0.2);
-    color: $green;
+    border-left: 3px solid rgba($green, 0.8);
+    background-color: rgba(20, 40, 20, 0.9);
   }
 
-  &.brown {
-    background-color: #e9d5bd;
-    color: #614f39;
+  &.blue {
+    border-left: 3px solid rgba($blue, 0.8);
+    background-color: rgba(20, 20, 40, 0.9);
   }
 }

@@ -11,30 +11,6 @@ $breakpoint: '<=900px';
   @include media($breakpoint) {
   }
 
-  .menu {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-    padding: 0 20px;
-    border-bottom: 1px solid $border-color;
-    z-index: 100;
-    background-color: $background-color-primary;
-
-    @include media($breakpoint) {
-    }
-
-    .logo {
-      width: 100%;
-      max-width: 130px;
-      height: auto;
-    }
-
-    .link {
-      @include link;
-    }
-  }
-
   .content {
     height: 100%;
     overflow: auto;

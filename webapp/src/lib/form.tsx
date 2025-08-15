@@ -1,6 +1,6 @@
 import { type FormikHelpers, useFormik } from 'formik'
 import { withZodSchema } from 'formik-validator-zod'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { type z } from 'zod'
 import { type AlertProps } from '../components/Alert'
 import { type ButtonProps } from '../components/Button'
@@ -22,6 +22,7 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
 }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false)
   const [submittingError, setSubmittingError] = useState<Error | null>(null)
+  const [validationErrorVisible, setValidationErrorVisible] = useState(false)
 
   const formik = useFormik<z.infer<TZodSchema>>({
     initialValues,
@@ -37,14 +38,42 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
           formik.resetForm()
         }
         setSuccessMessageVisible(true)
-        setTimeout(() => {
-          setSuccessMessageVisible(false)
-        }, 3000)
       } catch (error: any) {
         setSubmittingError(error)
       }
     },
   })
+
+  // Эффект для скрытия успешного сообщения
+  useEffect(() => {
+    if (successMessageVisible) {
+      const timer = setTimeout(() => {
+        setSuccessMessageVisible(false)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [successMessageVisible])
+
+  // Эффект для скрытия ошибки отправки
+  useEffect(() => {
+    if (submittingError) {
+      const timer = setTimeout(() => {
+        setSubmittingError(null)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [submittingError])
+
+  // Эффект для скрытия ошибки валидации
+  useEffect(() => {
+    if (showValidationAlert && !formik.isValid && formik.submitCount > 0) {
+      setValidationErrorVisible(true)
+      const timer = setTimeout(() => {
+        setValidationErrorVisible(false)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [formik.isValid, formik.submitCount, showValidationAlert])
 
   const alertProps = useMemo<AlertProps>(() => {
     if (submittingError) {
@@ -54,7 +83,7 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
         color: 'red',
       }
     }
-    if (showValidationAlert && !formik.isValid && !!formik.submitCount) {
+    if (showValidationAlert && !formik.isValid && !!formik.submitCount && validationErrorVisible) {
       return {
         hidden: false,
         children: 'Some fields are invalid',
@@ -73,7 +102,15 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
       hidden: true,
       children: null,
     }
-  }, [submittingError, formik.isValid, formik.submitCount, successMessageVisible, successMessage, showValidationAlert])
+  }, [
+    submittingError, 
+    formik.isValid, 
+    formik.submitCount, 
+    successMessageVisible, 
+    successMessage, 
+    showValidationAlert,
+    validationErrorVisible
+  ])
 
   const buttonProps = useMemo<Omit<ButtonProps, 'children'>>(() => {
     return {

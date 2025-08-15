@@ -2,23 +2,63 @@
 @use '../../styles/mixins' as *;
 
 .CategoryMap {
+  display: flex;
+  align-items: center;
   position: relative;
-  display: inline-block;
+  height: 100%;
+}
+
+.openMapButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px 15px;
+  color: $background-color-primary;
+  font-size: $font-size-main;
+  font-family: $font-family;
+  border-radius: $border-radius-small;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  line-height: normal;
+  background-color: $blue;
+  border: 1px solid darken($blue, 7%);
+
+  &:hover {
+    background-color: darken($blue, 2%);
+  }
+
+  &:active {
+    background-color: darken($blue, 4%);
+  }
 }
 
 .mapContainer {
-  position: absolute;
-  top: 100%;
+  position: fixed;
+  top: 60px; // Высота header
   left: 0;
-  display: flex;
-  background: $background-color-primary;
+  right: 0;
+  width: 100%;
+  height: 200px;
+  background-color: rgba($background-color-primary, $transparency);
+  border-top: 1px solid $border-color;
   border-bottom: 1px solid $border-color;
-  z-index: 100;
+  z-index: 99;
+  overflow: hidden;
+}
+
+.mapContent {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
 }
 
 .categoriesList {
   width: 200px;
   border-right: 1px solid $border-color;
+  overflow-y: auto;
 }
 
 .categoryItem {
@@ -31,12 +71,16 @@
 }
 
 .subcategoriesPanel {
-  width: 200px;
+  flex: 1;
   min-height: 100%;
+  overflow-y: auto;
 }
 
 .subcategoriesList {
   padding: 8px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
 }
 
 .subcategoryItem {
@@ -47,12 +91,6 @@
   &:hover {
     background-color: $background-color-secondary;
   }
-}
-
-.hamburgerButton {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .hamburgerContainer {

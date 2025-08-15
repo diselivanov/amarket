@@ -4,7 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { IoCloseOutline } from 'react-icons/io5'
 import { TiWarning } from 'react-icons/ti'
 import { LuSearch } from 'react-icons/lu'
-import { CgOptions } from 'react-icons/cg'
+import { LuListFilter } from "react-icons/lu";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
@@ -12,7 +12,7 @@ const icons = {
   delete: IoCloseOutline,
   error: TiWarning,
   search: LuSearch,
-  filter: CgOptions,
+  filter: LuListFilter,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {
