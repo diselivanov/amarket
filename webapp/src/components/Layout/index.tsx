@@ -20,15 +20,14 @@ export const Layout = () => {
 
   return (
     <div className={css.layout}>
-      <div className={css.navigation}>
-        <Link className={css.link} to={getAllAdsRoute()}>
-          <Logo className={css.logo} />
-        </Link>
-
         <div className={css.menu}>
+          <Link className={css.link} to={getAllAdsRoute()}>
+            <Logo className={css.logo} />
+          </Link>
+
           {me ? (
             <>
-              <ProfileButton/>
+              <ProfileButton />
             </>
           ) : (
             <>
@@ -38,7 +37,6 @@ export const Layout = () => {
             </>
           )}
         </div>
-      </div>
 
       <div className={css.content} ref={layoutContentElRef}>
         <Outlet />

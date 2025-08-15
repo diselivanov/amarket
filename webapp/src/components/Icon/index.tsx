@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import { type IconBaseProps } from 'react-icons'
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
-import { IoCloseOutline } from "react-icons/io5";
+import { IoCloseOutline } from 'react-icons/io5'
 import { TiWarning } from 'react-icons/ti'
 
 const icons = {

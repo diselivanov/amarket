@@ -38,7 +38,7 @@ export const AdSearch = ({
 
   return (
     <div className={cn(css.searchContainer)}>
-      <CategoryMap/>
+      <CategoryMap />
 
       <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
         <div className={css.inputWrapper}>
@@ -68,13 +68,8 @@ export const AdSearch = ({
             placeholder={label}
           />
           {value && (
-            <button 
-              type="button" 
-              className={css.clearButton} 
-              onClick={handleClear}
-              disabled={disabled}
-            >
-              <Icon name={'delete'}/>
+            <button type="button" className={css.clearButton} onClick={handleClear} disabled={disabled}>
+              <Icon name={'delete'} />
             </button>
           )}
         </div>
@@ -84,9 +79,7 @@ export const AdSearch = ({
         </button>
       </div>
 
-      <LinkButton to={getNewAdRoute()}>
-        Разместить объявление
-      </LinkButton>
+      <LinkButton to={getNewAdRoute()}>Разместить объявление</LinkButton>
     </div>
   )
 }

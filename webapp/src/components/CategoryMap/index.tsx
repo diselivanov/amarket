@@ -1,21 +1,21 @@
-import { useState } from 'react';
-import css from './index.module.scss';
-import { Button } from '../Button';
+import { useState } from 'react'
+import css from './index.module.scss'
+import { Button } from '../Button'
 
 interface Category {
-  id: string;
-  name: string;
-  subcategories: Subcategory[];
+  id: string
+  name: string
+  subcategories: Subcategory[]
 }
 
 interface Subcategory {
-  id: string;
-  name: string;
+  id: string
+  name: string
 }
 
 interface CategoryMapButtonProps {
-  isOpen: boolean;
-  onClick: () => void;
+  isOpen: boolean
+  onClick: () => void
 }
 
 const CategoryMapButton = ({ isOpen, onClick }: CategoryMapButtonProps) => {
@@ -28,12 +28,12 @@ const CategoryMapButton = ({ isOpen, onClick }: CategoryMapButtonProps) => {
       </div>
       Категории
     </Button>
-  );
-};
+  )
+}
 
 export const CategoryMap = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
   // Данные категорий и подкатегорий
   const categories: Category[] = [
@@ -64,18 +64,15 @@ export const CategoryMap = () => {
         { id: '3-3', name: 'Инструменты' },
       ],
     },
-  ];
+  ]
 
   const handleSubcategoryClick = (_id: string) => {
-    setIsOpen(false);
-  };
+    setIsOpen(false)
+  }
 
   return (
     <div className={css.CategoryMap}>
-      <CategoryMapButton 
-        isOpen={isOpen} 
-        onClick={() => setIsOpen(!isOpen)} 
-      />
+      <CategoryMapButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
 
       {isOpen && (
         <div className={css.mapContainer}>
@@ -112,5 +109,5 @@ export const CategoryMap = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}

@@ -2,13 +2,12 @@
 @use '../../styles/mixins' as *;
 
 .link {
-    display: flex;
-    border-radius: $border-radius-large;
-    margin-left: auto;
+  display: flex;
+  border-radius: $border-radius-medium;
 }
 
 .avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: $border-radius-large;
+  width: 38px;
+  height: 38px;
+  border-radius: $border-radius-medium;
 }

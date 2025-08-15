@@ -11,13 +11,13 @@ $breakpoint: '<=900px';
   @include media($breakpoint) {
   }
 
-  .navigation {
+  .menu {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 50px;
-    gap: 10px;
     padding: 0 20px;
-    border-bottom: 1px solid $border-color-light;
+    border-bottom: 1px solid $border-color;
     z-index: 100;
     background-color: $background-color-primary;
 
@@ -28,13 +28,6 @@ $breakpoint: '<=900px';
       width: 100%;
       max-width: 130px;
       height: auto;
-    }
-
-    .menu {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
     }
 
     .link {

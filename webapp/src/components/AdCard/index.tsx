@@ -85,11 +85,11 @@ export const AdCard = ({ id, title, price, city, images }: AdCardProps) => {
           />
         )} */}
         <img
-            src={"https://cdn1.youla.io/files/images/360_360/68/9e/689e219713d3c2dff804b5d6-2.jpg"}
-            alt={title}
-            className={css.mainImage}
-          />
-          
+          src={'https://cdn1.youla.io/files/images/360_360/68/9e/689e219713d3c2dff804b5d6-2.jpg'}
+          alt={title}
+          className={css.mainImage}
+        />
+
         {images.length > 1 && (showDots || touchStart !== null) && (
           <div className={css.dotsContainer}>
             {images.map((_, index) => (
