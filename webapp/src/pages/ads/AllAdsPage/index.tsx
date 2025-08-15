@@ -12,6 +12,8 @@ import { AdCard } from '../../../components/AdCard'
 import { AdsSection } from '../../../components/AdsSection'
 import { AdSearch } from '../../../components/AdSearch'
 import React from 'react'
+import { CampaignsSection } from '../../../components/CampaignsSection'
+import { FilterSection } from '../../../components/FilterSection'
 
 export const AllAdsPage = withPageWrapper({
   title: 'AMarket',
@@ -73,6 +75,11 @@ export const AllAdsPage = withPageWrapper({
           getScrollParent={() => layoutContentElRef.current}
           useWindow={(layoutContentElRef.current && getComputedStyle(layoutContentElRef.current).overflow) !== 'auto'}
         >
+          <div className={css.Sections}>
+            <CampaignsSection>
+              
+            </CampaignsSection>
+
           <AdsSection>
             {data.pages
               .flatMap((page) => page.ads)
@@ -80,6 +87,11 @@ export const AllAdsPage = withPageWrapper({
                 <AdCard key={ad.id} id={ad.id} title={ad.title} price={ad.price} city={ad.city} images={ad.images} />
               ))}
           </AdsSection>
+
+          <FilterSection>
+              
+            </FilterSection>
+          </div>
         </InfiniteScroll>
       )}
     </Segment>

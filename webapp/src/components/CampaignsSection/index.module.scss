@@ -1,0 +1,11 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.CampaignsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 15%;
+    padding: 5px;
+    background-color: $background-color-tertiary;
+}
