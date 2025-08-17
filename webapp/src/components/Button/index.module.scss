@@ -15,6 +15,7 @@
   user-select: none;
   position: relative;
   line-height: normal;
+  transition: all $transition ease;
 
   .text {
     display: flex;
@@ -24,7 +25,7 @@
 
   &.color-blue {
     background-color: $blue;
-    border: 1px solid darken($blue, 7%);
+    border: 1px solid darken($blue, 5%);
 
     &:hover {
       background-color: darken($blue, 2%);
@@ -37,7 +38,7 @@
 
   &.color-red {
     background-color: $red;
-    border: 1px solid darken($red, 7%);
+    border: 1px solid darken($red, 5%);
 
     &:hover {
       background-color: darken($red, 2%);

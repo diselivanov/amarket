@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { type FormikProps } from 'formik'
-import css from './index.module.scss'
 import { Icon } from '../Icon'
+import css from './index.module.scss'
 
 export const Input = ({
   name,

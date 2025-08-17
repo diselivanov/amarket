@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import css from './index.module.scss'
 import { useEffect, useRef } from 'react'
+import { Icon } from '../Icon';
 
 export type AlertProps = { 
   color: 'red' | 'green' | 'blue';
@@ -26,6 +27,8 @@ export const Alert = ({ color, hidden, children }: AlertProps) => {
     }
   }, [hidden]);
 
+  const iconName = color === 'red' ? 'error' : color === 'green' ? 'success' : 'info';
+
   return (
     <div 
       ref={alertRef}
@@ -33,10 +36,13 @@ export const Alert = ({ color, hidden, children }: AlertProps) => {
       style={{
         transform: 'translateX(120%)',
         opacity: '0',
-        transition: 'none' // Изначально без анимации
+        transition: 'none'
       }}
     >
-      {children}
+      <Icon name={iconName} className={css.icon} />
+      <div className={css.content}>
+        {children}
+      </div>
     </div>
   );
 };

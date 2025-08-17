@@ -6,7 +6,8 @@
   top: 0;
   z-index: 100;
   width: 100%;
-  background-color: rgba($background-color-primary, $transparency);
+  border-bottom: 1px solid $border-color;
+  background-color: $background-color-primary;
 }
 
 .headerContent {
