@@ -17,7 +17,7 @@
   color: $background-color-primary;
   font-size: $font-size-main;
   font-family: $font-family;
-  border-radius: $border-radius-small;
+  border-radius: $border-radius-medium;
   cursor: pointer;
   user-select: none;
   position: relative;
@@ -106,7 +106,7 @@
   display: block;
   width: 100%;
   height: 2px;
-  border-radius: $border-radius-small;
+  border-radius: $border-radius-medium;
   background-color: currentColor;
   transition: all $transition ease;
 }

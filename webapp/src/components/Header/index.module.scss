@@ -39,32 +39,12 @@
   @include link;
 }
 
-.filterContainer {
-  position: absolute;
-  width: 100%;
-  padding: 20px;
-  background-color: rgba($background-color-primary, $transparency);
-  border-bottom: 1px solid $border-color;
-  animation: slideDown $transition ease-out forwards;
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 .field {
   display: flex;
   align-items: center;
   gap: 5px;
   border: 1.5px solid $background-color-tertiary;
-  border-radius: $border-radius-medium;
+  border-radius: $border-radius-large;
   height: 46px;
   background-color: $background-color-tertiary;
   transition: all $transition ease;
@@ -94,7 +74,7 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: 46px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
@@ -110,39 +90,6 @@
 
     &:hover {
       background-color: $background-color-tertiary;
-    }
-
-    &:active {
-      background-color: darken($background-color-tertiary, 6%);
-    }
-
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
-  }
-
-  .filterButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: $background-color-tertiary;
-    border-radius: $border-radius-small;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    color: $text-color-secondary;
-    font-size: 21px;
-    width: 29px;
-    height: 29px;
-    transition: $transition ease;
-
-    &:hover {
-      background-color: darken($background-color-tertiary, 4%);
     }
 
     &:active {

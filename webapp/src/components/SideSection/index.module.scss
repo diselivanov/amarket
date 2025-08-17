@@ -1,11 +1,8 @@
 @use '../../styles/vars' as *;
 @use '../../styles/mixins' as *;
 
-.LeftSection {
+.SideSection {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 15%;
-  padding: 5px;
+  width: 16%; // (68 / 16 / 16)
   background-color: $background-color-secondary;
 }

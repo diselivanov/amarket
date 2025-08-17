@@ -12,8 +12,7 @@ import { AdCard } from '../../../components/AdCard'
 import { AdsSection } from '../../../components/AdsSection'
 import { Header } from '../../../components/Header'
 import React from 'react'
-import { LeftSection } from '../../../components/LeftSection'
-import { RightSection } from '../../../components/RightSection'
+import { SideSection } from '../../../components/SideSection'
 
 export const AllAdsPage = withPageWrapper({
   title: 'AMarket',
@@ -59,7 +58,7 @@ export const AllAdsPage = withPageWrapper({
       ) : isError ? (
         <Alert color="red">{error.message}</Alert>
       ) : !data.pages[0].ads.length ? (
-        <Alert color="brown">Ничего не найдено</Alert>
+        <Alert color="blue">Ничего не найдено</Alert>
       ) : (
         <InfiniteScroll
           threshold={250}
@@ -78,7 +77,7 @@ export const AllAdsPage = withPageWrapper({
           useWindow={(layoutContentElRef.current && getComputedStyle(layoutContentElRef.current).overflow) !== 'auto'}
         >
           <div className={css.Sections}>
-            <LeftSection></LeftSection>
+            <SideSection></SideSection>
 
             <AdsSection>
               {data.pages
@@ -88,7 +87,7 @@ export const AllAdsPage = withPageWrapper({
                 ))}
             </AdsSection>
 
-            <RightSection></RightSection>
+            <SideSection></SideSection>
           </div>
         </InfiniteScroll>
       )}

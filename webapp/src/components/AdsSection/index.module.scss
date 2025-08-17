@@ -4,10 +4,10 @@
 .AdsSection {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   padding: 5px 0;
   flex-wrap: wrap;
   height: 100%;
-  width: 70%;
+  width: 68%; // (68 / 16 / 16)
   overflow: auto;
 }
