@@ -7,6 +7,9 @@ import { LuSearch } from 'react-icons/lu'
 import { LuListFilter } from "react-icons/lu";
 import { HiMiniCheckCircle } from "react-icons/hi2";
 import { BiSolidInfoCircle } from "react-icons/bi";
+import { BiStats } from "react-icons/bi";
+import { ImUsers } from "react-icons/im";
+import { MdSettings } from "react-icons/md";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
@@ -17,6 +20,9 @@ const icons = {
   filter: LuListFilter,
   success: HiMiniCheckCircle,
   info: BiSolidInfoCircle,
+  stats: BiStats,
+  users: ImUsers,
+  settings: MdSettings,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {

@@ -1,0 +1,54 @@
+@use '../../../../styles/vars' as *;
+@use '../../../../styles/mixins' as *;
+
+.tabsContainer {
+  display: flex;
+  height: 100%;
+}
+
+.tabsHeader {
+  width: 200px;
+  padding: 7px;
+  border-right: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  text-align: left;
+  border: none;
+  background: none;
+  font-family: $font-family;
+  font-size: $font-size-main;
+  border-radius: $border-radius-small;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $background-color-secondary;
+  }
+  
+  &.active {
+    background-color: $background-color-tertiary;
+  }
+}
+
+.tabIcon {
+  display: inline-flex;
+  align-items: center;
+  color: $text-color-secondary;
+}
+
+.tabsContent {
+  flex: 1;
+  padding: 10px;
+  overflow: auto;
+}
+
+.tabContent {
+  height: 100%;
+}
