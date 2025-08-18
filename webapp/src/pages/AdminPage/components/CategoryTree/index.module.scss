@@ -1,0 +1,85 @@
+@use '../../../../styles/vars' as *;
+@use '../../../../styles/mixins' as *;
+
+.treeView {
+  border-right: 1px solid $border-color;
+  box-shadow: none;
+  width: 200px;
+  height: 100%;
+  padding: 5px;
+}
+
+.header {
+  padding: 8px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #d8dee4;
+}
+
+.tree {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.node {
+  margin-bottom: 4px;
+}
+
+.nodeHeader {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: none;
+  
+  &:hover {
+    background-color: #f6f8fa;
+  }
+}
+
+.caret {
+  display: flex;
+  align-items: center;
+  margin-right: 4px;
+  color: #57606a;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #24292f;
+}
+
+.subtree {
+  list-style: none;
+  padding-left: 20px;
+  margin: 4px 0;
+  border-left: 1px solid #d8dee4;
+}
+
+.leaf {
+  padding: 4px 8px 4px 24px;
+  border-radius: 6px;
+  position: relative;
+  
+  &:hover {
+    background-color: #f6f8fa;
+  }
+}
+
+.leafLabel {
+  font-size: 14px;
+  color: #24292f;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 1px;
+    background: #d8dee4;
+  }
+}

@@ -54,3 +54,20 @@ model AdLike {
 
   @@unique([adId, userId])
 }
+
+model Category {
+  id            Int           @id @default(autoincrement())
+  name          String
+  slug          String        @unique
+  subcategories Subcategory[]
+  createdAt     DateTime      @default(now())
+}
+
+model Subcategory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  slug       String   @unique
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  createdAt  DateTime @default(now())
+}

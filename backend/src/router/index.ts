@@ -1,6 +1,10 @@
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server'
 import { createTrpcRouter } from '../lib/trpc'
 // @index('./**/index.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path.split('/').slice(0, -1).join('/')}'`)
+import { createCategoryTrpcRoute } from './admin/createCategory'
+import { createSubcategoryTrpcRoute } from './admin/createSubcategory'
+import { getCategoriesTrpcRoute } from './admin/getCategories'
+import { getSubcategoriesTrpcRoute } from './admin/getSubcategories'
 import { blockAdTrpcRoute } from './ads/blockAd'
 import { createAdTrpcRoute } from './ads/createAd'
 import { getAdTrpcRoute } from './ads/getAd'
@@ -17,6 +21,10 @@ import { prepareCloudinaryUploadTrpcRoute } from './upload/prepareCloudinaryUplo
 
 export const trpcRouter = createTrpcRouter({
   // @index('./**/index.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
+  createCategory: createCategoryTrpcRoute,
+  createSubcategory: createSubcategoryTrpcRoute,
+  getCategories: getCategoriesTrpcRoute,
+  getSubcategories: getSubcategoriesTrpcRoute,
   blockAd: blockAdTrpcRoute,
   createAd: createAdTrpcRoute,
   getAd: getAdTrpcRoute,

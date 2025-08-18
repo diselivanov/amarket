@@ -44,6 +44,27 @@ CREATE TABLE "AdLike" (
     CONSTRAINT "AdLike_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Subcategory" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
+    "categoryId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Subcategory_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -53,6 +74,12 @@ CREATE UNIQUE INDEX "Ad_serialNumber_key" ON "Ad"("serialNumber");
 -- CreateIndex
 CREATE UNIQUE INDEX "AdLike_adId_userId_key" ON "AdLike"("adId", "userId");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_slug_key" ON "Category"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Subcategory_slug_key" ON "Subcategory"("slug");
+
 -- AddForeignKey
 ALTER TABLE "Ad" ADD CONSTRAINT "Ad_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -61,3 +88,6 @@ ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_adId_fkey" FOREIGN KEY ("adId") REFE
 
 -- AddForeignKey
 ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

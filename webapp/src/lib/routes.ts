@@ -13,4 +13,4 @@ export const getNewAdRoute = pgr(() => '/ads/new')
 export const getViewAdRoute = pgr({ selectedAd: true }, ({ selectedAd }) => `/ads/${selectedAd}`)
 export const getEditAdRoute = pgr({ selectedAd: true }, ({ selectedAd }) => `/ads/${selectedAd}/edit`)
 
-export const getAdministrationRoute = pgr(() => '/administration')
+export const getAdminRoute = pgr(() => '/admin')

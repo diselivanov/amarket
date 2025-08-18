@@ -16,7 +16,7 @@ import { SignUpPage } from './pages/auth/SignUpPage'
 import { NotFoundPage } from './pages/other/NotFoundPage'
 import './styles/global.scss'
 import { ProfilePage } from './pages/auth/ProfilePage'
-import { AdministrationPage } from './pages/AdministrationPage'
+import { AdminPage } from './pages/AdminPage'
 
 export const App = () => {
   return (
@@ -36,7 +36,7 @@ export const App = () => {
                 <Route path={routes.getViewAdRoute.definition} element={<ViewAdPage />} />
                 <Route path={routes.getEditAdRoute.definition} element={<EditAdPage />} />
                 <Route path={routes.getNewAdRoute.definition} element={<NewAdPage />} />
-                <Route path={routes.getAdministrationRoute.definition} element={<AdministrationPage />} />
+                <Route path={routes.getAdminRoute.definition} element={<AdminPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>
