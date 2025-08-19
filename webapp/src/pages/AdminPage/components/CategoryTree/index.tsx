@@ -4,6 +4,9 @@ import { Loader } from '../../../../components/Loader'
 import { Alert } from '../../../../components/Alert'
 import css from './index.module.scss'
 import { Icon } from '../../../../components/Icon'
+import { Modal } from '../Modal'
+import { CreateCategory } from '../NewCategory'
+import { CreateSubcategory } from '../NewSubcategory'
 
 interface CategoriesProps {
   className?: string
@@ -51,7 +54,15 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
 
   return (
     <div className={`${css.treeView} ${className || ''}`}>
-      <h3 className={css.header}>Категории</h3>
+      <h3 className={css.header}>
+        <Modal title={"Создание категории"} buttonText="Категория">
+          <CreateCategory/>
+        </Modal>
+
+        <Modal title={"Создание подкатегории"} buttonText="Подкатегория">
+          <CreateSubcategory/>
+        </Modal>
+      </h3>
       <ul className={css.tree}>
         {categoriesData?.categories.map(category => (
           <li key={category.id} className={css.node}>

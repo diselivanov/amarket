@@ -8,7 +8,9 @@
 }
 
 .header {
-  padding: 10px 15px;
+  display: flex;
+  gap: 5px;
+  padding: 5px;
   border-bottom: 1px solid $border-color;
 }
 
@@ -24,14 +26,14 @@
 .nodeHeader {
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 6px;
   cursor: pointer;
   position: relative;
   border-radius: $border-radius-small;
-  @include hover-background-color-secondary;
+  border: 1px solid transparent;
   
   &:hover {
-    @include hover-background-color-tertiary;
+    @include hover-background-color-secondary;
   }
 }
 
@@ -51,7 +53,7 @@
   background: rgba($blue, 0.1);
   border: 1px solid rgba($blue, 0.12);
   border-radius: $border-radius-small;
-  padding: 2px 6px;
+  padding: 1px 5px;
 }
 
 .subtree {
@@ -64,16 +66,15 @@
 }
 
 .leaf {
-  padding: 8px 8px 8px 15px;
+  padding: 6px 6px 6px 15px;
   display: flex;
   align-items: center;
   position: relative;
   border: 1px solid transparent;
   border-radius: $border-radius-small;
-  @include hover-background-color-secondary;
   
   &:hover {
-    @include hover-background-color-tertiary;
+    @include hover-background-color-secondary;
   }
 }
 

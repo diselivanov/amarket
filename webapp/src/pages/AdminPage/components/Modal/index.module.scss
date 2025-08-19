@@ -1,0 +1,81 @@
+@use '../../../../styles/vars' as *;
+@use '../../../../styles/mixins' as *;
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background-color: $background-color-primary;
+  border-radius: $border-radius-medium;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px 10px 20px;
+  border-bottom: 1px solid $border-color;
+  margin-bottom: 20px;
+}
+
+.modalTitle {
+  @include header;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: $font-size-header;
+  border-radius: $border-radius-small;
+  cursor: pointer;
+  color: $text-color-secondary;
+  padding: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+
+  &:hover {
+    @include hover-background-color-secondary;
+  }
+}
+
+.modalContent {
+  padding: 0 20px 20px 20px;
+}
+
+.modalButton {
+  background-color: $blue;
+  color: $background-color-primary;
+  border: 1px solid darken($blue, 5%);
+  padding: 4px 12px;
+  border-radius: $border-radius-small;
+  cursor: pointer;
+  font-size: $font-size-small;
+  font-family: $font-family;
+
+   &:hover {
+      background-color: darken($blue, 2%);
+    }
+
+    &:active {
+      background-color: darken($blue, 4%);
+    }
+}
