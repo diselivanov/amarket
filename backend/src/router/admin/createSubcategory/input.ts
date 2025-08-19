@@ -4,8 +4,5 @@ import { z } from 'zod'
 export const zCreateSubcategoryTrpcInput = z.object({
   name: zStringRequired,
   slug: zStringRequired,
-  categoryId: z.union([
-    z.number().int().positive(),
-    z.string().transform((val) => Number(val)),
-  ]),
+  categoryId: zStringRequired,
 })

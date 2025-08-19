@@ -14,3 +14,13 @@
     color: $blue;
   }
 }
+
+@mixin hover-background-color-secondary {
+  background-color: $background-color-secondary;
+  border: 1px solid darken($background-color-secondary, 2%);
+}
+
+@mixin hover-background-color-tertiary {
+  background-color: $background-color-tertiary;
+  border: 1px solid darken($background-color-tertiary, 2%);
+}

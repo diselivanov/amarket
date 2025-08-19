@@ -9,6 +9,7 @@ export const getCategoriesTrpcRoute = trpcLoggedProcedure
         id: true,
         name: true,
         slug: true,
+        count: true,
         createdAt: true,
       },
       orderBy: {

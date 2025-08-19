@@ -3,9 +3,20 @@ import { trpc } from '../../../../lib/trpc'
 import { Loader } from '../../../../components/Loader'
 import { Alert } from '../../../../components/Alert'
 import css from './index.module.scss'
+import { Icon } from '../../../../components/Icon'
 
 interface CategoriesProps {
   className?: string
+}
+
+interface CategoryNode {
+  id: string
+  name: string
+  count?: number
+}
+
+interface SubcategoryNode extends CategoryNode {
+  categoryId: string
 }
 
 export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
@@ -40,7 +51,7 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
 
   return (
     <div className={`${css.treeView} ${className || ''}`}>
-      <h3 className={css.header}>Categories</h3>
+      <h3 className={css.header}>Категории</h3>
       <ul className={css.tree}>
         {categoriesData?.categories.map(category => (
           <li key={category.id} className={css.node}>
@@ -50,16 +61,15 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
             >
               <span className={css.caret}>
                 {expandedCategories[category.id] ? (
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12.78 6.22a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0L3.22 7.28a.75.75 0 011.06-1.06L8 9.94l3.72-3.72a.75.75 0 011.06 0z" fill="#57606A"/>
-                  </svg>
+                  <Icon name={'arrowDown'}/>
                 ) : (
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <path fillRule="evenodd" d="M6.22 3.22a.75.75 0 011.06 0l4.25 4.25a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 010-1.06z" fill="#57606A"/>
-                  </svg>
+                  <Icon name={'arrowRight'}/>
                 )}
               </span>
               <span className={css.label}>{category.name}</span>
+              {category.count !== undefined && (
+                <span className={css.count}>{category.count}</span>
+              )}
             </div>
             
             {expandedCategories[category.id] && (
@@ -69,6 +79,9 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
                   .map(subcategory => (
                     <li key={subcategory.id} className={css.leaf}>
                       <span className={css.leafLabel}>{subcategory.name}</span>
+                      {subcategory.count !== undefined && (
+                        <span className={css.count}>{subcategory.count}</span>
+                      )}
                     </li>
                   ))}
               </ul>

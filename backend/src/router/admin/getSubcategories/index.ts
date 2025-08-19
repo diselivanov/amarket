@@ -10,6 +10,7 @@ export const getSubcategoriesTrpcRoute = trpcLoggedProcedure
         name: true,
         slug: true,
         categoryId: true,
+        count: true,
         createdAt: true,
       },
       orderBy: {
