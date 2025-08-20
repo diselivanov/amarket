@@ -48,7 +48,7 @@ CREATE TABLE "AdLike" (
 CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
+    "sequence" TEXT NOT NULL,
     "count" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -59,7 +59,7 @@ CREATE TABLE "Category" (
 CREATE TABLE "Subcategory" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
+    "sequence" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
     "count" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -75,12 +75,6 @@ CREATE UNIQUE INDEX "Ad_serialNumber_key" ON "Ad"("serialNumber");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AdLike_adId_userId_key" ON "AdLike"("adId", "userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Category_slug_key" ON "Category"("slug");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Subcategory_slug_key" ON "Subcategory"("slug");
 
 -- AddForeignKey
 ALTER TABLE "Ad" ADD CONSTRAINT "Ad_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

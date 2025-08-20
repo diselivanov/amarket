@@ -7,20 +7,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 20px;
+  cursor: default;
 }
 
 .modal {
-  background-color: $background-color-primary;
-  border-radius: $border-radius-medium;
-  max-width: 500px;
+  background-color: $dark-background-1;
+  border: 1px solid $dark-border-color;
+  border-radius: $border-radius-8;
+  max-width: 400px;
   width: 100%;
-  max-height: 80vh;
   overflow-y: auto;
 }
 
@@ -28,9 +27,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px 10px 20px;
-  border-bottom: 1px solid $border-color;
-  margin-bottom: 20px;
+  padding: 10px 10px 10px 10px;
+  border-bottom: 1px solid $dark-border-color;
+  margin-bottom: 10px;
 }
 
 .modalTitle {
@@ -40,10 +39,10 @@
 .closeButton {
   background: none;
   border: none;
-  font-size: $font-size-header;
-  border-radius: $border-radius-small;
+  font-size: $font-size-20;
+  border-radius: $border-radius-5;
   cursor: pointer;
-  color: $text-color-secondary;
+  color: $dark-color-2;
   padding: 0;
   width: 26px;
   height: 26px;
@@ -51,31 +50,54 @@
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
+  margin-left: auto;
+  transition: background-color $transition ease;
 
   &:hover {
-    @include hover-background-color-secondary;
+    background-color: $dark-background-3;
+    border-color: lighten($dark-background-3, 2%);
   }
 }
 
 .modalContent {
-  padding: 0 20px 20px 20px;
+  padding: 0 10px 10px 10px;
 }
 
 .modalButton {
-  background-color: $blue;
-  color: $background-color-primary;
-  border: 1px solid darken($blue, 5%);
+  background-color: $dark-background-2;
+  color: $dark-color-1;
+  border: 1px solid $dark-border-color;
   padding: 4px 12px;
-  border-radius: $border-radius-small;
+  border-radius: $border-radius-5;
   cursor: pointer;
-  font-size: $font-size-small;
+  font-size: $font-size-14;
   font-family: $font-family;
+  font-weight: $font-weight;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color $transition ease;
 
-   &:hover {
-      background-color: darken($blue, 2%);
-    }
+  &:hover {
+    background-color: $dark-background-3;
+  }
 
-    &:active {
-      background-color: darken($blue, 4%);
+  // Стиль для кнопки с иконкой
+  &.iconButton {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-left: 10px;
+    font-size: $font-size-16;
+    color: $dark-color-2;
+    transition: color $transition ease;
+
+    // Убираем стандартные стили для текстовой кнопки
+    background-color: transparent;
+    border: none;
+    
+    &:hover {
+      color: $dark-color-1;
     }
+  }
 }

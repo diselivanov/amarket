@@ -4,9 +4,11 @@ import { Loader } from '../../../../components/Loader'
 import { Alert } from '../../../../components/Alert'
 import css from './index.module.scss'
 import { Icon } from '../../../../components/Icon'
-import { Modal } from '../Modal'
 import { CreateCategory } from '../NewCategory'
 import { CreateSubcategory } from '../NewSubcategory'
+import { Modal } from '../../components/Modal'
+import { EditCategory } from '../EditCategory'
+import { EditSubcategory } from '../EditSubcategory'
 
 interface CategoriesProps {
   className?: string
@@ -15,6 +17,7 @@ interface CategoriesProps {
 interface CategoryNode {
   id: string
   name: string
+  sequence: string
   count?: number
 }
 
@@ -77,10 +80,18 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
                   <Icon name={'arrowRight'}/>
                 )}
               </span>
+
+              <span className={css.sequence}>{category.sequence}.</span>
               <span className={css.label}>{category.name}</span>
-              {category.count !== undefined && (
-                <span className={css.count}>{category.count}</span>
-              )}
+              <span className={css.count}>{category.count}</span>
+
+              <Modal title={"Редактирование категории"} buttonText={<Icon name={'edit'}/>}>
+                  <EditCategory 
+                    categoryId={category.id} 
+                    initialName={category.name} 
+                    initialSequence={category.sequence}
+                  />
+              </Modal>
             </div>
             
             {expandedCategories[category.id] && (
@@ -89,10 +100,13 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
                   .filter(sub => sub.categoryId === category.id)
                   .map(subcategory => (
                     <li key={subcategory.id} className={css.leaf}>
+                      <span className={css.sequence}>{subcategory.sequence}.</span>
                       <span className={css.leafLabel}>{subcategory.name}</span>
-                      {subcategory.count !== undefined && (
-                        <span className={css.count}>{subcategory.count}</span>
-                      )}
+                      <span className={css.count}>{subcategory.count}</span>
+
+                      <Modal title={"Редактирование категории"} buttonText={<Icon name={'edit'}/>}>
+                        <EditSubcategory subcategoryId={subcategory.id} initialName={subcategory.name} initialSequence={subcategory.sequence} initialCategoryId={subcategory.categoryId}/>
+              </Modal>
                     </li>
                   ))}
               </ul>

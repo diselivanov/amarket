@@ -58,7 +58,7 @@ model AdLike {
 model Category {
   id            String        @id @default(uuid())
   name          String
-  slug          String        @unique
+  sequence      String
   subcategories Subcategory[]
   count         Int           @default(0)
   createdAt     DateTime      @default(now())
@@ -67,7 +67,7 @@ model Category {
 model Subcategory {
   id         String   @id @default(uuid())
   name       String
-  slug       String   @unique
+  sequence   String
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
   count      Int      @default(0)

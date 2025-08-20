@@ -9,20 +9,22 @@ import { BiStats, BiSolidInfoCircle } from "react-icons/bi";
 import { ImUsers } from "react-icons/im";
 import { MdSettings } from "react-icons/md";
 import { FiChevronRight, FiChevronDown  } from "react-icons/fi";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
   likeFilled: AiFillHeart,
-  delete: IoCloseOutline, // Крестик
-  error: TiWarning, // Ошибка
-  search: LuSearch, // Поиск
-  success: HiMiniCheckCircle, // Успех
-  info: BiSolidInfoCircle, // Инфо
-  stats: BiStats, // Статистика
-  users: ImUsers, // Пользователи
-  settings: MdSettings, // Настройки
-  arrowRight: FiChevronRight, // Стрелка направа
-  arrowDown: FiChevronDown, // Стрелка вниз
+  delete: IoCloseOutline,
+  error: TiWarning,
+  search: LuSearch,
+  success: HiMiniCheckCircle,
+  info: BiSolidInfoCircle,
+  stats: BiStats,
+  users: ImUsers,
+  settings: MdSettings,
+  arrowRight: FiChevronRight,
+  arrowDown: FiChevronDown,
+  edit: MdOutlineModeEditOutline,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {

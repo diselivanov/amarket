@@ -13,10 +13,10 @@ body,
 
 body {
   font-family: $font-family;
-  font-weight: 500;
-  font-size: $font-size-main;
-  background: $background-color-primary;
-  color: $text-color-primary;
+  font-weight: $font-weight;
+  font-size: $font-size-15;
+  background: $background-1;
+  color: $color-1;
 }
 
 *,
@@ -27,4 +27,28 @@ body {
 
 a {
   text-decoration: none;
+}
+
+
+/* Для вебкит-браузеров */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff00;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(#4f5761, 0.4);
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(#4f5761, 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: #ffffff00;
 }

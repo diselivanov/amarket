@@ -7,15 +7,17 @@
   align-items: center;
   justify-content: center;
   padding: 8px 15px;
-  color: $background-color-primary;
-  font-size: $font-size-main;
+  color: $background-1;
+  font-size: $font-size-15;
   font-family: $font-family;
-  border-radius: $border-radius-medium;
+  font-weight: $font-weight;
+  border-radius: $border-radius-8;
   cursor: pointer;
   user-select: none;
   position: relative;
   line-height: normal;
   transition: all $transition ease;
+  margin-left: auto;
 
   .text {
     display: flex;
@@ -51,7 +53,7 @@
 
   &.disabled {
     pointer-events: none;
-    color: $background-color-primary;
+    color: $background-1;
   }
 
   &.loading {

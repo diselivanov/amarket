@@ -1,27 +1,42 @@
-$background-color-primary: #ffffff;
-$background-color-secondary: #f6f8fa;
-$background-color-tertiary: #eaedf0;
+// Светлые
 
-$text-color-primary: #1f2328;
-$text-color-secondary: #757d87;
-
+$background-1: #ffffff;
+$background-2: #f6f8fa;
+$background-3: #eaedf0;
+$color-1: #1f2328;
+$color-2: #757d87;
 $border-color: #dde2e7;
 
-$blue: #0574f2;
-$red: #e33b54;
-$green: #63d2b4;
+// Тёмные
 
-$font-size-header: 22px;
-$font-size-main: 15px;
-$font-size-small: 14px;
-$font-size-tiny: 13px;
+$dark-background-1: #010409;
+$dark-background-2: #0d1117;
+$dark-background-3: #151b23;
+$dark-color-1: #f0f6fc;
+$dark-color-2: #9198a1;
+$dark-border-color: #272b31;
+
+// Общие
+
+$blue: #0574f2;
+$red: #eb445b;
+$green: #2ebd85;
+
+// Параметры
 
 $font-family: 'Manrope', sans-serif;
+$font-weight: 500;
 
-$border-radius-small: 5px;
-$border-radius-medium: 8px;
-$border-radius-large: 10px;
-$border-radius-circle: 250px;
+$font-size-20: 20px;
+$font-size-16: 16px;
+$font-size-15: 15px;
+$font-size-14: 14px;
+$font-size-13: 13px;
+
+$border-radius-5: 5px;
+$border-radius-8: 8px;
+$border-radius-10: 10px;
+$border-radius-250: 250px;
 
 $transition: 100ms;
 $transparency: 0.9;

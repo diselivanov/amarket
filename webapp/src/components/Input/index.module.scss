@@ -7,7 +7,7 @@
   }
 
   .label {
-    color: $text-color-primary;
+    color: $color-1;
     margin-bottom: 6px;
     display: block;
     user-select: none;
@@ -17,10 +17,11 @@
     display: block;
     padding: 8px;
     font-family: $font-family;
-    font-size: $font-size-main;
+    font-weight: $font-weight;
+    font-size: $font-size-15;
     border: 1px solid $border-color;
-    border-radius: $border-radius-medium;
-    background-color: $background-color-primary;
+    border-radius: $border-radius-8;
+    background-color: $background-1;
     outline: none;
     width: 100%;
     transition: all $transition ease;
@@ -43,7 +44,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: $font-size-small;
+    font-size: $font-size-14;
     margin-top: 5px;
     color: $red;
     user-select: none;

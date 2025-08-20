@@ -7,7 +7,7 @@
   z-index: 100;
   width: 100%;
   border-bottom: 1px solid $border-color;
-  background-color: $background-color-primary;
+  background-color: $background-1;
 }
 
 .headerContent {
@@ -44,10 +44,10 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  border: 1.5px solid $background-color-tertiary;
-  border-radius: $border-radius-large;
+  border: 1.5px solid $background-3;
+  border-radius: $border-radius-10;
   height: 46px;
-  background-color: $background-color-tertiary;
+  background-color: $background-3;
   transition: all $transition ease;
   padding-right: 3px;
 
@@ -57,7 +57,7 @@
 
   &:focus-within {
     border-color: rgba($blue, 0.6);
-    background-color: $background-color-primary;
+    background-color: $background-1;
   }
 
   .inputWrapper {
@@ -67,7 +67,7 @@
     height: 100%;
     padding: 0 50px 0 14px;
     font-size: 17px;
-    color: $text-color-secondary;
+    color: $color-2;
   }
 
   .clearButton {
@@ -79,22 +79,22 @@
     top: 50%;
     transform: translateY(-50%);
     background: none;
-    border-radius: $border-radius-circle;
+    border-radius: $border-radius-250;
     border: none;
     cursor: pointer;
     padding: 0;
-    color: $text-color-secondary;
+    color: $color-2;
     font-size: 21px;
     width: 23px;
     height: 23px;
     transition: $transition ease;
 
     &:hover {
-      background-color: $background-color-tertiary;
+      background-color: $background-3;
     }
 
     &:active {
-      background-color: darken($background-color-tertiary, 6%);
+      background-color: darken($background-3, 6%);
     }
 
     &:disabled {
@@ -107,7 +107,8 @@
     display: block;
     padding: 0 26px 0 10px;
     font-family: $font-family;
-    font-size: $font-size-main;
+    font-weight: $font-weight;
+    font-size: $font-size-15;
     border: none;
     background-color: transparent;
     outline: none;
@@ -117,16 +118,17 @@
     transition: border-color $transition ease;
 
     &::placeholder {
-      color: $text-color-secondary;
+      color: $color-2;
       opacity: 1;
       font-family: $font-family;
-      font-size: $font-size-main;
+      font-weight: $font-weight;
+      font-size: $font-size-15;
       user-select: none;
     }
 
     &:disabled {
       cursor: not-allowed;
-      background-color: darken($background-color-primary, 5%);
+      background-color: darken($background-1, 5%);
     }
   }
 }

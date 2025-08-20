@@ -5,7 +5,7 @@ import { FormItems } from "../../../../components/FormItems"
 import { Input } from "../../../../components/Input"
 import { Button } from "../../../../components/Button"
 import { Alert } from "../../../../components/Alert"
-import { Select } from "../../../../components/Select"
+import { Select } from "../../components/Select"
 
 export const CreateSubcategory = () => {
   const createSubcategory = trpc.createSubcategory.useMutation()
@@ -14,8 +14,8 @@ export const CreateSubcategory = () => {
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
-      slug: '',
-      categoryId: 0,
+      sequence: '',
+      categoryId: '',
     },
     validationSchema: zCreateSubcategoryTrpcInput,
     onSubmit: async (values) => {
@@ -28,14 +28,14 @@ export const CreateSubcategory = () => {
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
         <Input 
-          label="Название подкатегории" 
+          label="Название" 
           name="name" 
           type="text" 
           formik={formik} 
         />
         <Input 
-          label="Slug (уникальный идентификатор)" 
-          name="slug" 
+          label="Порядковый номер" 
+          name="sequence" 
           type="text" 
           formik={formik} 
         />
@@ -49,7 +49,7 @@ export const CreateSubcategory = () => {
           })) || []}
         />
         <Alert {...alertProps} />
-        <Button {...buttonProps}>Создать подкатегорию</Button>
+        <Button {...buttonProps}>Создать</Button>
       </FormItems>
     </form>
   )

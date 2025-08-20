@@ -12,6 +12,18 @@ export const zStringRequired = z.string({ required_error: 'Please, fill it' }).m
 export const zStringOptional = z.string().optional()
 export const zEmailRequired = zStringRequired.email()
 
+export const zNumberRequired = z
+  .string({ required_error: 'Please, fill it' })
+  .min(1, 'Please, fill it')
+  .regex(/^\d+$/, 'Must contain only digits')
+  .refine(
+    (val) => {
+      const num = Number(val);
+      return num >= 0;
+    },
+    { message: 'Must be 0 or positive number' }
+  );
+
 export const zStringMin = (min: number) => zStringRequired.min(min, `Text should be at least ${min} characters long`)
 export const zPasswordsMustBeTheSame =
   (passwordFieldName: string, passwordAgainFieldName: string) => (val: any, ctx: z.RefinementCtx) => {

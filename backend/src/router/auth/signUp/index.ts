@@ -5,14 +5,14 @@ import { signJWT } from '../../../utils/signJWT'
 import { zSignUpTrpcInput } from './input'
 
 export const signUpTrpcRoute = trpcLoggedProcedure.input(zSignUpTrpcInput).mutation(async ({ ctx, input }) => {
-  const exUserWithEmail = await ctx.prisma.user.findUnique({
+  const existingUserWithEmail = await ctx.prisma.user.findUnique({
     where: {
       email: input.email,
     },
   })
 
-  if (exUserWithEmail) {
-    throw new ExpectedError('User with this email already exists')
+  if (existingUserWithEmail) {
+    throw new ExpectedError('Аккаунт с такой почтой уже существует')
   }
 
   const user = await ctx.prisma.user.create({
@@ -22,6 +22,7 @@ export const signUpTrpcRoute = trpcLoggedProcedure.input(zSignUpTrpcInput).mutat
       password: getPasswordHash(input.password),
     },
   })
+  
   const token = signJWT(user.id)
   return { token }
 })

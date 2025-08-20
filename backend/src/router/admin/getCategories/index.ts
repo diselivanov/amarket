@@ -8,14 +8,16 @@ export const getCategoriesTrpcRoute = trpcLoggedProcedure
       select: {
         id: true,
         name: true,
-        slug: true,
+        sequence: true,
         count: true,
         createdAt: true,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
     })
 
-    return { categories }
+    // Сортировка на уровне приложения (т.к sequence - string)
+    const sortedCategories = categories.sort((a, b) => {
+      return parseInt(a.sequence) - parseInt(b.sequence)
+    })
+
+    return { categories: sortedCategories }
   })

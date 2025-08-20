@@ -5,8 +5,8 @@ import { Icon } from '../../../../components/Icon';
 interface ModalProps {
   /** Контент модального окна */
   children: React.ReactNode;
-  /** Текст на кнопке, открывающей модальное окно */
-  buttonText?: string;
+  /** Текст или компонент на кнопке, открывающей модальное окно */
+  buttonText?: string | React.ReactNode;
   /** Дополнительные классы для кнопки */
   buttonClassName?: string;
   /** Заголовок модального окна */
@@ -27,6 +27,10 @@ export const Modal = ({
 }: ModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Проверяем, является ли buttonText иконкой
+  const isIconButton = React.isValidElement(buttonText) && 
+                      buttonText.type === Icon;
+
   const handleOpen = () => {
     setIsOpen(true);
     onOpen?.();
@@ -46,7 +50,7 @@ export const Modal = ({
   return (
     <>
       <button
-        className={`${css.modalButton} ${buttonClassName}`}
+        className={`${css.modalButton} ${isIconButton ? css.iconButton : ''} ${buttonClassName}`}
         onClick={handleOpen}
         type="button"
       >

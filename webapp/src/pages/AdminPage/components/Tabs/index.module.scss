@@ -4,13 +4,15 @@
 .tabsContainer {
   display: flex;
   height: 100%;
+  color: $dark-color-1;
+  background-color: $dark-background-2;
 }
 
 .tabsHeader {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-right: 1px solid $border-color;
+  border-right: 1px solid $dark-border-color;
   width: 200px;
   padding: 5px;
 }
@@ -23,25 +25,30 @@
   text-align: left;
   border: none;
   background: none;
+  color: $dark-color-1;
   border: 1px solid transparent;
-  border-radius: $border-radius-small;
+  border-radius: $border-radius-5;
   font-family: $font-family;
-  font-size: $font-size-main;
+  font-weight: $font-weight;
+  font-size: $font-size-14;
   cursor: pointer;
+   transition: background-color $transition ease;
   
   &:hover {
-    @include hover-background-color-secondary;
+    background-color: $dark-background-3;
+    border-color: lighten($dark-background-3, 2%);
   }
   
   &.active {
-    @include hover-background-color-tertiary;
+    background-color: $dark-background-3;
+    border-color: lighten($dark-background-3, 2%);
   }
 }
 
 .tabIcon {
   display: inline-flex;
   align-items: center;
-  color: $text-color-secondary;
+  color: $dark-color-2;
 }
 
 .tabsContent {
@@ -51,4 +58,5 @@
 
 .tabContent {
   height: 100%;
+  font-size: $font-size-14;
 }

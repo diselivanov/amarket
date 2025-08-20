@@ -12,7 +12,7 @@ export const CreateCategory = () => {
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
-      slug: '',
+      sequence: '',
     },
     validationSchema: zCreateCategoryTrpcInput,
     onSubmit: async (values) => {
@@ -25,19 +25,19 @@ export const CreateCategory = () => {
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
         <Input 
-          label="Название категории" 
+          label="Название" 
           name="name" 
           type="text" 
           formik={formik} 
         />
         <Input 
-          label="Slug (уникальный идентификатор)" 
-          name="slug" 
+          label="Порядковый номер" 
+          name="sequence" 
           type="text" 
           formik={formik} 
         />
         <Alert {...alertProps} />
-        <Button {...buttonProps}>Создать категорию</Button>
+        <Button {...buttonProps}>Создать</Button>
       </FormItems>
     </form>
   )

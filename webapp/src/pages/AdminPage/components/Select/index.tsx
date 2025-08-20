@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import { type FormikProps } from 'formik'
-import { Icon } from '../Icon'
 import css from './index.module.scss'
 import { useState, useRef, useEffect } from 'react'
+import { Icon } from '../../../../components/Icon'
 
 export const Select = ({
   name,

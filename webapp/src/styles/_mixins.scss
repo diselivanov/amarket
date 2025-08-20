@@ -2,7 +2,7 @@
 @forward '../../node_modules/include-media/dist/include-media';
 
 @mixin link {
-  color: $text-color-primary;
+  color: $color-1;
   transition: color $transition ease;
   background: none;
   border: none;
@@ -17,16 +17,6 @@
 
 @mixin header {
   margin: 0;
-  font-size: $font-size-header;
+  font-size: $font-size-20;
   font-weight: 600;
-}
-
-@mixin hover-background-color-secondary {
-  background-color: $background-color-secondary;
-  border-color: darken($background-color-secondary, 2%);
-}
-
-@mixin hover-background-color-tertiary {
-  background-color: $background-color-tertiary;
-  border-color: darken($background-color-tertiary, 2%);
 }

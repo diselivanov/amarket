@@ -4,7 +4,8 @@ import { getPasswordHash } from '../utils/getPasswordHash'
 import { zCreateAdTrpcInput } from '../router/ads/createAd/input'
 
 export const presetDb = async (ctx: AppContext) => {
-  // Create admin user
+
+  // Создание админ аккаунта
   await ctx.prisma.user.upsert({
     where: {
       email: 'admin@example.com',
@@ -20,18 +21,15 @@ export const presetDb = async (ctx: AppContext) => {
     },
   })
 
-  // Check if admin exists (or just created)
+  // Создание объявлений
   const admin = await ctx.prisma.user.findUnique({
     where: {
       email: 'admin@example.com',
     },
   })
-
   if (!admin) {
     throw new Error('Admin user not found')
   }
-
-  // Create 100 ads
   const adData = {
     category: 'Категория',
     subcategory: 'Подкатегория',
@@ -48,18 +46,13 @@ export const presetDb = async (ctx: AppContext) => {
     ],
     authorId: admin.id,
   }
-
-  // Validate input data
   const validatedData = zCreateAdTrpcInput.parse(adData)
-
-  // Create 100 ads in parallel
   const adPromises = Array.from({ length: 100 }).map(() =>
     ctx.prisma.ad.create({
       data: { ...validatedData, authorId: admin.id },
     })
   )
-
   await Promise.all(adPromises)
 
-  console.log('Created 100 ads successfully')
+  
 }

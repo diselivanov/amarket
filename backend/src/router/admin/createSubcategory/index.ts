@@ -1,3 +1,4 @@
+import { ExpectedError } from '../../../lib/error'
 import { trpcLoggedProcedure } from '../../../lib/trpc'
 import { zCreateSubcategoryTrpcInput } from './input'
 
@@ -11,7 +12,7 @@ export const createSubcategoryTrpcRoute = trpcLoggedProcedure
     await ctx.prisma.subcategory.create({
       data: {
         name: input.name,
-        slug: input.slug,
+        sequence: input.sequence,
         categoryId: input.categoryId,
       },
     })
