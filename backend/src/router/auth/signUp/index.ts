@@ -22,7 +22,7 @@ export const signUpTrpcRoute = trpcLoggedProcedure.input(zSignUpTrpcInput).mutat
       password: getPasswordHash(input.password),
     },
   })
-  
+
   const token = signJWT(user.id)
   return { token }
 })

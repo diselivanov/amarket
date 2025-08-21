@@ -55,7 +55,7 @@ export const Header = ({
           <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
             <div className={css.inputWrapper}>
               <Icon name={'search'} />
-              
+
               <input
                 className={cn({
                   [css.input]: true,

@@ -15,7 +15,7 @@
   gap: 10px;
   padding: 8px 15px;
   color: $background-1;
-  font-size: $font-size-15;
+  font-size: $font-size-14;
   font-family: $font-family;
   font-weight: $font-weight;
   border-radius: $border-radius-8;
@@ -27,7 +27,7 @@
   border: 1px solid darken($blue, 7%);
 
   &:hover {
-    background-color: darken($blue, 2%);
+    background-color: darken($blue, 1%);
   }
 
   &:active {

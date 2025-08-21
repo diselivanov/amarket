@@ -11,6 +11,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  background-color: rgba($dark-background-2, 0.3);
   cursor: default;
 }
 
@@ -21,14 +22,16 @@
   max-width: 400px;
   width: 100%;
   overflow-y: auto;
+  z-index: 1000;
 }
 
 .modalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 15px;
   border-bottom: 1px solid $dark-border-color;
+  color: $dark-color-2;
   margin-bottom: 10px;
 }
 
@@ -40,7 +43,7 @@
   background: none;
   border: none;
   font-size: $font-size-20;
-  border-radius: $border-radius-5;
+  border-radius: $border-radius-6;
   cursor: pointer;
   color: $dark-color-2;
   padding: 0;
@@ -55,7 +58,7 @@
 
   &:hover {
     background-color: $dark-background-3;
-    border-color: lighten($dark-background-3, 2%);
+    border-color: lighten($dark-background-3, 1%);
   }
 }
 
@@ -67,8 +70,8 @@
   background-color: $dark-background-2;
   color: $dark-color-1;
   border: 1px solid $dark-border-color;
-  padding: 4px 12px;
-  border-radius: $border-radius-5;
+  padding: 3px 10px 3px 5px;
+  border-radius: $border-radius-6;
   cursor: pointer;
   font-size: $font-size-14;
   font-family: $font-family;
@@ -82,22 +85,32 @@
     background-color: $dark-background-3;
   }
 
+  .buttonIcon {
+    margin-right: 4px;
+    color: $dark-color-2;
+    font-size: $font-size-20;
+  }
+
   // Стиль для кнопки с иконкой
   &.iconButton {
-    width: 20px;
-    height: 20px;
+    width: 23px;
+    height: 23px;
     padding: 0;
-    margin-left: 10px;
     font-size: $font-size-16;
-    color: $dark-color-2;
-    transition: color $transition ease;
+    color: $blue;
+    transition: all $transition ease;
+    opacity: 0;
 
     // Убираем стандартные стили для текстовой кнопки
-    background-color: transparent;
+    background-color: rgba($blue, 0.1);
     border: none;
-    
+
     &:hover {
-      color: $dark-color-1;
+      opacity: 1;
+    }
+
+    &:active {
+      background-color: rgba($blue, 0.2);
     }
   }
 }

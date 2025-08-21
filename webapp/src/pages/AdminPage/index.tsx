@@ -1,11 +1,11 @@
-import { Icon } from "../../components/Icon"
-import { withPageWrapper } from "../../lib/pageWrapper"
-import { CategoryTree } from "./components/CategoryTree"
-import { Tabs, Tab } from "./components/Tabs"
+import { Icon } from '../../components/Icon'
+import { withPageWrapper } from '../../lib/pageWrapper'
+import { CategoryTree } from './components/CategoryTree'
+import { Tabs, Tab } from './components/Tabs'
 
-const StatsIcon = () => <Icon name={"stats"} size={20}/>
-const UsersIcon = () => <Icon name={"users"} size={20}/>
-const SettingsIcon = () => <Icon name={"settings"} size={20}/>
+const StatsIcon = () => <Icon name={'stats'} size={20} />
+const UsersIcon = () => <Icon name={'users'} size={20} />
+const SettingsIcon = () => <Icon name={'settings'} size={20} />
 
 export const AdminPage = withPageWrapper({
   title: 'Админ панель',
@@ -13,7 +13,7 @@ export const AdminPage = withPageWrapper({
   return (
     <Tabs>
       <Tab label="Объявления" icon={<StatsIcon />}>
-        <CategoryTree/>
+        <CategoryTree />
       </Tab>
 
       <Tab label="Пользователи" icon={<UsersIcon />}>

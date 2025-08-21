@@ -18,11 +18,11 @@ export const zNumberRequired = z
   .regex(/^\d+$/, 'Must contain only digits')
   .refine(
     (val) => {
-      const num = Number(val);
-      return num >= 0;
+      const num = Number(val)
+      return num >= 0
     },
     { message: 'Must be 0 or positive number' }
-  );
+  )
 
 export const zStringMin = (min: number) => zStringRequired.min(min, `Text should be at least ${min} characters long`)
 export const zPasswordsMustBeTheSame =

@@ -1,14 +1,14 @@
-import { zCreateCategoryTrpcInput } from "@amarket/backend/src/router/admin/createCategory/input"
-import { useForm } from "../../../../lib/form"
-import { trpc } from "../../../../lib/trpc"
-import { FormItems } from "../../../../components/FormItems"
-import { Input } from "../../../../components/Input"
-import { Button } from "../../../../components/Button"
-import { Alert } from "../../../../components/Alert"
+import { zCreateCategoryTrpcInput } from '@amarket/backend/src/router/admin/createCategory/input'
+import { useForm } from '../../../../lib/form'
+import { trpc } from '../../../../lib/trpc'
+import { FormItems } from '../../../../components/FormItems'
+import { Button } from '../../../../components/Button'
+import { Alert } from '../../../../components/Alert'
+import { Input } from '../Input'
 
 export const CreateCategory = () => {
   const createCategory = trpc.createCategory.useMutation()
-  
+
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
@@ -24,18 +24,8 @@ export const CreateCategory = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
-        <Input 
-          label="Название" 
-          name="name" 
-          type="text" 
-          formik={formik} 
-        />
-        <Input 
-          label="Порядковый номер" 
-          name="sequence" 
-          type="text" 
-          formik={formik} 
-        />
+        <Input label="Название" name="name" type="text" formik={formik} />
+        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
         <Alert {...alertProps} />
         <Button {...buttonProps}>Создать</Button>
       </FormItems>

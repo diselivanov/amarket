@@ -4,7 +4,6 @@ import { getPasswordHash } from '../utils/getPasswordHash'
 import { zCreateAdTrpcInput } from '../router/ads/createAd/input'
 
 export const presetDb = async (ctx: AppContext) => {
-
   // Создание админ аккаунта
   await ctx.prisma.user.upsert({
     where: {
@@ -53,6 +52,4 @@ export const presetDb = async (ctx: AppContext) => {
     })
   )
   await Promise.all(adPromises)
-
-  
 }

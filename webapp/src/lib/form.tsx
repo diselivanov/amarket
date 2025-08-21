@@ -103,13 +103,13 @@ export const useForm = <TZodSchema extends z.ZodTypeAny>({
       children: null,
     }
   }, [
-    submittingError, 
-    formik.isValid, 
-    formik.submitCount, 
-    successMessageVisible, 
-    successMessage, 
+    submittingError,
+    formik.isValid,
+    formik.submitCount,
+    successMessageVisible,
+    successMessage,
     showValidationAlert,
-    validationErrorVisible
+    validationErrorVisible,
   ])
 
   const buttonProps = useMemo<Omit<ButtonProps, 'children'>>(() => {

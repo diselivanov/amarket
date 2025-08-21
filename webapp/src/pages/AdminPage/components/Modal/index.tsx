@@ -1,20 +1,15 @@
-import React, { useState } from 'react';
-import css from './index.module.scss';
-import { Icon } from '../../../../components/Icon';
+import React, { useEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
+import css from './index.module.scss'
+import { Icon } from '../../../../components/Icon'
 
 interface ModalProps {
-  /** Контент модального окна */
-  children: React.ReactNode;
-  /** Текст или компонент на кнопке, открывающей модальное окно */
-  buttonText?: string | React.ReactNode;
-  /** Дополнительные классы для кнопки */
-  buttonClassName?: string;
-  /** Заголовок модального окна */
-  title?: React.ReactNode;
-  /** Функция, вызываемая при закрытии модального окна */
-  onClose?: () => void;
-  /** Функция, вызываемая при открытии модального окна */
-  onOpen?: () => void;
+  children: React.ReactNode
+  buttonText?: string | React.ReactNode
+  buttonClassName?: string
+  title?: React.ReactNode
+  onClose?: () => void
+  onOpen?: () => void
 }
 
 export const Modal = ({
@@ -23,29 +18,62 @@ export const Modal = ({
   buttonClassName = '',
   title,
   onClose,
-  onOpen
+  onOpen,
 }: ModalProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false)
+  const [modalContainer] = useState(() => document.createElement('div'))
 
-  // Проверяем, является ли buttonText иконкой
-  const isIconButton = React.isValidElement(buttonText) && 
-                      buttonText.type === Icon;
+  const isIconButton = React.isValidElement(buttonText) && buttonText.type === Icon
+  const isTextButton = typeof buttonText === 'string'
 
   const handleOpen = () => {
-    setIsOpen(true);
-    onOpen?.();
-  };
+    setIsOpen(true)
+    onOpen?.()
+    document.body.style.overflow = 'hidden'
+    document.body.appendChild(modalContainer)
+  }
 
   const handleClose = () => {
-    setIsOpen(false);
-    onClose?.();
-  };
-
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
+    setIsOpen(false)
+    onClose?.()
+    document.body.style.overflow = 'unset'
+    if (document.body.contains(modalContainer)) {
+      document.body.removeChild(modalContainer)
     }
-  };
+  }
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [isOpen])
+
+  useEffect(() => {
+    return () => {
+      if (document.body.contains(modalContainer)) {
+        document.body.removeChild(modalContainer)
+      }
+    }
+  }, [modalContainer])
+
+  const modalContent = isOpen ? (
+    <div className={css.modalOverlay}>
+      <div className={css.modal}>
+        <div className={css.modalHeader}>
+          {title && <h2 className={css.modalTitle}>{title}</h2>}
+          <button className={css.closeButton} onClick={handleClose} type="button" aria-label="Закрыть">
+            <Icon name={'delete'} />
+          </button>
+        </div>
+        <div className={css.modalContent}>{children}</div>
+      </div>
+    </div>
+  ) : null
 
   return (
     <>
@@ -54,29 +82,17 @@ export const Modal = ({
         onClick={handleOpen}
         type="button"
       >
-        {buttonText}
+        {isTextButton ? (
+          <>
+            <Icon name={'add'} className={css.buttonIcon} />
+            {buttonText}
+          </>
+        ) : (
+          buttonText
+        )}
       </button>
 
-      {isOpen && (
-        <div className={css.modalOverlay} onClick={handleBackdropClick}>
-          <div className={css.modal}>
-            <div className={css.modalHeader}>
-              {title && <h2 className={css.modalTitle}>{title}</h2>}
-              <button
-                className={css.closeButton}
-                onClick={handleClose}
-                type="button"
-                aria-label="Закрыть"
-              >
-                <Icon name={'delete'}/>
-              </button>
-            </div>
-            <div className={css.modalContent}>
-              {children}
-            </div>
-          </div>
-        </div>
-      )}
+      {ReactDOM.createPortal(modalContent, modalContainer)}
     </>
-  );
-};
+  )
+}

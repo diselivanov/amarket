@@ -22,10 +22,10 @@ export const Select = ({
   const touched = formik.touched[name]
   const invalid = !!touched && !!error
   const disabled = formik.isSubmitting
-  
+
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
-  
+
   // Закрытие выпадающего списка при клике вне компонента
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -33,27 +33,27 @@ export const Select = ({
         setIsOpen(false)
       }
     }
-    
+
     document.addEventListener('mousedown', handleClickOutside)
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-  
-  const selectedOption = options.find(option => option.value === value)
-  
+
+  const selectedOption = options.find((option) => option.value === value)
+
   const handleSelect = (optionValue: string | number) => {
     void formik.setFieldValue(name, optionValue)
     void formik.setFieldTouched(name)
     setIsOpen(false)
   }
-  
+
   return (
-    <div 
-      className={cn({ 
-        [css.field]: true, 
+    <div
+      className={cn({
+        [css.field]: true,
         [css.disabled]: disabled,
-        [css.githubSelect]: true
+        [css.githubSelect]: true,
       })}
       ref={selectRef}
       style={{ maxWidth }}
@@ -61,8 +61,8 @@ export const Select = ({
       <label className={css.label} htmlFor={name}>
         {label}
       </label>
-      
-      <div 
+
+      <div
         className={cn({
           [css.selectTrigger]: true,
           [css.invalid]: invalid,
@@ -71,12 +71,10 @@ export const Select = ({
         onClick={() => !disabled && setIsOpen(!isOpen)}
         id={name}
       >
-        <span className={css.selectedValue}>
-          {selectedOption ? selectedOption.label : 'Выберите категорию'}
-        </span>
-        <Icon name={isOpen ? "arrowRight" : "arrowDown"} className={css.arrowIcon} />
+        <span className={css.selectedValue}>{selectedOption ? selectedOption.label : 'Выберите категорию'}</span>
+        <Icon name={isOpen ? 'arrowRight' : 'arrowDown'} className={css.arrowIcon} />
       </div>
-      
+
       {isOpen && (
         <div className={css.dropdown}>
           {options.map((option) => (
@@ -89,14 +87,12 @@ export const Select = ({
               onClick={() => handleSelect(option.value)}
             >
               {option.label}
-              {option.value === value && (
-                <Icon name="success" className={css.checkIcon} />
-              )}
+              {option.value === value && <Icon name="success" className={css.checkIcon} />}
             </div>
           ))}
         </div>
       )}
-      
+
       {invalid && (
         <div className={css.error}>
           <Icon name="error" />

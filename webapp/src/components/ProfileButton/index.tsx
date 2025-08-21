@@ -9,9 +9,15 @@ export const ProfileButton = () => {
 
   return (
     <div>
-      {me ? <Link className={css.link} to={getProfileRoute()}>
-      <img className={css.avatar} alt="Фото профиля" src={getAvatarUrl(me!.avatar, 'small')} />
-    </Link> : <Link className={css.link} to={getSignInRoute()}>Войти</Link>}
+      {me ? (
+        <Link className={css.link} to={getProfileRoute()}>
+          <img className={css.avatar} alt="Фото профиля" src={getAvatarUrl(me!.avatar, 'small')} />
+        </Link>
+      ) : (
+        <Link className={css.link} to={getSignInRoute()}>
+          Войти
+        </Link>
+      )}
     </div>
   )
 }

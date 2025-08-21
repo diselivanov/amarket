@@ -2,9 +2,9 @@ import { ReactNode, useState } from 'react'
 import css from './index.module.scss'
 
 interface TabProps {
-  label: string;
-  children: ReactNode;
-  icon?: ReactNode;
+  label: string
+  children: ReactNode
+  icon?: ReactNode
 }
 
 export const Tab = ({ children }: TabProps) => {
@@ -12,18 +12,18 @@ export const Tab = ({ children }: TabProps) => {
 }
 
 interface TabsProps {
-  children: ReactNode;
-  defaultActiveTab?: number;
+  children: ReactNode
+  defaultActiveTab?: number
 }
 
 export const Tabs = ({ children, defaultActiveTab = 0 }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(defaultActiveTab)
-  
-  const tabs = (children as React.ReactElement<TabProps>[]).map(child => ({
+
+  const tabs = (children as React.ReactElement<TabProps>[]).map((child) => ({
     label: child.props.label,
-    icon: child.props.icon
+    icon: child.props.icon,
   }))
-  
+
   return (
     <div className={css.tabsContainer}>
       <div className={css.tabsHeader}>
@@ -38,10 +38,8 @@ export const Tabs = ({ children, defaultActiveTab = 0 }: TabsProps) => {
           </button>
         ))}
       </div>
-      
-      <div className={css.tabsContent}>
-        {(children as React.ReactElement<TabProps>[])[activeTab]}
-      </div>
+
+      <div className={css.tabsContent}>{(children as React.ReactElement<TabProps>[])[activeTab]}</div>
     </div>
   )
 }

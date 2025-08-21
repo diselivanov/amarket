@@ -2,7 +2,7 @@
 @use '../../../../styles/mixins' as *;
 
 .treeView {
-  width: 340px;
+  width: 400px;
   height: 100%;
   border-right: 1px solid $dark-border-color;
 }
@@ -14,9 +14,33 @@
   align-items: center;
   gap: 5px;
   height: 40px;
+  padding: 0 5px;
   border-bottom: 1px solid $dark-border-color;
   background-color: $dark-background-2;
   z-index: 100;
+}
+
+.statsToggle {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: $border-radius-6;
+  cursor: pointer;
+  transition: all $transition ease;
+  margin-left: auto;
+  color: $dark-color-2;
+  font-size: $font-size-18;
+  border: 1px solid $dark-border-color;
+}
+.statsToggle.none {
+  background: none;
+}
+.statsToggle.all {
+  background-color: $dark-background-3;
+  color: $dark-color-1;
 }
 
 .tree {
@@ -33,23 +57,33 @@
 .nodeHeader {
   display: flex;
   align-items: center;
-  padding: 6px;
+  padding: 0 0 0 6px;
   cursor: pointer;
   position: relative;
-  border-radius: $border-radius-5;
+  border-radius: $border-radius-6;
   border: 1px solid transparent;
   transition: background-color $transition ease;
-  
+
   &:hover {
     background-color: $dark-background-3;
-    border-color: lighten($dark-background-3, 2%);
+    border-color: lighten($dark-background-3, 1%);
   }
+
+  &.expanded {
+    border: 1px dotted $dark-border-color;
+  }
+}
+
+.stopPropagation {
+  display: flex;
+  align-items: center;
+  padding: 3px 3px 3px 6px;
 }
 
 .caret {
   display: flex;
   align-items: center;
-  margin-right: 8px;
+  margin-right: 10px;
   color: $dark-color-2;
 }
 
@@ -57,16 +91,27 @@
   flex-grow: 1;
 }
 
-.count {
-  font-size: $font-size-13;
-  background: rgba($blue, 0.3);
-  border: 1px solid rgba($blue, 0.3);
-  border-radius: $border-radius-5;
-  padding: 1px 5px;
+.total {
+  color: $dark-color-2;
+  font-size: $font-size-12;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+.active {
+  color: $green;
+  font-size: $font-size-12;
+  margin-right: 4px;
+}
+.sold {
+  color: $red;
+  font-size: $font-size-12;
+  margin-right: 4px;
 }
 
 .sequence {
-  margin-right: 5px;
+  color: $dark-color-2;
+  margin-right: 8px;
+  font-size: $font-size-12;
 }
 
 .subtree {
@@ -75,22 +120,34 @@
   gap: 3px;
   list-style: none;
   padding-left: 3px;
-  margin: 3px 0 3px 14px;
-  border-left: 1px solid $dark-border-color;
-  
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin: 0 0 5px 14px;
+  border-left: 1px dotted $dark-border-color;
+
   // Анимация для дочерних элементов
   & > * {
     opacity: 0;
     transform: translateX(-10px);
     animation: subtreeItemAppear 0.2s ease forwards;
   }
-  
+
   // Задержка для каждого последующего элемента
-  & > *:nth-child(1) { animation-delay: 0.1s; }
-  & > *:nth-child(2) { animation-delay: 0.2s; }
-  & > *:nth-child(3) { animation-delay: 0.3s; }
-  & > *:nth-child(4) { animation-delay: 0.4s; }
-  & > *:nth-child(n+5) { animation-delay: 0.5s; }
+  & > *:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+  & > *:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  & > *:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  & > *:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+  & > *:nth-child(n + 5) {
+    animation-delay: 0.5s;
+  }
 }
 
 @keyframes subtreeItemAppear {
@@ -101,17 +158,17 @@
 }
 
 .leaf {
-  padding: 6px 6px 6px 10px;
+  padding: 0 0 0 10px;
   display: flex;
   align-items: center;
   position: relative;
   border: 1px solid transparent;
-  border-radius: $border-radius-5;
+  border-radius: $border-radius-6;
   transition: background-color $transition ease;
-  
+
   &:hover {
     background-color: $dark-background-3;
-    border-color: lighten($dark-background-3, 2%);
+    border-color: lighten($dark-background-3, 1%);
   }
 }
 
