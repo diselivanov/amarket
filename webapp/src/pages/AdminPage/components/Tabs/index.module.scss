@@ -4,15 +4,15 @@
 .tabsContainer {
   display: flex;
   height: 100%;
-  color: $dark-color-1;
-  background-color: $dark-background-2;
+  color: $color-1;
+  background-color: $background-1;
 }
 
 .tabsHeader {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  border-right: 1px solid $dark-border-color;
+  border-right: 1px solid $border-color;
   width: 200px;
   padding: 5px;
 }
@@ -21,34 +21,31 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 12px;
+  padding: 7px 11px;
   text-align: left;
   border: none;
   background: none;
-  color: $dark-color-1;
-  border: 1px solid transparent;
+  color: $color-1;
   border-radius: $border-radius-6;
   font-family: $font-family;
-  font-weight: $font-weight;
+  font-weight: $font-weight-1;
   font-size: $font-size-14;
   cursor: pointer;
   transition: background-color $transition ease;
 
   &:hover {
-    background-color: $dark-background-3;
-    border-color: lighten($dark-background-3, 1%);
+    background-color: $background-3;
   }
 
   &.active {
-    background-color: $dark-background-3;
-    border-color: lighten($dark-background-3, 1%);
+    background-color: $background-3;
   }
 }
 
 .tabIcon {
   display: inline-flex;
   align-items: center;
-  color: $dark-color-2;
+  color: $color-2;
 }
 
 .tabsContent {
@@ -57,6 +54,7 @@
 }
 
 .tabContent {
+  padding: 10px;
   height: 100%;
   font-size: $font-size-14;
 }

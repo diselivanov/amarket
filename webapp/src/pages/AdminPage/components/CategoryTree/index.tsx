@@ -18,29 +18,33 @@ interface CategoryNode {
   id: string
   name: string
   sequence: string
-  count?: number
+  total?: number
+  active?: number
+  sold?: number
+  avgPrice?: number
+  views?: number
+  sellers?: number
 }
 
 interface SubcategoryNode extends CategoryNode {
   categoryId: string
 }
 
-type StatsDisplayMode = 'none' | 'all' | 'active' | 'sold' | 'total'
-
 export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({})
-  const [statsDisplayMode, setStatsDisplayMode] = useState<StatsDisplayMode>('none')
 
   const {
     data: categoriesData,
     isLoading: isCategoriesLoading,
     error: categoriesError,
+    refetch: refetchCategories
   } = trpc.getCategories.useQuery({})
 
   const {
     data: subcategoriesData,
     isLoading: isSubcategoriesLoading,
     error: subcategoriesError,
+    refetch: refetchSubcategories
   } = trpc.getSubcategories.useQuery({})
 
   const toggleCategory = (categoryId: string) => {
@@ -50,13 +54,13 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
     }))
   }
 
-  // Функция предотвращения открытия списка подкатегорий
   const stopPropagation = (e: React.MouseEvent) => {
     e.stopPropagation()
   }
 
-  const shouldShowStat = (statType: 'total' | 'active' | 'sold') => {
-    return statsDisplayMode !== 'none'
+  const handleSuccess = () => {
+    refetchCategories()
+    refetchSubcategories()
   }
 
   if (isCategoriesLoading || isSubcategoriesLoading) {
@@ -68,94 +72,98 @@ export const CategoryTree: React.FC<CategoriesProps> = ({ className }) => {
   }
 
   return (
-    <div className={`${css.treeView} ${className || ''}`}>
-      <h3 className={css.header}>
+    <div className={`${css.tableContainer} ${className || ''}`}>
+      <div className={css.header}>
         <Modal title={'Создание категории'} buttonText="Категория">
-          <CreateCategory />
+          <CreateCategory/>
         </Modal>
 
         <Modal title={'Создание подкатегории'} buttonText={'Подкатегория'}>
-          <CreateSubcategory />
+          <CreateSubcategory/>
         </Modal>
-
-        <button
-          className={`${css.statsToggle} ${css[statsDisplayMode]}`}
-          onClick={() => setStatsDisplayMode(statsDisplayMode === 'none' ? 'all' : 'none')}
-        >
-          <Icon name={'chart'} />
-        </button>
-      </h3>
-      <ul className={css.tree}>
-        {categoriesData?.categories.map((category) => (
-          <li key={category.id} className={css.node}>
-            <div
-              className={`${css.nodeHeader} ${expandedCategories[category.id] ? css.expanded : ''}`}
-              onClick={() => toggleCategory(category.id)}
-            >
-              <span className={css.caret}>
-                {expandedCategories[category.id] ? <Icon name={'arrowDown'} /> : <Icon name={'arrowRight'} />}
-              </span>
-
-              <span className={css.sequence}>{category.sequence}.</span>
-              <span className={css.label}>{category.name}</span>
-
-              <div className={css.stopPropagation} onClick={stopPropagation}>
-                <Modal title={'Редактирование категории'} buttonText={<Icon name={'edit'} />}>
-                  <EditCategory
-                    categoryId={category.id}
-                    initialName={category.name}
-                    initialSequence={category.sequence}
-                  />
-                </Modal>
-
-                {shouldShowStat('total') && <span className={css.total}>{category.count}</span>}
-                {shouldShowStat('active') && <span className={css.active}>{category.count}</span>}
-                {shouldShowStat('sold') && <span className={css.sold}>{category.count}</span>}
-              </div>
-            </div>
-
-            {expandedCategories[category.id] && (
-              <ul className={css.subtree}>
-                {subcategoriesData?.subcategories
+      </div>
+      
+      <div className={css.tableWrapper}>
+        <table className={css.categoryTable}>
+          <thead>
+            <tr>
+              <th className={css.colName}>Категория</th>
+              <th className={css.colTotal}>Всего</th>
+              <th className={css.colActive}>Активные</th>
+              <th className={css.colSold}>Продано</th>
+              <th className={css.colAvgPrice}>Средняя цена</th>
+              <th className={css.colViews}>Просмотры</th>
+              <th className={css.colSellers}>Продавцы</th>
+              <th className={css.colActions}></th>
+            </tr>
+          </thead>
+          <tbody>
+            {categoriesData?.categories.map((category) => (
+              <React.Fragment key={category.id}>
+                <tr 
+                  className={`${css.categoryRow} ${expandedCategories[category.id] ? css.expanded : ''}`}
+                  onClick={() => toggleCategory(category.id)}
+                >
+                  <td className={css.colName}>
+                    <span className={css.caret}></span>
+                    <span className={css.sequence}>{category.sequence}</span>
+                    <span className={css.label}>{category.name}</span>
+                  </td>
+                  <td className={css.colTotal}>{category.total || 0}</td>
+                  <td className={css.colActive}>{category.active || 0}</td>
+                  <td className={css.colSold}>{category.sold || 0}</td>
+                  <td className={css.colAvgPrice}>{category.avgPrice ? `$${category.avgPrice.toLocaleString()}` : 0}</td>
+                  <td className={css.colViews}>{category.views ? category.views.toLocaleString() : 0}</td>
+                  <td className={css.colSellers}>{category.sellers || 0}</td>
+                  <td className={css.colActions} onClick={stopPropagation}>
+                    <Modal title={'Редактирование категории'} buttonText={<Icon name={'edit'} />}>
+                      <EditCategory
+                        categoryId={category.id}
+                        initialName={category.name}
+                        initialSequence={category.sequence}
+                        onSuccess={handleSuccess}
+                      />
+                    </Modal>
+                  </td>
+                </tr>
+                
+                {expandedCategories[category.id] && subcategoriesData?.subcategories
                   .filter((sub) => sub.categoryId === category.id)
-                  .map((subcategory) => (
-                    <li key={subcategory.id} className={css.leaf}>
-                      <span className={css.sequence}>{subcategory.sequence}.</span>
-                      <span className={css.leafLabel}>{subcategory.name}</span>
-
-                      <div className={css.stopPropagation} onClick={stopPropagation}>
+                  .map((subcategory, index) => (
+                    <tr 
+                      key={subcategory.id} 
+                      className={css.subcategoryRow}
+                      style={{ animationDelay: `${index * 0.05}s` }}
+                    >
+                      <td className={css.colName}>
+                        <span className={css.sequence}>{subcategory.sequence}</span>
+                        <span className={css.leafLabel}>{subcategory.name}</span>
+                      </td>
+                      <td className={css.colTotal}>{subcategory.total || 0}</td>
+                      <td className={css.colActive}>{subcategory.active || 0}</td>
+                      <td className={css.colSold}>{subcategory.sold || 0}</td>
+                      <td className={css.colAvgPrice}>{subcategory.avgPrice ? `$${subcategory.avgPrice.toLocaleString()}` : 0}</td>
+                      <td className={css.colViews}>{subcategory.views ? subcategory.views.toLocaleString() : 0}</td>
+                      <td className={css.colSellers}>{subcategory.sellers || 0}</td>
+                      <td className={css.colActions} onClick={stopPropagation}>
                         <Modal title={'Редактирование подкатегории'} buttonText={<Icon name={'edit'} />}>
                           <EditSubcategory
                             subcategoryId={subcategory.id}
                             initialName={subcategory.name}
                             initialSequence={subcategory.sequence}
                             initialCategoryId={subcategory.categoryId}
+                            onSuccess={handleSuccess}
                           />
                         </Modal>
-
-                        {shouldShowStat('total') && (
-                          <span className={css.total} onClick={stopPropagation}>
-                            {subcategory.count}
-                          </span>
-                        )}
-                        {shouldShowStat('active') && (
-                          <span className={css.active} onClick={stopPropagation}>
-                            {subcategory.count}
-                          </span>
-                        )}
-                        {shouldShowStat('sold') && (
-                          <span className={css.sold} onClick={stopPropagation}>
-                            {subcategory.count}
-                          </span>
-                        )}
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

@@ -60,7 +60,12 @@ model Category {
   name          String
   sequence      String
   subcategories Subcategory[]
-  count         Int           @default(0)
+  total         Int           @default(0)
+  active        Int           @default(0)
+  sold          Int           @default(0)
+  avgPrice      Int           @default(0)
+  views         Int           @default(0)
+  sellers       Int           @default(0)
   createdAt     DateTime      @default(now())
 }
 
@@ -70,6 +75,11 @@ model Subcategory {
   sequence   String
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
-  count      Int      @default(0)
+  total      Int      @default(0)
+  active     Int      @default(0)
+  sold       Int      @default(0)
+  avgPrice   Int      @default(0)
+  views      Int      @default(0)
+  sellers    Int      @default(0)
   createdAt  DateTime @default(now())
 }

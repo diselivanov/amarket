@@ -49,7 +49,12 @@ CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
-    "count" INTEGER NOT NULL DEFAULT 0,
+    "total" INTEGER NOT NULL DEFAULT 0,
+    "active" INTEGER NOT NULL DEFAULT 0,
+    "sold" INTEGER NOT NULL DEFAULT 0,
+    "avgPrice" INTEGER NOT NULL DEFAULT 0,
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "sellers" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
@@ -61,7 +66,12 @@ CREATE TABLE "Subcategory" (
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
-    "count" INTEGER NOT NULL DEFAULT 0,
+    "total" INTEGER NOT NULL DEFAULT 0,
+    "active" INTEGER NOT NULL DEFAULT 0,
+    "sold" INTEGER NOT NULL DEFAULT 0,
+    "avgPrice" INTEGER NOT NULL DEFAULT 0,
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "sellers" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Subcategory_pkey" PRIMARY KEY ("id")
