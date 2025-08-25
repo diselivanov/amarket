@@ -8,7 +8,6 @@ export const getAdTrpcRoute = trpcLoggedProcedure.input(zGetAdTrpcInput).query(a
     where: {
       id: input.selectedAd,
     },
-
     include: {
       author: {
         select: {
@@ -18,7 +17,8 @@ export const getAdTrpcRoute = trpcLoggedProcedure.input(zGetAdTrpcInput).query(a
           avatar: true,
         },
       },
-
+      category: true,
+      subcategory: true,
       adsLikes: {
         select: {
           id: true,
@@ -27,7 +27,6 @@ export const getAdTrpcRoute = trpcLoggedProcedure.input(zGetAdTrpcInput).query(a
           userId: ctx.me?.id,
         },
       },
-
       _count: {
         select: {
           adsLikes: true,
@@ -37,7 +36,11 @@ export const getAdTrpcRoute = trpcLoggedProcedure.input(zGetAdTrpcInput).query(a
   })
 
   if (rawAd?.blockedAt) {
-    throw new ExpectedError('Ad is blocked by administrator')
+    throw new ExpectedError('Объявление заблокировано')
+  }
+
+  if (rawAd?.deletedAt) {
+    throw new ExpectedError('Объявление удалено')
   }
 
   const isLikedByMe = !!rawAd?.adsLikes.length

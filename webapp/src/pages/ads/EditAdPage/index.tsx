@@ -39,7 +39,7 @@ export const EditAdPage = withPageWrapper({
   const { data: subcategoriesData } = trpc.getSubcategories.useQuery({})
 
   const { formik, buttonProps, alertProps } = useForm({
-    initialValues: pick(ad, ['category', 'subcategory', 'title', 'description', 'price', 'city', 'images']),
+    initialValues: pick(ad, ['categoryId', 'subcategoryId', 'title', 'description', 'price', 'city', 'images']),
     validationSchema: zUpdateAdTrpcInput.omit({ adId: true }),
     onSubmit: async (values) => {
       await updateAd.mutateAsync({ adId: ad.id, ...values })
@@ -51,14 +51,14 @@ export const EditAdPage = withPageWrapper({
 
   // Сбрасываем подкатегорию при изменении категории
   useEffect(() => {
-    if (formik.values.category && formik.values.category !== ad.category) {
-      formik.setFieldValue('subcategory', '')
+    if (formik.values.categoryId && formik.values.categoryId !== ad.categoryId) {
+      formik.setFieldValue('subcategoryId', '')
     }
-  }, [formik.values.category, ad.category])
+  }, [formik.values.categoryId, ad.categoryId])
 
   // Фильтруем подкатегории по выбранной категории
   const filteredSubcategories = subcategoriesData?.subcategories?.filter(
-    (sc) => sc.categoryId === formik.values.category
+    (sc) => sc.categoryId === formik.values.categoryId
   ) || []
 
   return (
@@ -66,7 +66,7 @@ export const EditAdPage = withPageWrapper({
       <form onSubmit={formik.handleSubmit}>
         <FormItems>
           <Select
-            name="category"
+            name="categoryId"
             label="Категория"
             formik={formik}
             options={
@@ -77,7 +77,7 @@ export const EditAdPage = withPageWrapper({
             }
           />
           <Select
-            name="subcategory"
+            name="subcategoryId"
             label="Подкатегория"
             formik={formik}
             options={
@@ -86,7 +86,7 @@ export const EditAdPage = withPageWrapper({
                 label: sc.name,
               }))
             }
-            disabled={!formik.values.category}
+            disabled={!formik.values.categoryId}
           />
           <Input name="title" label="Название" formik={formik} />
           <Textarea name="description" label="Описание" formik={formik} />

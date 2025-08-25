@@ -23,14 +23,44 @@
   flex-shrink: 0;
 }
 
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-left: 10px;
+  font-size: $font-size-13;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $font-size-13;
+}
+
+.statLabel {
+  color: $color-2;
+}
+
+.statValue {
+  color: $color-1;
+}
+
+.percentageGreen {
+  font-size: $font-size-10;
+  color: $green;
+}
+
+.percentageRed {
+  font-size: $font-size-10;
+  color: $red;
+}
+
 .headerButtons {
   display: flex;
   align-items: center;
-  gap: 5px;
-}
-
-.headerTitle {
-  margin-left: 10px;
+  gap: 8px;
 }
 
 .tableWrapper {
@@ -59,14 +89,24 @@
 .categoryTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 400px;
-  
-  td {
-    padding: 0;
+  min-width: 800px;
+
+  th, td {
+    padding: 6px 12px;
     border-bottom: 1px solid $border-color;
     vertical-align: middle;
-    height: 36px;
+    height: 32px;
     box-sizing: border-box;
+  }
+  
+  th {
+    background-color: $background-1;
+    font-size: $font-size-13;
+    text-align: left;
+    color: $color-2;
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 }
 
@@ -86,6 +126,10 @@
   &:hover {
     background-color: $background-2;
   }
+  
+  td {
+    font-size: $font-size-14;
+  }
 }
 
 .lastRow {
@@ -95,22 +139,31 @@
 }
 
 .colName {
-  display: flex;
-  align-items: center;
+  width: 25%;
   padding-left: 16px !important;
-  width: 100%;
   
   .label {
-    vertical-align: middle;
+    color: $color-1;
   }
   
   .leafLabel {
-    vertical-align: middle;
     color: $color-2;
+    padding-left: 22px;
+    position: relative;
   }
 }
 
-.actionCell {
-  text-align: right;
-  padding-right: 10px !important;
+.colStats {
+  width: 14%;
+  
+  .statValue {
+    font-size: $font-size-12;
+    color: $color-1;
+  }
+}
+
+.statWithPercentage {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }

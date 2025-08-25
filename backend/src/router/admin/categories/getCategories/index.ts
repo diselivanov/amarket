@@ -7,12 +7,6 @@ export const getCategoriesTrpcRoute = trpcLoggedProcedure.input(zGetCategoriesTr
       id: true,
       name: true,
       sequence: true,
-      total: true,
-      active: true,
-      sold: true,
-      avgPrice: true,
-      views: true,
-      sellers: true,
       createdAt: true,
     },
   })

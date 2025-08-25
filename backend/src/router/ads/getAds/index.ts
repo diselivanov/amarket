@@ -18,6 +18,7 @@ export const getAdsTrpcRoute = trpcLoggedProcedure.input(zGetAdsTrpcInput).query
 
     where: {
       blockedAt: null,
+      deletedAt: null,
 
       ...(!normalizedSearch
         ? {}

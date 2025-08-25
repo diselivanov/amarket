@@ -10,12 +10,6 @@ export const getSubcategoriesTrpcRoute = trpcLoggedProcedure
         name: true,
         sequence: true,
         categoryId: true,
-        total: true,
-        active: true,
-        sold: true,
-        avgPrice: true,
-        views: true,
-        sellers: true,
         createdAt: true,
       },
     })

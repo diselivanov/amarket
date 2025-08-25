@@ -68,6 +68,27 @@ const BlockAd = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) =
   )
 }
 
+const DeleteAd = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) => {
+  const deleteAd = trpc.deleteAd.useMutation()
+  const trpcUtils = trpc.useContext()
+  const { formik, alertProps, buttonProps } = useForm({
+    onSubmit: async () => {
+      await deleteAd.mutateAsync({ adId: ad.id })
+      await trpcUtils.getAd.refetch({ selectedAd: ad.id })
+    },
+  })
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <FormItems>
+        <Alert {...alertProps} />
+        <Button color="red" {...buttonProps}>
+          Удалить
+        </Button>
+      </FormItems>
+    </form>
+  )
+}
+
 export const ViewAdPage = withPageWrapper({
   useQuery: () => {
     const { selectedAd } = getViewAdRoute.useParams()
@@ -82,10 +103,12 @@ export const ViewAdPage = withPageWrapper({
   showLoaderOnFetching: false,
   title: ({ ad }) => ad.title,
 })(({ ad, me }) => (
-  <Segment title={ad.title}>
-    <div className={css.createdAt}>Created At: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
-    <div>{ad.category}</div>
-    <div>{ad.subcategory}</div>
+  <Segment title={undefined}>
+    <div>Категория: {ad.category.name}</div>
+    <div>Подкатегория:{ad.subcategory.name}</div>
+    <div>Название:{ad.title}</div>
+    <div>Цена:{ad.price}</div>
+    <div>Дата: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
     <div className={css.author}>
       <img className={css.avatar} alt="" src={getAvatarUrl(ad.author.avatar, 'small')} />
       <div className={css.name}>
@@ -116,12 +139,13 @@ export const ViewAdPage = withPageWrapper({
       )}
     </div>
     {canEditAd(me, ad) && (
-      <div className={css.editButton}>
+      <div>
         <LinkButton to={getEditAdRoute({ selectedAd: ad.id })}>Редактировать</LinkButton>
+        <DeleteAd ad={ad} />
       </div>
     )}
     {canBlockAds(me) && (
-      <div className={css.blockAd}>
+      <div>
         <BlockAd ad={ad} />
       </div>
     )}

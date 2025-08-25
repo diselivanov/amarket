@@ -4,11 +4,13 @@ import { createTrpcRouter } from '../lib/trpc'
 import { createCategoryTrpcRoute } from './admin/categories/createCategory'
 import { createSubcategoryTrpcRoute } from './admin/categories/createSubcategory'
 import { getCategoriesTrpcRoute } from './admin/categories/getCategories'
+import { getCategoryStatsTrpcRoute } from './admin/categories/getCategoryStats'
 import { getSubcategoriesTrpcRoute } from './admin/categories/getSubcategories'
 import { updateCategoryTrpcRoute } from './admin/categories/updateCategory'
 import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory'
 import { blockAdTrpcRoute } from './ads/blockAd'
 import { createAdTrpcRoute } from './ads/createAd'
+import { deleteAdTrpcRoute } from './ads/deleteAd'
 import { getAdTrpcRoute } from './ads/getAd'
 import { getAdsTrpcRoute } from './ads/getAds'
 import { setAdLikeTrpcRoute } from './ads/setAdLike'
@@ -26,11 +28,13 @@ export const trpcRouter = createTrpcRouter({
   createCategory: createCategoryTrpcRoute,
   createSubcategory: createSubcategoryTrpcRoute,
   getCategories: getCategoriesTrpcRoute,
+  getCategoryStats: getCategoryStatsTrpcRoute,
   getSubcategories: getSubcategoriesTrpcRoute,
   updateCategory: updateCategoryTrpcRoute,
   updateSubcategory: updateSubcategoryTrpcRoute,
   blockAd: blockAdTrpcRoute,
   createAd: createAdTrpcRoute,
+  deleteAd: deleteAdTrpcRoute,
   getAd: getAdTrpcRoute,
   getAds: getAdsTrpcRoute,
   setAdLike: setAdLikeTrpcRoute,

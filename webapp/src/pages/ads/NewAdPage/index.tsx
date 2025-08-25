@@ -22,8 +22,8 @@ export const NewAdPage = withPageWrapper({
 
   const { formik, buttonProps, alertProps } = useForm({
     initialValues: {
-      category: '',
-      subcategory: '',
+      categoryId: '',
+      subcategoryId: '',
       title: '',
       description: '',
       price: '',
@@ -41,14 +41,14 @@ export const NewAdPage = withPageWrapper({
 
   // Сбрасываем подкатегорию при изменении категории
   useEffect(() => {
-    if (formik.values.category) {
-      formik.setFieldValue('subcategory', '')
+    if (formik.values.categoryId) {
+      formik.setFieldValue('subcategoryId', '')
     }
-  }, [formik.values.category])
+  }, [formik.values.categoryId])
 
   // Фильтруем подкатегории по выбранной категории
   const filteredSubcategories = subcategoriesData?.subcategories?.filter(
-    (sc) => sc.categoryId === formik.values.category
+    (sc) => sc.categoryId === formik.values.categoryId
   ) || []
 
   return (
@@ -61,7 +61,7 @@ export const NewAdPage = withPageWrapper({
       >
         <FormItems>
           <Select
-            name="category"
+            name="categoryId"
             label="Категория"
             formik={formik}
             options={
@@ -72,7 +72,7 @@ export const NewAdPage = withPageWrapper({
             }
           />
           <Select
-            name="subcategory"
+            name="subcategoryId"
             label="Подкатегория"
             formik={formik}
             options={
@@ -81,7 +81,7 @@ export const NewAdPage = withPageWrapper({
                 label: sc.name,
               }))
             }
-            disabled={!formik.values.category}
+            disabled={!formik.values.categoryId}
           />
           <Input name="title" label="Название" formik={formik} />
           <Textarea name="description" label="Описание" formik={formik} />

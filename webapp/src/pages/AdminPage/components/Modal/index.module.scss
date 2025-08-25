@@ -96,12 +96,13 @@
     padding: 0;
     font-size: $font-size-16;
     color: $color-2;
-    transition: all $transition ease;
     border: none;
     background: none;
+    opacity: 0;
+    transition: all $transition ease;
 
     &:hover {
-      color: $blue;
+      opacity: 1;
     }
   }
 }

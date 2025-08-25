@@ -1,7 +1,6 @@
 import { env } from '../lib/env'
 import { type AppContext } from '../lib/ctx'
 import { getPasswordHash } from '../utils/getPasswordHash'
-import { zCreateAdTrpcInput } from '../router/ads/createAd/input'
 
 export const presetDb = async (ctx: AppContext) => {
 //   // Создание админ аккаунта
@@ -23,7 +22,7 @@ export const presetDb = async (ctx: AppContext) => {
 //   // Создание категорий и подкатегорий
 //   const categoriesData = [
 //     {
-//       name: 'Авто',
+//       name: '🚗 Авто',
 //       sequence: '1',
 //       subcategories: [
 //         { name: 'Автомобили', sequence: '1' },
@@ -36,7 +35,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Недвижимость',
+//       name: '🏢 Недвижимость',
 //       sequence: '2',
 //       subcategories: [
 //         { name: 'Аренда квартиры', sequence: '1' },
@@ -49,7 +48,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Электроника',
+//       name: '💻 Электроника',
 //       sequence: '3',
 //       subcategories: [
 //         { name: 'Телефоны и планшеты', sequence: '1' },
@@ -60,7 +59,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Работа',
+//       name: '💼 Работа',
 //       sequence: '4',
 //       subcategories: [
 //         { name: 'Вакансии', sequence: '1' },
@@ -68,7 +67,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Услуги',
+//       name: '🛠️ Услуги',
 //       sequence: '5',
 //       subcategories: [
 //         { name: 'Ремонт и строительство', sequence: '1' },
@@ -81,7 +80,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Личные вещи',
+//       name: '👖 Личные вещи',
 //       sequence: '6',
 //       subcategories: [
 //         { name: 'Женский гардероб', sequence: '1' },
@@ -90,7 +89,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Для дома и дачи',
+//       name: '🏠 Для дома и дачи',
 //       sequence: '7',
 //       subcategories: [
 //         { name: 'Бытовая техника', sequence: '1' },
@@ -102,14 +101,14 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Хобби и отдых',
+//       name: '🎾 Хобби и отдых',
 //       sequence: '8',
 //       subcategories: [
 //         { name: 'Разное', sequence: '1' },
 //       ]
 //     },
 //     {
-//       name: 'Животные',
+//       name: '🐕 Животные',
 //       sequence: '9',
 //       subcategories: [
 //         { name: 'Домашние', sequence: '1' },
@@ -117,7 +116,7 @@ export const presetDb = async (ctx: AppContext) => {
 //       ]
 //     },
 //     {
-//       name: 'Бизнес и оборудование',
+//       name: '💰 Бизнес и оборудование',
 //       sequence: '10',
 //       subcategories: [
 //         { name: 'Готовый бизнес', sequence: '1' },
@@ -145,38 +144,100 @@ export const presetDb = async (ctx: AppContext) => {
 //         }
 //       })
 //     }
-//   }
 
-//   // Создание объявлений
-//   const admin = await ctx.prisma.user.findUnique({
-//     where: {
-//       email: 'admin@example.com',
-//     },
-//   })
-//   if (!admin) {
-//     throw new Error('Admin user not found')
+//     // Создание 1000 тестовых объявлений
+// const cities = ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань', 'Нижний Новгород', 'Челябинск', 'Самара', 'Омск', 'Ростов-на-Дону']
+// const titles = [
+//   'Название 1',
+//   'Название 2',
+//   'Название 3',
+//   'Название 4',
+//   'Название 5' 
+// ]
+// const descriptions = [
+//   'Описание 1',
+//   'Описание 2',
+//   'Описание 3',
+//   'Описание 4',
+//   'Описание 5'
+// ]
+
+// // Получаем все категории и подкатегории из базы
+// const allCategories = await ctx.prisma.category.findMany({
+//   include: {
+//     subcategories: true
 //   }
-//   const adData = {
-//     category: 'Категория',
-//     subcategory: 'Подкатегория',
-//     title: 'Название',
-//     description: 'Описание',
-//     price: '47500',
-//     city: 'Сухум',
-//     images: [
-//       'images/yibvbmus18hjo2wjwpvf',
-//       'images/ibrcukgfveiiju7vpr3s',
-//       'images/e1rpe9os0lp1qcmutd0a',
-//       'images/iwv22yvgnblt5edhfyym',
-//       'images/mvynx8mw4vj54c0ged6h',
-//     ],
-//     authorId: admin.id,
+// })
+
+// // Создаем массив пользователей (можно создать тестовых пользователей или использовать существующих)
+// const testUsers = await ctx.prisma.user.findMany({
+//   take: 10,
+//   where: {
+//     email: {
+//       not: 'admin@example.com'
+//     }
 //   }
-//   const validatedData = zCreateAdTrpcInput.parse(adData)
-//   const adPromises = Array.from({ length: 100 }).map(() =>
-//     ctx.prisma.ad.create({
-//       data: { ...validatedData, authorId: admin.id },
+// })
+
+// // Если нет тестовых пользователей, создаем несколько
+// if (testUsers.length === 0) {
+//   for (let i = 1; i <= 5; i++) {
+//     const user = await ctx.prisma.user.create({
+//       data: {
+//         name: `TestUser${i}`,
+//         email: `test${i}@example.com`,
+//         password: getPasswordHash('password123'),
+//         phone: `+7916123456${i}`
+//       }
 //     })
-//   )
-//   await Promise.all(adPromises)
+//     testUsers.push(user)
+//   }
+// }
+
+// // Функция для генерации случайного числа в диапазоне
+// const getRandomInt = (min: number, max: number) => {
+//   return Math.floor(Math.random() * (max - min + 1)) + min
+// }
+
+// // Функция для генерации случайного элемента из массива
+// const getRandomItem = (array: any[]) => {
+//   return array[Math.floor(Math.random() * array.length)]
+// }
+
+// // Создаем 1000 объявлений
+// for (let i = 0; i < 1000; i++) {
+//   // Выбираем случайную категорию
+//   const randomCategory = getRandomItem(allCategories)
+  
+//   // Выбираем случайную подкатегорию из выбранной категории
+//   const randomSubcategory = getRandomItem(randomCategory.subcategories)
+  
+//   // Выбираем случайного пользователя
+//   const randomUser = getRandomItem(testUsers)
+  
+//   // Генерируем случайную цену от 1000 до 1000000
+//   const randomPrice = getRandomInt(1000, 1000000).toString()
+  
+//   // Создаем объявление
+//   await ctx.prisma.ad.create({
+//     data: {
+//       categoryId: randomCategory.id,
+//       subcategoryId: randomSubcategory.id,
+//       title: getRandomItem(titles),
+//       description: getRandomItem(descriptions),
+//       price: randomPrice,
+//       city: getRandomItem(cities),
+//       images: [], // Пустой массив изображений для тестовых объявлений
+//       authorId: randomUser.id
+//     }
+//   })
+  
+//   // Добавляем небольшую задержку чтобы не перегружать базу
+//   if (i % 100 === 0) {
+//     await new Promise(resolve => setTimeout(resolve, 100))
+//   }
+// }
+
+// console.log('Создано 1000 тестовых объявлений')
+//   }
 }
