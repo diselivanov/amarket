@@ -4,7 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
 import { IoCloseOutline } from 'react-icons/io5'
 import { TiWarning } from 'react-icons/ti'
 import { LuSearch } from 'react-icons/lu'
-import { HiMiniCheckCircle } from 'react-icons/hi2'
+import { FaCheck } from "react-icons/fa6";
 import { BiSolidInfoCircle } from 'react-icons/bi'
 import { ImUsers } from 'react-icons/im'
 import { MdSettings, MdOutlineModeEditOutline } from 'react-icons/md'
@@ -18,7 +18,7 @@ const icons = {
   delete: IoCloseOutline,
   error: TiWarning,
   search: LuSearch,
-  success: HiMiniCheckCircle,
+  success: FaCheck,
   info: BiSolidInfoCircle,
   stats: SiAlwaysdata,
   users: ImUsers,

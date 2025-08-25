@@ -84,6 +84,8 @@ export const ViewAdPage = withPageWrapper({
 })(({ ad, me }) => (
   <Segment title={ad.title}>
     <div className={css.createdAt}>Created At: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
+    <div>{ad.category}</div>
+    <div>{ad.subcategory}</div>
     <div className={css.author}>
       <img className={css.avatar} alt="" src={getAvatarUrl(ad.author.avatar, 'small')} />
       <div className={css.name}>

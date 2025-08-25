@@ -9,12 +9,17 @@ import { useForm } from '../../../lib/form'
 import { withPageWrapper } from '../../../lib/pageWrapper'
 import { trpc } from '../../../lib/trpc'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { Select } from '../../../components/Select'
+import { useEffect } from 'react'
 
 export const NewAdPage = withPageWrapper({
   authorizedOnly: true,
   title: 'New Ad',
 })(() => {
   const createAd = trpc.createAd.useMutation()
+  const { data: categoriesData } = trpc.getCategories.useQuery({})
+  const { data: subcategoriesData } = trpc.getSubcategories.useQuery({})
+
   const { formik, buttonProps, alertProps } = useForm({
     initialValues: {
       category: '',
@@ -34,6 +39,18 @@ export const NewAdPage = withPageWrapper({
     showValidationAlert: true,
   })
 
+  // Сбрасываем подкатегорию при изменении категории
+  useEffect(() => {
+    if (formik.values.category) {
+      formik.setFieldValue('subcategory', '')
+    }
+  }, [formik.values.category])
+
+  // Фильтруем подкатегории по выбранной категории
+  const filteredSubcategories = subcategoriesData?.subcategories?.filter(
+    (sc) => sc.categoryId === formik.values.category
+  ) || []
+
   return (
     <FormWrapper type={'big'}>
       <form
@@ -43,8 +60,29 @@ export const NewAdPage = withPageWrapper({
         }}
       >
         <FormItems>
-          <Input name="category" label="Категория" formik={formik} />
-          <Input name="subcategory" label="Подкатегория" formik={formik} />
+          <Select
+            name="category"
+            label="Категория"
+            formik={formik}
+            options={
+              categoriesData?.categories?.map((c) => ({
+                value: c.id,
+                label: c.name,
+              })) || []
+            }
+          />
+          <Select
+            name="subcategory"
+            label="Подкатегория"
+            formik={formik}
+            options={
+              filteredSubcategories.map((sc) => ({
+                value: sc.id,
+                label: sc.name,
+              }))
+            }
+            disabled={!formik.values.category}
+          />
           <Input name="title" label="Название" formik={formik} />
           <Textarea name="description" label="Описание" formik={formik} />
           <Input name="price" label="Цена" formik={formik} />

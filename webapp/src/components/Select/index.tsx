@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { type FormikProps } from 'formik'
 import css from './index.module.scss'
 import { useState, useRef, useEffect } from 'react'
-import { Icon } from '../../../../components/Icon'
+import { Icon } from '../Icon'
 
 export const Select = ({
   name,
@@ -10,18 +10,21 @@ export const Select = ({
   formik,
   maxWidth,
   options = [],
+  disabled: externalDisabled = false, // Добавляем новый пропс
 }: {
   name: string
   label: string
   formik: FormikProps<any>
   maxWidth?: number | string
   options?: Array<{ value: number | string; label: string }>
+  disabled?: boolean // Добавляем тип для нового пропса
 }) => {
   const value = formik.values[name]
   const error = formik.errors[name] as string | undefined
   const touched = formik.touched[name]
   const invalid = !!touched && !!error
-  const disabled = formik.isSubmitting
+  const formikDisabled = formik.isSubmitting
+  const disabled = formikDisabled || externalDisabled // Объединяем оба условия
 
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
@@ -43,9 +46,15 @@ export const Select = ({
   const selectedOption = options.find((option) => option.value === value)
 
   const handleSelect = (optionValue: string | number) => {
+    if (disabled) return // Запрещаем выбор если disabled
     void formik.setFieldValue(name, optionValue)
     void formik.setFieldTouched(name)
     setIsOpen(false)
+  }
+
+  const handleToggle = () => {
+    if (disabled) return // Запрещаем открытие если disabled
+    setIsOpen(!isOpen)
   }
 
   return (
@@ -68,10 +77,10 @@ export const Select = ({
           [css.invalid]: invalid,
           [css.open]: isOpen,
         })}
-        onClick={() => !disabled && setIsOpen(!isOpen)}
+        onClick={handleToggle}
         id={name}
       >
-        <span className={css.selectedValue}>{selectedOption ? selectedOption.label : 'Выберите категорию'}</span>
+        <span className={css.selectedValue}>{selectedOption ? selectedOption.label : 'Нажмите для выбора'}</span>
         <Icon name={isOpen ? 'arrowRight' : 'arrowDown'} className={css.arrowIcon} />
       </div>
 

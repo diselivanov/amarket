@@ -1,0 +1,29 @@
+.layout {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.leftContainer {
+  flex: 1;
+  height: 100%;
+}
+
+.rightContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+}
+
+.topRight {
+  flex: 1;
+  height: 50%;
+}
+
+.bottomRight {
+  flex: 1;
+  height: 50%;
+}

@@ -1,4 +1,4 @@
-import { trpcLoggedProcedure } from '../../../lib/trpc'
+import { trpcLoggedProcedure } from '../../../../lib/trpc'
 import { zGetSubcategoriesTrpcInput } from './input'
 
 export const getSubcategoriesTrpcRoute = trpcLoggedProcedure

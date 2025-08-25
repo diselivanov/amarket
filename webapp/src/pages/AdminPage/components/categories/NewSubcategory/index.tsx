@@ -1,11 +1,11 @@
-import { zCreateSubcategoryTrpcInput } from '@amarket/backend/src/router/admin/createSubcategory/input'
-import { useForm } from '../../../../lib/form'
-import { trpc } from '../../../../lib/trpc'
-import { FormItems } from '../../../../components/FormItems'
-import { Button } from '../../../../components/Button'
-import { Alert } from '../../../../components/Alert'
-import { Select } from '../../components/Select'
-import { Input } from '../Input'
+import { zCreateSubcategoryTrpcInput } from '@amarket/backend/src/router/admin/categories/createSubcategory/input'
+import { useForm } from '../../../../../lib/form'
+import { trpc } from '../../../../../lib/trpc'
+import { FormItems } from '../../../../../components/FormItems'
+import { Button } from '../../../../../components/Button'
+import { Alert } from '../../../../../components/Alert'
+import { Input } from '../../../../../components/Input'
+import { Select } from '../../../../../components/Select'
 
 export const CreateSubcategory = () => {
   const createSubcategory = trpc.createSubcategory.useMutation()

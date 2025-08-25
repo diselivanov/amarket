@@ -1,12 +1,13 @@
-import { zUpdateSubcategoryTrpcInput } from '@amarket/backend/src/router/admin/updateSubcategory/input'
-import { useForm } from '../../../../lib/form'
-import { trpc } from '../../../../lib/trpc'
-import { FormItems } from '../../../../components/FormItems'
-import { Input } from '../Input'
-import { Button } from '../../../../components/Button'
-import { Alert } from '../../../../components/Alert'
-import { Select } from '../../components/Select'
+
+import { useForm } from '../../../../../lib/form'
+import { trpc } from '../../../../../lib/trpc'
+import { FormItems } from '../../../../../components/FormItems'
+import { Button } from '../../../../../components/Button'
+import { Alert } from '../../../../../components/Alert'
 import { useEffect } from 'react'
+import { Input } from '../../../../../components/Input'
+import { Select } from '../../../../../components/Select'
+import { zUpdateSubcategoryTrpcInput } from '@amarket/backend/src/router/admin/categories/updateSubcategory/input'
 
 interface EditSubcategoryProps {
   subcategoryId: string

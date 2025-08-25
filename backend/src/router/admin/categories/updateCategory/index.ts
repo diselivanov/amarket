@@ -1,5 +1,5 @@
-import { ExpectedError } from '../../../lib/error'
-import { trpcLoggedProcedure } from '../../../lib/trpc'
+import { ExpectedError } from '../../../../lib/error'
+import { trpcLoggedProcedure } from '../../../../lib/trpc'
 import { zUpdateCategoryTrpcInput } from './input'
 
 export const updateCategoryTrpcRoute = trpcLoggedProcedure

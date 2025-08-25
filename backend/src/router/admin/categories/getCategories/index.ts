@@ -1,4 +1,4 @@
-import { trpcLoggedProcedure } from '../../../lib/trpc'
+import { trpcLoggedProcedure } from '../../../../lib/trpc'
 import { zGetCategoriesTrpcInput } from './input'
 
 export const getCategoriesTrpcRoute = trpcLoggedProcedure.input(zGetCategoriesTrpcInput).query(async ({ ctx }) => {

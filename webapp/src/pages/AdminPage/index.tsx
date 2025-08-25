@@ -1,6 +1,7 @@
 import { Icon } from '../../components/Icon'
 import { withPageWrapper } from '../../lib/pageWrapper'
-import { CategoryTree } from './components/CategoryTree'
+import { CategoryTable } from './components/categories/CategoryTable'
+import { Layout } from './components/Layout'
 import { Tabs, Tab } from './components/Tabs'
 
 const StatsIcon = () => <Icon name={'stats'} size={20} />
@@ -13,7 +14,11 @@ export const AdminPage = withPageWrapper({
   return (
     <Tabs>
       <Tab label="Объявления" icon={<StatsIcon />}>
-        <CategoryTree />
+        <Layout
+          left={<CategoryTable />}
+          topRight={<div>Верхний правый компонент</div>}
+          bottomRight={<div>Нижний правый компонент</div>}
+        />
       </Tab>
 
       <Tab label="Пользователи" icon={<UsersIcon />}>

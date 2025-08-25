@@ -1,11 +1,11 @@
-import { useForm } from '../../../../lib/form'
-import { trpc } from '../../../../lib/trpc'
-import { FormItems } from '../../../../components/FormItems'
-import { Input } from '../Input'
-import { Button } from '../../../../components/Button'
-import { Alert } from '../../../../components/Alert'
+import { useForm } from '../../../../../lib/form'
+import { trpc } from '../../../../../lib/trpc'
+import { FormItems } from '../../../../../components/FormItems'
+import { Button } from '../../../../../components/Button'
+import { Alert } from '../../../../../components/Alert'
 import { useEffect } from 'react'
-import { zUpdateCategoryTrpcInput } from '@amarket/backend/src/router/admin/updateCategory/input'
+import { Input } from '../../../../../components/Input'
+import { zUpdateCategoryTrpcInput } from '@amarket/backend/src/router/admin/categories/updateCategory/input'
 
 interface UpdateCategoryProps {
   categoryId: string

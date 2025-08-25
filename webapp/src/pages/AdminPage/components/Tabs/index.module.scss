@@ -6,6 +6,7 @@
   height: 100%;
   color: $color-1;
   background-color: $background-1;
+  
 }
 
 .tabsHeader {
@@ -29,7 +30,6 @@
   border-radius: $border-radius-6;
   font-family: $font-family;
   font-weight: $font-weight-1;
-  font-size: $font-size-14;
   cursor: pointer;
   transition: background-color $transition ease;
 
@@ -56,5 +56,5 @@
 .tabContent {
   padding: 10px;
   height: 100%;
-  font-size: $font-size-14;
+  background-color: $background-2;
 }

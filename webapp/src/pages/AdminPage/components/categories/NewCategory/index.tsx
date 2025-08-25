@@ -1,10 +1,10 @@
-import { zCreateCategoryTrpcInput } from '@amarket/backend/src/router/admin/createCategory/input'
-import { useForm } from '../../../../lib/form'
-import { trpc } from '../../../../lib/trpc'
-import { FormItems } from '../../../../components/FormItems'
-import { Button } from '../../../../components/Button'
-import { Alert } from '../../../../components/Alert'
-import { Input } from '../Input'
+import { zCreateCategoryTrpcInput } from '@amarket/backend/src/router/admin/categories/createCategory/input'
+import { useForm } from '../../../../../lib/form'
+import { trpc } from '../../../../../lib/trpc'
+import { FormItems } from '../../../../../components/FormItems'
+import { Button } from '../../../../../components/Button'
+import { Alert } from '../../../../../components/Alert'
+import { Input } from '../../../../../components/Input'
 
 export const CreateCategory = () => {
   const createCategory = trpc.createCategory.useMutation()
