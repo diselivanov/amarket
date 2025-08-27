@@ -39,7 +39,7 @@ export const Alert = ({ color, hidden, children }: AlertProps) => {
         transition: 'none',
       }}
     >
-      <Icon name={iconName} className={css.icon} />
+      <Icon name={iconName} className={css.icon} size={20}/>
       <div className={css.content}>{children}</div>
     </div>
   )

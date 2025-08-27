@@ -15,7 +15,6 @@
   gap: 10px;
   padding: 8px 15px;
   color: $background-1;
-  font-size: $font-size-14;
   font-family: $font-family;
   font-weight: $font-weight-1;
   border-radius: $border-radius-8;
@@ -25,9 +24,6 @@
   line-height: normal;
   background-color: $blue;
   border: 1px solid darken($blue, 7%);
-  svg {
-    font-size: 24px;
-  }
 
   &:hover {
     background-color: darken($blue, 1%);

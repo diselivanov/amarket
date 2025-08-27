@@ -3,7 +3,7 @@
 
 .tableContainer {
   width: 100%;
-  height: 94%;
+  height: 100%;
   border: 1px solid $border-color;
   user-select: none;
   display: flex;
@@ -11,6 +11,8 @@
   background-color: $background-1;
   border-radius: $border-radius-6;
   overflow: hidden;
+  position: relative;
+  min-height: 400px;
 }
 
 .header {
@@ -48,6 +50,7 @@
 .tableWrapper {
   flex: 1;
   overflow: auto;
+  position: relative;
   
   &::-webkit-scrollbar {
     width: 6px;
@@ -68,65 +71,27 @@
   }
 }
 
+.usersTable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
 .tableHeader {
-  display: flex;
-  align-items: center;
   background-color: $background-1;
-  text-align: left;
   color: $color-2;
   position: sticky;
   top: 0;
   z-index: 10;
   border-bottom: 1px solid $border-color;
-  min-width: 800px;
   
-  > div {
-    padding: 6px 12px;
+  th {
+    padding: 8px 10px;
     vertical-align: middle;
     height: 32px;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid $border-color;
-    
-    &:last-child {
-      border-right: none;
-    }
-  }
-  
-  > div:nth-child(1) { width: 20%; }
-  > div:nth-child(2) { width: 20%; }
-  > div:nth-child(3) { width: 15%; }
-  > div:nth-child(4) { width: 10%; }
-  > div:nth-child(5) { width: 10%; }
-  > div:nth-child(6) { width: 15%; }
-}
-
-.usersTable {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 800px;
-
-  th, td {
-    padding: 4px 10px;
-    border-bottom: 1px solid $border-color;
-    vertical-align: middle;
-    height: 20px;
-    box-sizing: border-box;
-    border-right: 1px solid $border-color;
-    
-    &:last-child {
-      border-right: none;
-    }
-  }
-  
-  th {
-    background-color: $background-1;
     text-align: left;
-    color: $color-2;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    border-bottom: 1px solid $border-color;
   }
 }
 
@@ -136,6 +101,16 @@
   
   &:hover {
     background-color: $background-2;
+  }
+  
+  td {
+    padding: 5px 10px;
+    border-bottom: 1px solid $border-color;
+    vertical-align: middle;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
@@ -177,20 +152,25 @@
 }
 
 .avatar {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .userDetails {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .userName {
-  font-weight: 500;
   color: $color-1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .userDescription {
@@ -198,70 +178,30 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 200px;
 }
 
-.pagination {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
+.loadMoreContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  background-color: $background-1;
-  padding: 2px;
-  border-radius: $border-radius-8;
-  border: 1px solid $border-color;
+  padding: 15px;
+  border-top: 1px solid $border-color;
 }
 
-.paginationButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  padding: 4px;
-  font-size: $font-size-18;
-  color: $color-2;
-  border: none;
-  background: none;
+.loadMoreButton {
+  padding: 5px 14px;
+  background-color: $background-2;
+  color: $color-1;
+  border: 1px solid $border-color;
   border-radius: $border-radius-6;
   cursor: pointer;
   transition: all $transition ease;
   
   &:hover:not(:disabled) {
-    background-color: $background-2;
+    background-color: $background-3;
   }
   
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
-  }
-}
-
-.paginationPages {
-  display: flex;
-  gap: 3px;
-}
-
-.paginationPage {
-  min-width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  background: none;
-  color: $color-1;
-  border-radius: $border-radius-6;
-  cursor: pointer;
-  transition: all $transition ease;
-  
-  &:hover {
-    background-color: $background-2;
-  }
-  
-  &.active {
-    background-color: rgba($blue, 0.15);
-    border-color: rgba($blue, 0.1);
   }
 }

@@ -25,23 +25,28 @@ interface User {
 export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
   const [page, setPage] = useState(1)
   const limit = 11
+  const [allUsers, setAllUsers] = useState<User[]>([])
 
   const {
     data: usersData,
     isLoading: isUsersLoading,
     error: usersError,
-  } = trpc.getUsers.useQuery({ page, limit })
+  } = trpc.getUsers.useQuery({ page, limit }, {
+    onSuccess: (data) => {
+      if (data && data.users) {
+        if (page === 1) {
+          setAllUsers(data.users)
+        } else {
+          setAllUsers(prev => [...prev, ...data.users])
+        }
+      }
+    }
+  })
 
-  if (isUsersLoading) {
-    return <Loader type="section" />
+  const handleLoadMore = () => {
+    setPage(prev => prev + 1)
   }
 
-  if (usersError) {
-    return <Alert color="red">Ошибка загрузки данных: {usersError.message}</Alert>
-  }
-
-  const { users, totalCount, totalPages, currentPage } = usersData || {}
-  
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('ru-RU', {
       day: '2-digit',
@@ -50,11 +55,16 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
     }).format(new Date(date))
   }
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
-      setPage(newPage)
-    }
+  if (isUsersLoading && page === 1) {
+    return <Loader type="section" />
   }
+
+  if (usersError) {
+    return <Alert color="red">Ошибка загрузки данных: {usersError.message}</Alert>
+  }
+
+  const { totalCount } = usersData || {}
+  const hasMore = allUsers.length < (totalCount || 0)
 
   return (
     <div className={`${css.tableContainer} ${className || ''}`}>
@@ -64,23 +74,29 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
             <span className={css.statLabel}>Всего:</span>
             <span className={css.statValue}>{totalCount}</span>
           </div>
+          <div className={css.statItem}>
+            <span className={css.statLabel}>Загружено:</span>
+            <span className={css.statValue}>{allUsers.length}</span>
+          </div>
         </div>
       </div>
       
       <div className={css.tableWrapper}>
-        <div className={css.tableHeader}>
-          <div className={css.colName}>Имя</div>
-          <div className={css.colEmail}>Email</div>
-          <div className={css.colPhone}>Телефон</div>
-          <div className={css.colStats}>Объявления</div>
-          <div className={css.colStats}>Лайки</div>
-          <div className={css.colDate}>Дата регистрации</div>
-        </div>
-        
         <table className={css.usersTable}>
+          <thead>
+            <tr className={css.tableHeader}>
+              <th className={css.colName}>Имя</th>
+              <th className={css.colEmail}>Email</th>
+              <th className={css.colPhone}>Телефон</th>
+              <th className={css.colStats}>Объявления</th>
+              <th className={css.colStats}>Лайки</th>
+              <th className={css.colDate}>Дата регистрации</th>
+            </tr>
+          </thead>
+          
           <tbody>
-            {users?.map((user: User, index: number) => {
-              const isLastRow = index === users.length - 1
+            {allUsers.map((user: User, index: number) => {
+              const isLastRow = index === allUsers.length - 1
               
               return (
                 <tr key={user.id} className={`${css.userRow} ${isLastRow ? css.lastRow : ''}`}>
@@ -88,7 +104,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
                     <div className={css.userInfo}>
                       <img className={css.avatar} alt="" src={getAvatarUrl(user.avatar, 'small')} />
                       <div className={css.userDetails}>
-                        <span className={css.userName}>user.name</span>
+                        <span className={css.userName}>{user.name || 'Не указано'}</span>
                         {user.description && (
                           <span className={css.userDescription}>{user.description}</span>
                         )}
@@ -121,47 +137,20 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
           </tbody>
         </table>
 
-        {totalPages > 1 && (
-          <div className={css.pagination}>
+        {hasMore && (
+          <div className={css.loadMoreContainer}>
             <button
-              className={css.paginationButton}
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
+              className={css.loadMoreButton}
+              onClick={handleLoadMore}
+              disabled={isUsersLoading}
             >
-              <Icon name={'arrowLeft'}/>
-            </button>
-            
-            <div className={css.paginationPages}>
-              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                let pageNum
-                if (totalPages <= 5) {
-                  pageNum = i + 1
-                } else if (currentPage <= 3) {
-                  pageNum = i + 1
-                } else if (currentPage >= totalPages - 2) {
-                  pageNum = totalPages - 4 + i
-                } else {
-                  pageNum = currentPage - 2 + i
-                }
-                
-                return (
-                  <button
-                    key={pageNum}
-                    className={`${css.paginationPage} ${currentPage === pageNum ? css.active : ''}`}
-                    onClick={() => handlePageChange(pageNum)}
-                  >
-                    {pageNum}
-                  </button>
-                )
-              })}
-            </div>
-            
-            <button
-              className={css.paginationButton}
-              disabled={currentPage === totalPages}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <Icon name={'arrowRight'}/>
+              {isUsersLoading ? (
+                <Loader type="section" />
+              ) : (
+                <>
+                  <span>Загрузить еще</span>
+                </>
+              )}
             </button>
           </div>
         )}

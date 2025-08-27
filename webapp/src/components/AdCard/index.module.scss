@@ -67,13 +67,11 @@
 }
 
 .title {
-  font-size: $font-size-14;
   color: $color-1;
   @include link;
 }
 
 .price {
-  font-size: $font-size-14;
   font-weight: 800;
   color: $color-1;
 }
@@ -84,7 +82,6 @@
   right: 8px;
   padding: 2px 5px 5px 5px;
   border-radius: $border-radius-8;
-  font-size: $font-size-14;
   background-color: rgba($color-1, 0.4);
   color: $background-1;
   border: 1px solid rgba(255, 255, 255, 0.12);
