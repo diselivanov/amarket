@@ -2,25 +2,22 @@ import { Icon } from '../../components/Icon'
 import { withPageWrapper } from '../../lib/pageWrapper'
 import { CategoryTable } from './components/categories/CategoryTable'
 import { Tabs, Tab } from './components/Tabs'
-
-const StatsIcon = () => <Icon name={'stats'} size={20} />
-const UsersIcon = () => <Icon name={'users'} size={20} />
-const SettingsIcon = () => <Icon name={'settings'} size={20} />
+import { UsersTable } from './components/users/UsersTable'
 
 export const AdminPage = withPageWrapper({
   title: 'Админ панель',
 })(() => {
   return (
     <Tabs>
-      <Tab label="Объявления" icon={<StatsIcon />}>
+      <Tab label="Категории" icon={<Icon name={'list'} size={20} />}>
         <CategoryTable />
       </Tab>
 
-      <Tab label="Пользователи" icon={<UsersIcon />}>
-        <div>Контент</div>
+      <Tab label="Пользователи" icon={<Icon name={'users'} size={20} />}>
+        <UsersTable />
       </Tab>
 
-      <Tab label="Настройки" icon={<SettingsIcon />}>
+      <Tab label="Настройки" icon={<Icon name={'settings'} size={20} />}>
         <div>Контент</div>
       </Tab>
     </Tabs>

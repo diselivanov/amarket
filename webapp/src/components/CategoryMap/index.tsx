@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import css from './index.module.scss'
-import { Button } from '../Button'
+import { Icon } from '../Icon'
 
 interface Category {
   id: string
@@ -18,14 +18,10 @@ interface CategoryMapButtonProps {
   onClick: () => void
 }
 
-const CategoryMapButton = ({ isOpen, onClick }: CategoryMapButtonProps) => {
+const CategoryMapButton = ({ onClick }: CategoryMapButtonProps) => {
   return (
     <button className={css.openMapButton} onClick={onClick}>
-      <div className={css.hamburgerContainer}>
-        <span className={`${css.hamburgerLine} ${isOpen ? css.line1 : ''}`} />
-        <span className={`${css.hamburgerLine} ${isOpen ? css.line2 : ''}`} />
-        <span className={`${css.hamburgerLine} ${isOpen ? css.line3 : ''}`} />
-      </div>
+      <Icon name={'list'} />
       Категории
     </button>
   )

@@ -8,6 +8,7 @@ import { getCategoryStatsTrpcRoute } from './admin/categories/getCategoryStats'
 import { getSubcategoriesTrpcRoute } from './admin/categories/getSubcategories'
 import { updateCategoryTrpcRoute } from './admin/categories/updateCategory'
 import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory'
+import { getUsersTrpcRoute } from './admin/users/getUsers'
 import { blockAdTrpcRoute } from './ads/blockAd'
 import { createAdTrpcRoute } from './ads/createAd'
 import { deleteAdTrpcRoute } from './ads/deleteAd'
@@ -32,6 +33,7 @@ export const trpcRouter = createTrpcRouter({
   getSubcategories: getSubcategoriesTrpcRoute,
   updateCategory: updateCategoryTrpcRoute,
   updateSubcategory: updateSubcategoryTrpcRoute,
+  getUsers: getUsersTrpcRoute,
   blockAd: blockAdTrpcRoute,
   createAd: createAdTrpcRoute,
   deleteAd: deleteAdTrpcRoute,

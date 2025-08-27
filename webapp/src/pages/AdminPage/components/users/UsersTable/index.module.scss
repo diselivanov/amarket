@@ -3,7 +3,7 @@
 
 .tableContainer {
   width: 100%;
-  height: 100%;
+  height: 94%;
   border: 1px solid $border-color;
   user-select: none;
   display: flex;
@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
+  padding: 12px;
   border-bottom: 1px solid $border-color;
   z-index: 100;
   flex-shrink: 0;
@@ -29,14 +29,12 @@
   gap: 15px;
   flex-wrap: wrap;
   margin-left: 10px;
-  font-size: $font-size-13;
 }
 
 .statItem {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: $font-size-13;
 }
 
 .statLabel {
@@ -45,28 +43,6 @@
 
 .statValue {
   color: $color-1;
-}
-
-.percentageGreen {
-  font-size: $font-size-9;
-  color: $green;
-  background-color: rgba($green, 0.12);
-  padding: 2px 3px;
-  border-radius: $border-radius-3;
-}
-
-.percentageRed {
-  font-size: $font-size-9;
-  color: $red;
-  background-color: rgba($red, 0.12);
-  padding: 2px 3px;
-  border-radius: $border-radius-3;
-}
-
-.headerButtons {
-  display: flex;
-  align-items: center;
-  gap: 5px;
 }
 
 .tableWrapper {
@@ -96,7 +72,6 @@
   display: flex;
   align-items: center;
   background-color: $background-1;
-  font-size: $font-size-13;
   text-align: left;
   color: $color-2;
   position: sticky;
@@ -114,50 +89,32 @@
     align-items: center;
     border-right: 1px solid $border-color;
     
-    &:nth-last-child(2) {
-      border-right: none;
-    }
-
     &:last-child {
       border-right: none;
     }
   }
   
-  > div:nth-child(1) {
-    width: 25%;
-    padding-left: 16px;
-  }
-  
-  > div:nth-child(2),
-  > div:nth-child(3),
-  > div:nth-child(4),
-  > div:nth-child(5),
-  > div:nth-child(6) {
-    width: 14%;
-  }
-  
-  > div:last-child { 
-    flex: 1;
-  }
+  > div:nth-child(1) { width: 20%; }
+  > div:nth-child(2) { width: 20%; }
+  > div:nth-child(3) { width: 15%; }
+  > div:nth-child(4) { width: 10%; }
+  > div:nth-child(5) { width: 10%; }
+  > div:nth-child(6) { width: 15%; }
 }
 
-.categoryTable {
+.usersTable {
   width: 100%;
   border-collapse: collapse;
   min-width: 800px;
 
   th, td {
-    padding: 5px 10px;
+    padding: 4px 10px;
     border-bottom: 1px solid $border-color;
     vertical-align: middle;
     height: 20px;
     box-sizing: border-box;
     border-right: 1px solid $border-color;
     
-    &:nth-last-child(2) {
-      border-right: none;
-    }
-
     &:last-child {
       border-right: none;
     }
@@ -165,7 +122,6 @@
   
   th {
     background-color: $background-1;
-    font-size: $font-size-13;
     text-align: left;
     color: $color-2;
     position: sticky;
@@ -174,25 +130,12 @@
   }
 }
 
-.categoryRow {
+.userRow {
   background-color: $background-1;
   transition: background-color $transition ease;
   
   &:hover {
     background-color: $background-2;
-  }
-}
-
-.subcategoryRow {
-  background-color: $background-1;
-  transition: background-color $transition ease;
-  
-  &:hover {
-    background-color: $background-2;
-  }
-  
-  td {
-    font-size: $font-size-14;
   }
 }
 
@@ -203,30 +146,122 @@
 }
 
 .colName {
-  width: 25%;
+  width: 20%;
   padding-left: 16px !important;
-  
-  .label {
-    color: $color-1;
-  }
-  
-  .leafLabel {
-    color: $color-1;
-    position: relative;
-  }
+}
+
+.colEmail {
+  width: 20%;
+}
+
+.colPhone {
+  width: 15%;
 }
 
 .colStats {
-  width: 14%;
+  width: 10%;
   
   .statValue {
-    font-size: $font-size-12;
     color: $color-1;
   }
 }
 
-.statWithPercentage {
+.colDate {
+  width: 15%;
+}
+
+.userInfo {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 500;
+  color: $color-1;
+}
+
+.userDescription {
+  color: $color-2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: $background-1;
+  padding: 2px;
+  border-radius: $border-radius-8;
+  border: 1px solid $border-color;
+}
+
+.paginationButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  padding: 4px;
+  font-size: $font-size-18;
+  color: $color-2;
+  border: none;
+  background: none;
+  border-radius: $border-radius-6;
+  cursor: pointer;
+  transition: all $transition ease;
+  
+  &:hover:not(:disabled) {
+    background-color: $background-2;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.paginationPages {
+  display: flex;
+  gap: 3px;
+}
+
+.paginationPage {
+  min-width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: none;
+  color: $color-1;
+  border-radius: $border-radius-6;
+  cursor: pointer;
+  transition: all $transition ease;
+  
+  &:hover {
+    background-color: $background-2;
+  }
+  
+  &.active {
+    background-color: rgba($blue, 0.15);
+    border-color: rgba($blue, 0.1);
+  }
 }

@@ -93,18 +93,14 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
   const uniqueSellersCount = statsData?.totalUniqueSellers || 0;
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('ru-RU', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2
-    }).format(price)
-  }
+  return new Intl.NumberFormat('ru-RU').format(Math.round(price))
+}
 
-  // Функция для расчета процента
   const calculatePercentage = (part: number, total: number): string => {
-    if (total === 0) return '0.00%'
-    const percentage = (part / total) * 100
-    return `${percentage.toFixed(2)}%`
-  }
+    if (total === 0) return '0%'
+    const percentage = Math.round((part / total) * 100)
+    return `${percentage}%`
+}
 
   return (
     <div className={`${css.tableContainer} ${className || ''}`}>
@@ -146,18 +142,17 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
       </div>
       
       <div className={css.tableWrapper}>
+        <div className={css.tableHeader}>
+          <div className={css.colName}>Категория</div>
+          <div className={css.colStats}>Всего</div>
+          <div className={css.colStats}>Активные</div>
+          <div className={css.colStats}>Удаленные</div>
+          <div className={css.colStats}>Продавцы</div>
+          <div className={css.colStats}>Средняя цена</div>
+          <div></div>
+        </div>
+        
         <table className={css.categoryTable}>
-          <thead>
-            <tr className={css.tableHeader}>
-              <th className={css.colName}>Категория</th>
-              <th className={css.colStats}>Всего</th>
-              <th className={css.colStats}>Активные</th>
-              <th className={css.colStats}>Удаленные</th>
-              <th className={css.colStats}>Средняя цена</th>
-              <th className={css.colStats}>Продавцы</th>
-              <th></th>
-            </tr>
-          </thead>
           <tbody>
             {allCategories.map((category, categoryIndex) => {
               const categorySubcategories = allSubcategories.filter((sub) => sub.categoryId === category.id);
@@ -169,9 +164,11 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                     <td className={css.colName}>
                       <span className={css.label}>{category.name}</span>
                     </td>
+
                     <td className={css.colStats}>
                       <span className={css.statValue}>{category.totalAds}</span>
                     </td>
+
                     <td className={css.colStats}>
                       <div className={css.statWithPercentage}>
                         <span className={css.statValue}>{category.activeAds}</span>
@@ -180,6 +177,7 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                         </span>
                       </div>
                     </td>
+
                     <td className={css.colStats}>
                       <div className={css.statWithPercentage}>
                         <span className={css.statValue}>{category.deletedAds}</span>
@@ -188,12 +186,15 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                         </span>
                       </div>
                     </td>
-                    <td className={css.colStats}>
-                      <span className={css.statValue}>{formatPrice(category.avgPrice)} ₽</span>
-                    </td>
+
                     <td className={css.colStats}>
                       <span className={css.statValue}>{category.uniqueSellers}</span>
                     </td>
+
+                    <td className={css.colStats}>
+                      <span className={css.statValue}>{formatPrice(category.avgPrice)} ₽</span>
+                    </td>
+
                     <td onClick={stopPropagation}>
                       <Modal title={'Редактирование категории'} buttonText={<Icon name={'edit'} />}>
                         <EditCategory
@@ -215,9 +216,11 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                         <td className={css.colName}>
                           <span className={css.leafLabel}>{subcategory.name}</span>
                         </td>
+
                         <td className={css.colStats}>
                           <span className={css.statValue}>{subcategory.totalAds}</span>
                         </td>
+
                         <td className={css.colStats}>
                           <div className={css.statWithPercentage}>
                             <span className={css.statValue}>{subcategory.activeAds}</span>
@@ -226,6 +229,7 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                             </span>
                           </div>
                         </td>
+
                         <td className={css.colStats}>
                           <div className={css.statWithPercentage}>
                             <span className={css.statValue}>{subcategory.deletedAds}</span>
@@ -234,12 +238,15 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                             </span>
                           </div>
                         </td>
-                        <td className={css.colStats}>
-                          <span className={css.statValue}>{formatPrice(subcategory.avgPrice)} ₽</span>
-                        </td>
+
                         <td className={css.colStats}>
                           <span className={css.statValue}>{subcategory.uniqueSellers}</span>
                         </td>
+
+                        <td className={css.colStats}>
+                          <span className={css.statValue}>{formatPrice(subcategory.avgPrice)} ₽</span>
+                        </td>
+                
                         <td onClick={stopPropagation}>
                           <Modal title={'Редактирование подкатегории'} buttonText={<Icon name={'edit'} />}>
                             <EditSubcategory

@@ -1,13 +1,6 @@
 @use '../../../styles/vars' as *;
 @use '../../../styles/mixins' as *;
 
-// Не должно быть scss файлов, а только клмпоненты !!!
-
-.createdAt {
-  font-size: 12px;
-  margin-bottom: 10px;
-}
-
 .author {
   display: flex;
   flex-flow: row nowrap;

@@ -98,11 +98,6 @@
     color: $color-2;
     border: none;
     background: none;
-    opacity: 0;
     transition: all $transition ease;
-
-    &:hover {
-      opacity: 1;
-    }
   }
 }

@@ -11,7 +11,7 @@ export const getCategoriesTrpcRoute = trpcLoggedProcedure.input(zGetCategoriesTr
     },
   })
 
-  // Сортировка на уровне приложения (т.к sequence - string)
+  // Сортировка на уровне приложения (т.к sequence - string) - ПЕРЕДЕЛАТЬ!!!
   const sortedCategories = categories.sort((a, b) => {
     return parseInt(a.sequence) - parseInt(b.sequence)
   })
