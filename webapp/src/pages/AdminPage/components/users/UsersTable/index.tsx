@@ -4,7 +4,6 @@ import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
 import css from './index.module.scss'
 import { getAvatarUrl } from '@amarket/shared/src/cloudinary'
-import { Icon } from '../../../../../components/Icon'
 
 interface UsersTableProps {
   className?: string
@@ -12,7 +11,7 @@ interface UsersTableProps {
 
 interface User {
   id: string
-  name: string | null
+  name: string
   email: string
   description: string | null
   phone: string | null
