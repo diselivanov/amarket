@@ -17,7 +17,7 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "ads" (
+CREATE TABLE "Ad" (
     "id" TEXT NOT NULL,
     "serialNumber" SERIAL NOT NULL,
     "categoryId" TEXT NOT NULL,
@@ -32,63 +32,63 @@ CREATE TABLE "ads" (
     "blockedAt" TIMESTAMP(3),
     "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "ads_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Ad_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "ad_likes" (
+CREATE TABLE "AdLike" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "adId" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
 
-    CONSTRAINT "ad_likes_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "AdLike_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "categories" (
+CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "categories_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "subcategories" (
+CREATE TABLE "Subcategory" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
-    CONSTRAINT "subcategories_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Subcategory_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ads_serialNumber_key" ON "ads"("serialNumber");
+CREATE UNIQUE INDEX "Ad_serialNumber_key" ON "Ad"("serialNumber");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ad_likes_adId_userId_key" ON "ad_likes"("adId", "userId");
+CREATE UNIQUE INDEX "AdLike_adId_userId_key" ON "AdLike"("adId", "userId");
 
 -- AddForeignKey
-ALTER TABLE "ads" ADD CONSTRAINT "ads_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Ad" ADD CONSTRAINT "Ad_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ads" ADD CONSTRAINT "ads_subcategoryId_fkey" FOREIGN KEY ("subcategoryId") REFERENCES "subcategories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Ad" ADD CONSTRAINT "Ad_subcategoryId_fkey" FOREIGN KEY ("subcategoryId") REFERENCES "Subcategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ads" ADD CONSTRAINT "ads_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Ad" ADD CONSTRAINT "Ad_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ad_likes" ADD CONSTRAINT "ad_likes_adId_fkey" FOREIGN KEY ("adId") REFERENCES "ads"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_adId_fkey" FOREIGN KEY ("adId") REFERENCES "Ad"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ad_likes" ADD CONSTRAINT "ad_likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "subcategories" ADD CONSTRAINT "subcategories_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "categories"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

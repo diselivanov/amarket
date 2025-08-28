@@ -45,8 +45,6 @@ model Ad {
   adsLikes      AdLike[]
   blockedAt     DateTime?
   deletedAt     DateTime?
-
-  @@map("ads")
 }
 
 model AdLike {
@@ -58,7 +56,6 @@ model AdLike {
   userId    String
 
   @@unique([adId, userId])
-  @@map("ad_likes")
 }
 
 model Category {
@@ -68,8 +65,6 @@ model Category {
   subcategories Subcategory[]
   ads           Ad[]
   createdAt     DateTime      @default(now())
-
-  @@map("categories")
 }
 
 model Subcategory {
@@ -80,6 +75,4 @@ model Subcategory {
   categoryId String
   ads        Ad[]
   createdAt  DateTime @default(now())
-
-  @@map("subcategories")
 }
