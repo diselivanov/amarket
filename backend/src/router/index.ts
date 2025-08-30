@@ -11,9 +11,11 @@ import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory
 import { getUsersTrpcRoute } from './admin/users/getUsers'
 import { blockAdTrpcRoute } from './ads/blockAd'
 import { createAdTrpcRoute } from './ads/createAd'
+import { createCarInfoTrpcRoute } from './ads/createCarInfo'
 import { deleteAdTrpcRoute } from './ads/deleteAd'
 import { getAdTrpcRoute } from './ads/getAd'
 import { getAdsTrpcRoute } from './ads/getAds'
+import { getCarInfoTrpcRoute } from './ads/getCarInfo'
 import { setAdLikeTrpcRoute } from './ads/setAdLike'
 import { updateAdTrpcRoute } from './ads/updateAd'
 import { getMeTrpcRoute } from './auth/getMe'
@@ -36,9 +38,11 @@ export const trpcRouter = createTrpcRouter({
   getUsers: getUsersTrpcRoute,
   blockAd: blockAdTrpcRoute,
   createAd: createAdTrpcRoute,
+  createCarInfo: createCarInfoTrpcRoute,
   deleteAd: deleteAdTrpcRoute,
   getAd: getAdTrpcRoute,
   getAds: getAdsTrpcRoute,
+  getCarInfo: getCarInfoTrpcRoute,
   setAdLike: setAdLikeTrpcRoute,
   updateAd: updateAdTrpcRoute,
   getMe: getMeTrpcRoute,

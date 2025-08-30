@@ -6,9 +6,10 @@ export const createAdTrpcRoute = trpcLoggedProcedure.input(zCreateAdTrpcInput).m
     throw Error('UNAUTHORIZED')
   }
 
-  await ctx.prisma.ad.create({
+  const ad = await ctx.prisma.ad.create({
     data: { ...input, authorId: ctx.me.id },
+    select: { id: true }
   })
 
-  return true
+  return ad
 })

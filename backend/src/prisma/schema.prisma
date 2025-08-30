@@ -9,22 +9,44 @@ datasource db {
 }
 
 model User {
-  id          String           @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
-  email       String           @unique
+  email       String   @unique
   password    String
-  description String           @default("")
-  phone       String           @default("")
+  description String   @default("")
+  phone       String   @default("")
   avatar      String?
-  createdAt   DateTime         @default(now())
   ads         Ad[]
   adsLikes    AdLike[]
+
   permissions UserPermission[]
+  createdAt   DateTime         @default(now())
 }
 
 enum UserPermission {
   BLOCK_ADS
   ALL
+}
+
+model Category {
+  id            String        @id @default(uuid())
+  name          String
+  sequence      String
+  subcategories Subcategory[]
+  ads           Ad[]
+
+  createdAt DateTime @default(now())
+}
+
+model Subcategory {
+  id         String   @id @default(uuid())
+  name       String
+  sequence   String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  ads        Ad[]
+
+  createdAt DateTime @default(now())
 }
 
 model Ad {
@@ -39,12 +61,14 @@ model Ad {
   price         String
   city          String
   images        String[]
-  createdAt     DateTime    @default(now())
   authorId      String
   author        User        @relation(fields: [authorId], references: [id])
   adsLikes      AdLike[]
-  blockedAt     DateTime?
-  deletedAt     DateTime?
+  CarInfo       CarInfo?
+
+  createdAt DateTime  @default(now())
+  blockedAt DateTime?
+  deletedAt DateTime?
 }
 
 model AdLike {
@@ -58,21 +82,20 @@ model AdLike {
   @@unique([adId, userId])
 }
 
-model Category {
-  id            String        @id @default(uuid())
-  name          String
-  sequence      String
-  subcategories Subcategory[]
-  ads           Ad[]
-  createdAt     DateTime      @default(now())
-}
+model CarInfo {
+  id           String  @id @default(uuid())
+  brand        String
+  year         String
+  steering     String
+  bodyType     String
+  power        String
+  engineType   String
+  transmission String
+  driveType    String
+  mileage      String
+  condition    String
+  ad           Ad?     @relation(fields: [adId], references: [id])
+  adId         String? @unique
 
-model Subcategory {
-  id         String   @id @default(uuid())
-  name       String
-  sequence   String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String
-  ads        Ad[]
-  createdAt  DateTime @default(now())
+  createdAt DateTime @default(now())
 }

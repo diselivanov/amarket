@@ -89,6 +89,70 @@ const DeleteAd = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) 
   )
 }
 
+const CarInfoSection = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) => {
+  // Проверяем, является ли объявление автомобильным
+  const isCarAd = ad.subcategory.name === "Легковые автомобили"
+  
+  const { data: carInfoData, isLoading } = trpc.getCarInfo.useQuery(
+    { adId: ad.id },
+    {
+      enabled: isCarAd, // Запрос выполняется только для автомобилей
+    }
+  )
+
+  if (!isCarAd) {
+    return null // Не показываем секцию для не-автомобильных объявлений
+  }
+
+  if (isLoading) {
+    return <div>Загрузка информации об автомобиле...</div>
+  }
+
+  if (!carInfoData?.carInfo) {
+    return null
+  }
+
+  const { carInfo } = carInfoData
+
+  return (
+    <div className={css.carInfo}>
+      <h3>Информация об автомобиле</h3>
+      <div className={css.carInfoGrid}>
+        <div className={css.carInfoItem}>
+          <strong>Марка:</strong> {carInfo.brand}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Год выпуска:</strong> {carInfo.year}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Руль:</strong> {carInfo.steering}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Кузов:</strong> {carInfo.bodyType}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Мощность:</strong> {carInfo.power}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Тип двигателя:</strong> {carInfo.engineType}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Коробка передач:</strong> {carInfo.transmission}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Привод:</strong> {carInfo.driveType}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Пробег:</strong> {carInfo.mileage} км
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Состояние:</strong> {carInfo.condition}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export const ViewAdPage = withPageWrapper({
   useQuery: () => {
     const { selectedAd } = getViewAdRoute.useParams()
@@ -102,52 +166,61 @@ export const ViewAdPage = withPageWrapper({
   }),
   showLoaderOnFetching: false,
   title: ({ ad }) => ad.title,
-})(({ ad, me }) => (
-  <Segment title={undefined}>
-    <div>Категория: {ad.category.name}</div>
-    <div>Подкатегория:{ad.subcategory.name}</div>
-    <div>Название:{ad.title}</div>
-    <div>Цена:{ad.price}</div>
-    <div>Дата: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
-    <div className={css.author}>
-      <img className={css.avatar} alt="" src={getAvatarUrl(ad.author.avatar, 'small')} />
-      <div className={css.name}>
-        <p>{ad.author.name}</p>
-        <p>{ad.author.phone}</p>
-      </div>
-    </div>
-    {!!ad.images.length && (
-      <div className={css.gallery}>
-        <ImageGallery
-          showPlayButton={false}
-          showFullscreenButton={false}
-          items={ad.images.map((image) => ({
-            original: getCloudinaryUploadUrl(image, 'image', 'large'),
-            thumbnail: getCloudinaryUploadUrl(image, 'image', 'preview'),
-          }))}
-        />
-      </div>
-    )}
+})(({ ad, me }) => {
 
-    <div className={css.likes}>
-      Likes: {ad.likesCount}
-      {me && (
-        <>
-          <br />
-          <LikeButton ad={ad} />
-        </>
+  return (
+    <Segment title={undefined}>
+      <div>Категория: {ad.category.name}</div>
+      <div>Подкатегория: {ad.subcategory.name}</div>
+      <div>Название: {ad.title}</div>
+      <div>Цена: {ad.price}</div>
+      <div>Дата: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
+      
+      <div className={css.author}>
+        <img className={css.avatar} alt="" src={getAvatarUrl(ad.author.avatar, 'small')} />
+        <div className={css.name}>
+          <p>{ad.author.name}</p>
+          <p>{ad.author.phone}</p>
+        </div>
+      </div>
+      
+      {!!ad.images.length && (
+        <div className={css.gallery}>
+          <ImageGallery
+            showPlayButton={false}
+            showFullscreenButton={false}
+            items={ad.images.map((image) => ({
+              original: getCloudinaryUploadUrl(image, 'image', 'large'),
+              thumbnail: getCloudinaryUploadUrl(image, 'image', 'preview'),
+            }))}
+          />
+        </div>
       )}
-    </div>
-    {canEditAd(me, ad) && (
-      <div>
-        <LinkButton to={getEditAdRoute({ selectedAd: ad.id })}>Редактировать</LinkButton>
-        <DeleteAd ad={ad} />
+
+      <CarInfoSection ad={ad} />
+
+      <div className={css.likes}>
+        Likes: {ad.likesCount}
+        {me && (
+          <>
+            <br />
+            <LikeButton ad={ad} />
+          </>
+        )}
       </div>
-    )}
-    {canBlockAds(me) && (
-      <div>
-        <BlockAd ad={ad} />
-      </div>
-    )}
-  </Segment>
-))
+      
+      {canEditAd(me, ad) && (
+        <div>
+          <LinkButton to={getEditAdRoute({ selectedAd: ad.id })}>Редактировать</LinkButton>
+          <DeleteAd ad={ad} />
+        </div>
+      )}
+      
+      {canBlockAds(me) && (
+        <div>
+          <BlockAd ad={ad} />
+        </div>
+      )}
+    </Segment>
+  )
+})

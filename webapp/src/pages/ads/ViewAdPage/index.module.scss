@@ -40,4 +40,35 @@
   }
 }
 
+.carInfo {
+  margin: 20px 0;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.carInfo h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.carInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.carInfoItem {
+  padding: 8px;
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.carInfoItem strong {
+  color: #666;
+}
+
 // Не должно быть scss файлов, а только клмпоненты !!!

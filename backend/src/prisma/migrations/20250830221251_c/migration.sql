@@ -10,39 +10,10 @@ CREATE TABLE "User" (
     "description" TEXT NOT NULL DEFAULT '',
     "phone" TEXT NOT NULL DEFAULT '',
     "avatar" TEXT,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "permissions" "UserPermission"[],
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Ad" (
-    "id" TEXT NOT NULL,
-    "serialNumber" SERIAL NOT NULL,
-    "categoryId" TEXT NOT NULL,
-    "subcategoryId" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "price" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "images" TEXT[],
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "authorId" TEXT NOT NULL,
-    "blockedAt" TIMESTAMP(3),
-    "deletedAt" TIMESTAMP(3),
-
-    CONSTRAINT "Ad_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "AdLike" (
-    "id" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "adId" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-
-    CONSTRAINT "AdLike_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -66,6 +37,54 @@ CREATE TABLE "Subcategory" (
     CONSTRAINT "Subcategory_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Ad" (
+    "id" TEXT NOT NULL,
+    "serialNumber" SERIAL NOT NULL,
+    "categoryId" TEXT NOT NULL,
+    "subcategoryId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "images" TEXT[],
+    "authorId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "blockedAt" TIMESTAMP(3),
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "Ad_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "AdLike" (
+    "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "adId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "AdLike_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "CarInfo" (
+    "id" TEXT NOT NULL,
+    "brand" TEXT NOT NULL,
+    "year" TEXT NOT NULL,
+    "steering" TEXT NOT NULL,
+    "bodyType" TEXT NOT NULL,
+    "power" TEXT NOT NULL,
+    "engineType" TEXT NOT NULL,
+    "transmission" TEXT NOT NULL,
+    "driveType" TEXT NOT NULL,
+    "mileage" TEXT NOT NULL,
+    "condition" TEXT NOT NULL,
+    "adId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "CarInfo_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
@@ -74,6 +93,12 @@ CREATE UNIQUE INDEX "Ad_serialNumber_key" ON "Ad"("serialNumber");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "AdLike_adId_userId_key" ON "AdLike"("adId", "userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "CarInfo_adId_key" ON "CarInfo"("adId");
+
+-- AddForeignKey
+ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Ad" ADD CONSTRAINT "Ad_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -91,4 +116,4 @@ ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_adId_fkey" FOREIGN KEY ("adId") REFE
 ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "CarInfo" ADD CONSTRAINT "CarInfo_adId_fkey" FOREIGN KEY ("adId") REFERENCES "Ad"("id") ON DELETE SET NULL ON UPDATE CASCADE;
