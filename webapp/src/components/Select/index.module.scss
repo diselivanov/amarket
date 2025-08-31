@@ -37,21 +37,21 @@
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 1px $blue;
-    border-color: $blue;
+    box-shadow: 0 0 0 1px $green;
+    border-color: $green;
   }
 }
 
 .open {
-  box-shadow: 0 0 0 1px $blue;
-  border-color: $blue;
+  box-shadow: 0 0 0 1px $green;
+  border-color: $green;
 }
 
 .invalid {
   border-color: $red;
 
   &:focus {
-    border-color: $blue;
+    border-color: $green;
   }
 }
 

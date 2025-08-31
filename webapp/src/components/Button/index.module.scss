@@ -24,16 +24,16 @@
     gap: 10px;
   }
 
-  &.color-blue {
-    background-color: $blue;
-    border: 1px solid darken($blue, 5%);
+  &.color-green {
+    background-color: $green;
+    border: 1px solid darken($green, 5%);
 
     &:hover {
-      background-color: darken($blue, 1%);
+      background-color: darken($green, 1%);
     }
 
     &:active {
-      background-color: darken($blue, 4%);
+      background-color: darken($green, 4%);
     }
   }
 
