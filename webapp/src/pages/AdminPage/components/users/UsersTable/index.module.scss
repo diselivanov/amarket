@@ -51,20 +51,20 @@
   flex: 1;
   overflow: auto;
   position: relative;
-  
+
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: none;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba($color-2, 0.2);
     border-radius: 25px;
-    
+
     &:hover {
       background: rgba($color-2, 0.3);
     }
@@ -84,7 +84,7 @@
   top: 0;
   z-index: 10;
   border-bottom: 1px solid $border-color;
-  
+
   th {
     padding: 8px 10px;
     vertical-align: middle;
@@ -98,11 +98,11 @@
 .userRow {
   background-color: $background-1;
   transition: background-color $transition ease;
-  
+
   &:hover {
     background-color: $background-2;
   }
-  
+
   td {
     padding: 5px 10px;
     border-bottom: 1px solid $border-color;
@@ -135,7 +135,7 @@
 
 .colStats {
   width: 10%;
-  
+
   .statValue {
     color: $color-1;
   }
@@ -195,11 +195,11 @@
   border-radius: $border-radius-6;
   cursor: pointer;
   transition: all $transition ease;
-  
+
   &:hover:not(:disabled) {
     background-color: $background-3;
   }
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;

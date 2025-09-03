@@ -8,7 +8,7 @@ export const createAdTrpcRoute = trpcLoggedProcedure.input(zCreateAdTrpcInput).m
 
   const ad = await ctx.prisma.ad.create({
     data: { ...input, authorId: ctx.me.id },
-    select: { id: true }
+    select: { id: true },
   })
 
   return ad

@@ -57,9 +57,8 @@ export const EditAdPage = withPageWrapper({
   }, [formik.values.categoryId, ad.categoryId])
 
   // Фильтруем подкатегории по выбранной категории
-  const filteredSubcategories = subcategoriesData?.subcategories?.filter(
-    (sc) => sc.categoryId === formik.values.categoryId
-  ) || []
+  const filteredSubcategories =
+    subcategoriesData?.subcategories?.filter((sc) => sc.categoryId === formik.values.categoryId) || []
 
   return (
     <FormWrapper type={'big'}>
@@ -80,12 +79,10 @@ export const EditAdPage = withPageWrapper({
             name="subcategoryId"
             label="Подкатегория"
             formik={formik}
-            options={
-              filteredSubcategories.map((sc) => ({
-                value: sc.id,
-                label: sc.name,
-              }))
-            }
+            options={filteredSubcategories.map((sc) => ({
+              value: sc.id,
+              label: sc.name,
+            }))}
             disabled={!formik.values.categoryId}
           />
           <Input name="title" label="Название" formik={formik} />

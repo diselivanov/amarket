@@ -91,8 +91,8 @@ const DeleteAd = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) 
 
 const CarInfoSection = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) => {
   // Проверяем, является ли объявление автомобильным
-  const isCarAd = ad.subcategory.name === "Легковые автомобили"
-  
+  const isCarAd = ad.subcategory.name === 'Легковые автомобили'
+
   const { data: carInfoData, isLoading } = trpc.getCarInfo.useQuery(
     { adId: ad.id },
     {
@@ -119,7 +119,10 @@ const CarInfoSection = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad'
       <h3>Информация об автомобиле</h3>
       <div className={css.carInfoGrid}>
         <div className={css.carInfoItem}>
-          <strong>Марка:</strong> {carInfo.brand}
+          <strong>Марка:</strong> {carInfo.brand?.name}
+        </div>
+        <div className={css.carInfoItem}>
+          <strong>Модель:</strong> {carInfo.model?.name}
         </div>
         <div className={css.carInfoItem}>
           <strong>Год выпуска:</strong> {carInfo.year}
@@ -167,7 +170,6 @@ export const ViewAdPage = withPageWrapper({
   showLoaderOnFetching: false,
   title: ({ ad }) => ad.title,
 })(({ ad, me }) => {
-
   return (
     <Segment title={undefined}>
       <div>Категория: {ad.category.name}</div>
@@ -175,7 +177,7 @@ export const ViewAdPage = withPageWrapper({
       <div>Название: {ad.title}</div>
       <div>Цена: {ad.price}</div>
       <div>Дата: {format(ad.createdAt, 'yyyy-MM-dd')}</div>
-      
+
       <div className={css.author}>
         <img className={css.avatar} alt="" src={getAvatarUrl(ad.author.avatar, 'small')} />
         <div className={css.name}>
@@ -183,7 +185,7 @@ export const ViewAdPage = withPageWrapper({
           <p>{ad.author.phone}</p>
         </div>
       </div>
-      
+
       {!!ad.images.length && (
         <div className={css.gallery}>
           <ImageGallery
@@ -208,14 +210,14 @@ export const ViewAdPage = withPageWrapper({
           </>
         )}
       </div>
-      
+
       {canEditAd(me, ad) && (
         <div>
           <LinkButton to={getEditAdRoute({ selectedAd: ad.id })}>Редактировать</LinkButton>
           <DeleteAd ad={ad} />
         </div>
       )}
-      
+
       {canBlockAds(me) && (
         <div>
           <BlockAd ad={ad} />

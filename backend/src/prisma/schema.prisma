@@ -49,22 +49,49 @@ model Subcategory {
   createdAt DateTime @default(now())
 }
 
+model VehicleBrand {
+  id       String         @id @default(uuid())
+  name     String
+  sequence String
+  models   VehicleModel[]
+  carsInfo CarInfo[]
+
+  createdAt DateTime @default(now())
+}
+
+model VehicleModel {
+  id       String       @id @default(uuid())
+  name     String
+  sequence String
+  type     String
+  brand    VehicleBrand @relation(fields: [brandId], references: [id])
+  brandId  String
+  carsInfo CarInfo[]
+
+  createdAt DateTime @default(now())
+}
+
 model Ad {
-  id            String      @id @default(uuid())
-  serialNumber  Int         @unique @default(autoincrement())
+  id           String @id @default(uuid())
+  serialNumber Int    @unique @default(autoincrement())
+
   categoryId    String
   category      Category    @relation(fields: [categoryId], references: [id])
   subcategoryId String
   subcategory   Subcategory @relation(fields: [subcategoryId], references: [id])
-  title         String
-  description   String
-  price         String
-  city          String
-  images        String[]
-  authorId      String
-  author        User        @relation(fields: [authorId], references: [id])
-  adsLikes      AdLike[]
-  CarInfo       CarInfo?
+
+  title       String
+  description String
+  price       String
+  city        String
+  images      String[]
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  adsLikes AdLike[]
+
+  CarInfo CarInfo?
 
   createdAt DateTime  @default(now())
   blockedAt DateTime?
@@ -83,8 +110,16 @@ model AdLike {
 }
 
 model CarInfo {
-  id           String  @id @default(uuid())
-  brand        String
+  id String @id @default(uuid())
+
+  brand          VehicleBrand? @relation(fields: [vehicleBrandId], references: [id])
+  vehicleBrandId String?
+  model          VehicleModel? @relation(fields: [vehicleModelId], references: [id])
+  vehicleModelId String?
+
+  ad   Ad?     @relation(fields: [adId], references: [id])
+  adId String? @unique
+
   year         String
   steering     String
   bodyType     String
@@ -94,8 +129,6 @@ model CarInfo {
   driveType    String
   mileage      String
   condition    String
-  ad           Ad?     @relation(fields: [adId], references: [id])
-  adId         String? @unique
 
   createdAt DateTime @default(now())
 }

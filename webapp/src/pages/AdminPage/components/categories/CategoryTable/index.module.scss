@@ -72,20 +72,20 @@
 .tableWrapper {
   flex: 1;
   overflow: auto;
-  
+
   &::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: none;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background: rgba($color-2, 0.2);
     border-radius: 25px;
-    
+
     &:hover {
       background: rgba($color-2, 0.3);
     }
@@ -104,7 +104,7 @@
   z-index: 10;
   border-bottom: 1px solid $border-color;
   min-width: 800px;
-  
+
   > div {
     padding: 5px 10px;
     vertical-align: middle;
@@ -113,12 +113,12 @@
     display: flex;
     align-items: center;
   }
-  
+
   > div:nth-child(1) {
     width: 25%;
     padding-left: 16px;
   }
-  
+
   > div:nth-child(2),
   > div:nth-child(3),
   > div:nth-child(4),
@@ -126,8 +126,8 @@
   > div:nth-child(6) {
     width: 14%;
   }
-  
-  > div:last-child { 
+
+  > div:last-child {
     flex: 1;
   }
 }
@@ -137,14 +137,15 @@
   border-collapse: collapse;
   min-width: 800px;
 
-  th, td {
+  th,
+  td {
     padding: 5px 10px;
     border-bottom: 1px solid $border-color;
     vertical-align: middle;
     height: 20px;
     box-sizing: border-box;
   }
-  
+
   th {
     background-color: $background-1;
     font-size: $font-size-13;
@@ -159,7 +160,7 @@
 .categoryRow {
   background-color: $background-1;
   transition: background-color $transition ease;
-  
+
   &:hover {
     background-color: $background-2;
   }
@@ -168,11 +169,11 @@
 .subcategoryRow {
   background-color: $background-1;
   transition: background-color $transition ease;
-  
+
   &:hover {
     background-color: $background-2;
   }
-  
+
   td {
     font-size: $font-size-14;
   }
@@ -187,11 +188,11 @@
 .colName {
   width: 25%;
   padding-left: 16px !important;
-  
+
   .label {
     color: $color-1;
   }
-  
+
   .leafLabel {
     color: $color-1;
     position: relative;
@@ -200,7 +201,7 @@
 
 .colStats {
   width: 14%;
-  
+
   .statValue {
     font-size: $font-size-12;
     color: $color-1;

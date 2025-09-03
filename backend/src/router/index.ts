@@ -9,6 +9,12 @@ import { getSubcategoriesTrpcRoute } from './admin/categories/getSubcategories'
 import { updateCategoryTrpcRoute } from './admin/categories/updateCategory'
 import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory'
 import { getUsersTrpcRoute } from './admin/users/getUsers'
+import { createVehicleBrandTrpcRoute } from './admin/vehicle/createVehicleBrand'
+import { createVehicleModelTrpcRoute } from './admin/vehicle/createVehicleModel'
+import { getVehicleBrandsTrpcRoute } from './admin/vehicle/getVehicleBrands'
+import { getVehicleModelsTrpcRoute } from './admin/vehicle/getVehicleModels'
+import { updateVehicleBrandTrpcRoute } from './admin/vehicle/updateVehicleBrand'
+import { updateVehicleModelTrpcRoute } from './admin/vehicle/updateVehicleModel'
 import { blockAdTrpcRoute } from './ads/blockAd'
 import { createAdTrpcRoute } from './ads/createAd'
 import { createCarInfoTrpcRoute } from './ads/createCarInfo'
@@ -36,6 +42,12 @@ export const trpcRouter = createTrpcRouter({
   updateCategory: updateCategoryTrpcRoute,
   updateSubcategory: updateSubcategoryTrpcRoute,
   getUsers: getUsersTrpcRoute,
+  createVehicleBrand: createVehicleBrandTrpcRoute,
+  createVehicleModel: createVehicleModelTrpcRoute,
+  getVehicleBrands: getVehicleBrandsTrpcRoute,
+  getVehicleModels: getVehicleModelsTrpcRoute,
+  updateVehicleBrand: updateVehicleBrandTrpcRoute,
+  updateVehicleModel: updateVehicleModelTrpcRoute,
   blockAd: blockAdTrpcRoute,
   createAd: createAdTrpcRoute,
   createCarInfo: createCarInfoTrpcRoute,

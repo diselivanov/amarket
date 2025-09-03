@@ -30,20 +30,23 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
     data: usersData,
     isLoading: isUsersLoading,
     error: usersError,
-  } = trpc.getUsers.useQuery({ page, limit }, {
-    onSuccess: (data) => {
-      if (data && data.users) {
-        if (page === 1) {
-          setAllUsers(data.users)
-        } else {
-          setAllUsers(prev => [...prev, ...data.users])
+  } = trpc.getUsers.useQuery(
+    { page, limit },
+    {
+      onSuccess: (data) => {
+        if (data && data.users) {
+          if (page === 1) {
+            setAllUsers(data.users)
+          } else {
+            setAllUsers((prev) => [...prev, ...data.users])
+          }
         }
-      }
+      },
     }
-  })
+  )
 
   const handleLoadMore = () => {
-    setPage(prev => prev + 1)
+    setPage((prev) => prev + 1)
   }
 
   const formatDate = (date: Date) => {
@@ -79,7 +82,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
           </div>
         </div>
       </div>
-      
+
       <div className={css.tableWrapper}>
         <table className={css.usersTable}>
           <thead>
@@ -92,11 +95,11 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
               <th className={css.colDate}>Дата регистрации</th>
             </tr>
           </thead>
-          
+
           <tbody>
             {allUsers.map((user: User, index: number) => {
               const isLastRow = index === allUsers.length - 1
-              
+
               return (
                 <tr key={user.id} className={`${css.userRow} ${isLastRow ? css.lastRow : ''}`}>
                   <td className={css.colName}>
@@ -104,9 +107,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
                       <img className={css.avatar} alt="" src={getAvatarUrl(user.avatar, 'small')} />
                       <div className={css.userDetails}>
                         <span className={css.userName}>{user.name || 'Не указано'}</span>
-                        {user.description && (
-                          <span className={css.userDescription}>{user.description}</span>
-                        )}
+                        {user.description && <span className={css.userDescription}>{user.description}</span>}
                       </div>
                     </div>
                   </td>
@@ -138,11 +139,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
 
         {hasMore && (
           <div className={css.loadMoreContainer}>
-            <button
-              className={css.loadMoreButton}
-              onClick={handleLoadMore}
-              disabled={isUsersLoading}
-            >
+            <button className={css.loadMoreButton} onClick={handleLoadMore} disabled={isUsersLoading}>
               {isUsersLoading ? (
                 <Loader type="section" />
               ) : (

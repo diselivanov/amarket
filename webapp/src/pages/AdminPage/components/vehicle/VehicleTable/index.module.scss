@@ -1,0 +1,211 @@
+@use '../../../../../styles/vars' as *;
+@use '../../../../../styles/mixins' as *;
+
+.tableContainer {
+  width: 100%;
+  height: 100%;
+  border: 1px solid $border-color;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-1;
+  border-radius: $border-radius-6;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid $border-color;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-left: 10px;
+  font-size: $font-size-13;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: $font-size-13;
+}
+
+.statLabel {
+  color: $color-2;
+}
+
+.statValue {
+  color: $color-1;
+}
+
+.headerButtons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($color-2, 0.2);
+    border-radius: 25px;
+
+    &:hover {
+      background: rgba($color-2, 0.3);
+    }
+  }
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  background-color: $background-1;
+  font-size: $font-size-13;
+  text-align: left;
+  color: $color-2;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid $border-color;
+  min-width: 600px;
+
+  > div {
+    padding: 5px 10px;
+    vertical-align: middle;
+    height: 32px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+  }
+
+  > div:nth-child(1) {
+    width: 50%;
+    padding-left: 16px;
+  }
+
+  > div:nth-child(2) {
+    width: 25%;
+  }
+
+  > div:nth-child(3) {
+    width: 15%;
+  }
+
+  > div:last-child {
+    flex: 1;
+  }
+}
+
+.brandsTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+
+  th,
+  td {
+    padding: 5px 10px;
+    border-bottom: 1px solid $border-color;
+    vertical-align: middle;
+    height: 20px;
+    box-sizing: border-box;
+  }
+
+  th {
+    background-color: $background-1;
+    font-size: $font-size-13;
+    text-align: left;
+    color: $color-2;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+}
+
+.brandRow {
+  background-color: $background-1;
+  transition: background-color $transition ease;
+
+  &:hover {
+    background-color: $background-2;
+  }
+}
+
+.modelRow {
+  background-color: $background-1;
+  transition: background-color $transition ease;
+
+  &:hover {
+    background-color: $background-2;
+  }
+
+  td {
+    font-size: $font-size-14;
+  }
+}
+
+.lastRow {
+  td {
+    border-bottom: none !important;
+  }
+}
+
+.colName {
+  width: 50%;
+  padding-left: 16px !important;
+
+  .label {
+    color: $color-1;
+    font-weight: 500;
+  }
+
+  .leafLabel {
+    color: $color-1;
+    position: relative;
+    padding-left: 20px;
+
+    &::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: $color-2;
+    }
+  }
+}
+
+.colType {
+  width: 25%;
+
+  .statValue {
+    font-size: $font-size-12;
+    color: $color-1;
+  }
+}
+
+.colSequence {
+  width: 15%;
+
+  .statValue {
+    font-size: $font-size-12;
+    color: $color-1;
+  }
+}

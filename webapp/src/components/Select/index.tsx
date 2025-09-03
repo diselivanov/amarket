@@ -10,26 +10,27 @@ export const Select = ({
   formik,
   maxWidth,
   options = [],
-  disabled: externalDisabled = false, // Добавляем новый пропс
+  disabled: externalDisabled = false,
+  onChange,
 }: {
   name: string
   label: string
   formik: FormikProps<any>
   maxWidth?: number | string
   options?: Array<{ value: number | string; label: string }>
-  disabled?: boolean // Добавляем тип для нового пропса
+  disabled?: boolean
+  onChange?: (value: string | number | any) => void
 }) => {
   const value = formik.values[name]
   const error = formik.errors[name] as string | undefined
   const touched = formik.touched[name]
   const invalid = !!touched && !!error
   const formikDisabled = formik.isSubmitting
-  const disabled = formikDisabled || externalDisabled // Объединяем оба условия
+  const disabled = formikDisabled || externalDisabled
 
   const [isOpen, setIsOpen] = useState(false)
   const selectRef = useRef<HTMLDivElement>(null)
 
-  // Закрытие выпадающего списка при клике вне компонента
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
@@ -46,14 +47,18 @@ export const Select = ({
   const selectedOption = options.find((option) => option.value === value)
 
   const handleSelect = (optionValue: string | number) => {
-    if (disabled) return // Запрещаем выбор если disabled
+    if (disabled) return
     void formik.setFieldValue(name, optionValue)
     void formik.setFieldTouched(name)
     setIsOpen(false)
+
+    if (onChange) {
+      onChange(optionValue)
+    }
   }
 
   const handleToggle = () => {
-    if (disabled) return // Запрещаем открытие если disabled
+    if (disabled) return
     setIsOpen(!isOpen)
   }
 

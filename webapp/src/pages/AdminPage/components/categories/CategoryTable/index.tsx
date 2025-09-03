@@ -32,24 +32,23 @@ interface SubcategoryNode extends CategoryNode {
 
 export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
   const {
-    data: categoriesData,
     isLoading: isCategoriesLoading,
     error: categoriesError,
-    refetch: refetchCategories
+    refetch: refetchCategories,
   } = trpc.getCategories.useQuery({})
 
   const {
     data: subcategoriesData,
     isLoading: isSubcategoriesLoading,
     error: subcategoriesError,
-    refetch: refetchSubcategories
+    refetch: refetchSubcategories,
   } = trpc.getSubcategories.useQuery({})
 
   const {
     data: statsData,
     isLoading: isStatsLoading,
     error: statsError,
-    refetch: refetchStats
+    refetch: refetchStats,
   } = trpc.getCategoryStats.useQuery({})
 
   const stopPropagation = (e: React.MouseEvent) => {
@@ -80,27 +79,27 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
         totalAds: acc.totalAds + category.totalAds,
         activeAds: acc.activeAds + category.activeAds,
         deletedAds: acc.deletedAds + category.deletedAds,
-      };
+      }
     },
-    { 
-      totalAds: 0, 
-      activeAds: 0, 
+    {
+      totalAds: 0,
+      activeAds: 0,
       deletedAds: 0,
     }
-  );
+  )
 
   // Используем totalUniqueSellers из statsData, который уже правильно вычислен на сервере
-  const uniqueSellersCount = statsData?.totalUniqueSellers || 0;
+  const uniqueSellersCount = statsData?.totalUniqueSellers || 0
 
   const formatPrice = (price: number) => {
-  return new Intl.NumberFormat('ru-RU').format(Math.round(price))
-}
+    return new Intl.NumberFormat('ru-RU').format(Math.round(price))
+  }
 
   const calculatePercentage = (part: number, total: number): string => {
     if (total === 0) return '0%'
     const percentage = Math.round((part / total) * 100)
     return `${percentage}%`
-}
+  }
 
   return (
     <div className={`${css.tableContainer} ${className || ''}`}>
@@ -120,27 +119,25 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
           <div className={css.statItem}>
             <span className={css.statLabel}>Удаленные:</span>
             <span className={css.statValue}>{totalStats.deletedAds}</span>
-            <span className={css.percentageRed}>
-              {calculatePercentage(totalStats.deletedAds, totalStats.totalAds)}
-            </span>
+            <span className={css.percentageRed}>{calculatePercentage(totalStats.deletedAds, totalStats.totalAds)}</span>
           </div>
           <div className={css.statItem}>
             <span className={css.statLabel}>Продавцы:</span>
             <span className={css.statValue}>{uniqueSellersCount}</span>
           </div>
         </div>
-        
+
         <div className={css.headerButtons}>
           <Modal title={'Создание категории'} buttonText="Категория">
-            <CreateCategory/>
+            <CreateCategory />
           </Modal>
 
           <Modal title={'Создание подкатегории'} buttonText={'Подкатегория'}>
-            <CreateSubcategory/>
+            <CreateSubcategory />
           </Modal>
         </div>
       </div>
-      
+
       <div className={css.tableWrapper}>
         <div className={css.tableHeader}>
           <div className={css.colName}>Категория</div>
@@ -151,13 +148,13 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
           <div className={css.colStats}>Средняя цена</div>
           <div></div>
         </div>
-        
+
         <table className={css.categoryTable}>
           <tbody>
             {allCategories.map((category, categoryIndex) => {
-              const categorySubcategories = allSubcategories.filter((sub) => sub.categoryId === category.id);
-              const isLastCategory = categoryIndex === allCategories.length - 1 && categorySubcategories.length === 0;
-              
+              const categorySubcategories = allSubcategories.filter((sub) => sub.categoryId === category.id)
+              const isLastCategory = categoryIndex === allCategories.length - 1 && categorySubcategories.length === 0
+
               return (
                 <React.Fragment key={category.id}>
                   <tr className={`${css.categoryRow} ${isLastCategory ? css.lastRow : ''}`}>
@@ -206,63 +203,67 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
                       </Modal>
                     </td>
                   </tr>
-                  
-                  {category.subcategories && category.subcategories.map((subcategory, subIndex) => {
-                    const isLastSubcategory = categoryIndex === allCategories.length - 1 && 
-                                            subIndex === category.subcategories.length - 1;
-                    
-                    return (
-                      <tr key={subcategory.id} className={`${css.subcategoryRow} ${isLastSubcategory ? css.lastRow : ''}`}>
-                        <td className={css.colName}>
-                          <span className={css.leafLabel}>{subcategory.name}</span>
-                        </td>
 
-                        <td className={css.colStats}>
-                          <span className={css.statValue}>{subcategory.totalAds}</span>
-                        </td>
+                  {category.subcategories &&
+                    category.subcategories.map((subcategory, subIndex) => {
+                      const isLastSubcategory =
+                        categoryIndex === allCategories.length - 1 && subIndex === category.subcategories.length - 1
 
-                        <td className={css.colStats}>
-                          <div className={css.statWithPercentage}>
-                            <span className={css.statValue}>{subcategory.activeAds}</span>
-                            <span className={css.percentageGreen}>
-                              {calculatePercentage(subcategory.activeAds, subcategory.totalAds)}
-                            </span>
-                          </div>
-                        </td>
+                      return (
+                        <tr
+                          key={subcategory.id}
+                          className={`${css.subcategoryRow} ${isLastSubcategory ? css.lastRow : ''}`}
+                        >
+                          <td className={css.colName}>
+                            <span className={css.leafLabel}>{subcategory.name}</span>
+                          </td>
 
-                        <td className={css.colStats}>
-                          <div className={css.statWithPercentage}>
-                            <span className={css.statValue}>{subcategory.deletedAds}</span>
-                            <span className={css.percentageRed}>
-                              {calculatePercentage(subcategory.deletedAds, subcategory.totalAds)}
-                            </span>
-                          </div>
-                        </td>
+                          <td className={css.colStats}>
+                            <span className={css.statValue}>{subcategory.totalAds}</span>
+                          </td>
 
-                        <td className={css.colStats}>
-                          <span className={css.statValue}>{subcategory.uniqueSellers}</span>
-                        </td>
+                          <td className={css.colStats}>
+                            <div className={css.statWithPercentage}>
+                              <span className={css.statValue}>{subcategory.activeAds}</span>
+                              <span className={css.percentageGreen}>
+                                {calculatePercentage(subcategory.activeAds, subcategory.totalAds)}
+                              </span>
+                            </div>
+                          </td>
 
-                        <td className={css.colStats}>
-                          <span className={css.statValue}>{formatPrice(subcategory.avgPrice)} ₽</span>
-                        </td>
-                
-                        <td onClick={stopPropagation}>
-                          <Modal title={'Редактирование подкатегории'} buttonText={<Icon name={'edit'} />}>
-                            <EditSubcategory
-                              subcategoryId={subcategory.id}
-                              initialName={subcategory.name}
-                              initialSequence={subcategory.sequence}
-                              initialCategoryId={subcategory.categoryId}
-                              onSuccess={handleSuccess}
-                            />
-                          </Modal>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          <td className={css.colStats}>
+                            <div className={css.statWithPercentage}>
+                              <span className={css.statValue}>{subcategory.deletedAds}</span>
+                              <span className={css.percentageRed}>
+                                {calculatePercentage(subcategory.deletedAds, subcategory.totalAds)}
+                              </span>
+                            </div>
+                          </td>
+
+                          <td className={css.colStats}>
+                            <span className={css.statValue}>{subcategory.uniqueSellers}</span>
+                          </td>
+
+                          <td className={css.colStats}>
+                            <span className={css.statValue}>{formatPrice(subcategory.avgPrice)} ₽</span>
+                          </td>
+
+                          <td onClick={stopPropagation}>
+                            <Modal title={'Редактирование подкатегории'} buttonText={<Icon name={'edit'} />}>
+                              <EditSubcategory
+                                subcategoryId={subcategory.id}
+                                initialName={subcategory.name}
+                                initialSequence={subcategory.sequence}
+                                initialCategoryId={subcategory.categoryId}
+                                onSuccess={handleSuccess}
+                              />
+                            </Modal>
+                          </td>
+                        </tr>
+                      )
+                    })}
                 </React.Fragment>
-              );
+              )
             })}
           </tbody>
         </table>

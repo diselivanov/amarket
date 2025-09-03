@@ -38,6 +38,28 @@ CREATE TABLE "Subcategory" (
 );
 
 -- CreateTable
+CREATE TABLE "VehicleBrand" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "sequence" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "VehicleBrand_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "VehicleModel" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "sequence" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "brandId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "VehicleModel_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Ad" (
     "id" TEXT NOT NULL,
     "serialNumber" SERIAL NOT NULL,
@@ -69,7 +91,8 @@ CREATE TABLE "AdLike" (
 -- CreateTable
 CREATE TABLE "CarInfo" (
     "id" TEXT NOT NULL,
-    "brand" TEXT NOT NULL,
+    "vehicleBrandId" TEXT,
+    "vehicleModelId" TEXT,
     "year" TEXT NOT NULL,
     "steering" TEXT NOT NULL,
     "bodyType" TEXT NOT NULL,
@@ -101,6 +124,9 @@ CREATE UNIQUE INDEX "CarInfo_adId_key" ON "CarInfo"("adId");
 ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "VehicleModel" ADD CONSTRAINT "VehicleModel_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "VehicleBrand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Ad" ADD CONSTRAINT "Ad_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -114,6 +140,12 @@ ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_adId_fkey" FOREIGN KEY ("adId") REFE
 
 -- AddForeignKey
 ALTER TABLE "AdLike" ADD CONSTRAINT "AdLike_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CarInfo" ADD CONSTRAINT "CarInfo_vehicleBrandId_fkey" FOREIGN KEY ("vehicleBrandId") REFERENCES "VehicleBrand"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CarInfo" ADD CONSTRAINT "CarInfo_vehicleModelId_fkey" FOREIGN KEY ("vehicleModelId") REFERENCES "VehicleModel"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CarInfo" ADD CONSTRAINT "CarInfo_adId_fkey" FOREIGN KEY ("adId") REFERENCES "Ad"("id") ON DELETE SET NULL ON UPDATE CASCADE;

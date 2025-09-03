@@ -1,4 +1,4 @@
-import { zStringRequired } from '@amarket/shared/src/zod'
+import { zPriceRequired, zStringRequired } from '@amarket/shared/src/zod'
 import { z } from 'zod'
 
 export const zCreateAdTrpcInput = z.object({
@@ -6,7 +6,7 @@ export const zCreateAdTrpcInput = z.object({
   subcategoryId: zStringRequired,
   title: zStringRequired,
   description: zStringRequired,
-  price: zStringRequired,
+  price: zPriceRequired,
   city: zStringRequired,
   images: z.array(zStringRequired),
 })

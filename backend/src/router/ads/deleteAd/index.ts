@@ -3,7 +3,7 @@ import { zDeleteAdTrpcInput } from './input'
 
 export const deleteAdTrpcRoute = trpcLoggedProcedure.input(zDeleteAdTrpcInput).mutation(async ({ ctx, input }) => {
   const { adId } = input
-  
+
   const ad = await ctx.prisma.ad.findUnique({
     where: {
       id: adId,

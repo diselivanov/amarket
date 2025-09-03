@@ -1,8 +1,9 @@
-import { Icon } from '../../components/Icon'
 import { withPageWrapper } from '../../lib/pageWrapper'
-import { CategoryTable } from './components/categories/CategoryTable'
 import { Tabs, Tab } from './components/Tabs'
+import { Icon } from '../../components/Icon'
+import { CategoryTable } from './components/categories/CategoryTable'
 import { UsersTable } from './components/users/UsersTable'
+import { VehicleTable } from './components/vehicle/VehicleTable'
 
 export const AdminPage = withPageWrapper({
   title: 'Админ панель',
@@ -17,8 +18,8 @@ export const AdminPage = withPageWrapper({
         <UsersTable />
       </Tab>
 
-      <Tab label="Настройки" icon={<Icon name={'settings'} size={20} />}>
-        <div>Контент</div>
+      <Tab label="Транспорт" icon={<Icon name={'car'} size={20} />}>
+        <VehicleTable />
       </Tab>
     </Tabs>
   )

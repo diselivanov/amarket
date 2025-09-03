@@ -9,7 +9,6 @@ export const updateSubcategoryTrpcRoute = trpcLoggedProcedure
       throw Error('UNAUTHORIZED')
     }
 
-    // Проверяем существование подкатегории
     const subcategory = await ctx.prisma.subcategory.findUnique({
       where: {
         id: input.id,
@@ -20,7 +19,6 @@ export const updateSubcategoryTrpcRoute = trpcLoggedProcedure
       throw new ExpectedError('Подкатегория не найдена')
     }
 
-    // Обновляем подкатегорию
     await ctx.prisma.subcategory.update({
       where: {
         id: input.id,
