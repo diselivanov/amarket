@@ -3,9 +3,7 @@ import { createTrpcRouter } from '../lib/trpc'
 // @index('./**/index.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path.split('/').slice(0, -1).join('/')}'`)
 import { createCategoryTrpcRoute } from './admin/categories/createCategory'
 import { createSubcategoryTrpcRoute } from './admin/categories/createSubcategory'
-import { getCategoriesTrpcRoute } from './admin/categories/getCategories'
-import { getCategoryStatsTrpcRoute } from './admin/categories/getCategoryStats'
-import { getSubcategoriesTrpcRoute } from './admin/categories/getSubcategories'
+import { getCategoriesSubcategoriesStatsTrpcRoute } from './admin/categories/getCategoriesSubcategoriesStats'
 import { updateCategoryTrpcRoute } from './admin/categories/updateCategory'
 import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory'
 import { getUsersTrpcRoute } from './admin/users/getUsers'
@@ -29,6 +27,8 @@ import { signInTrpcRoute } from './auth/signIn'
 import { signUpTrpcRoute } from './auth/signUp'
 import { updatePasswordTrpcRoute } from './auth/updatePassword'
 import { updateProfileTrpcRoute } from './auth/updateProfile'
+import { getCategoriesTrpcRoute } from './other/getCategories'
+import { getSubcategoriesTrpcRoute } from './other/getSubcategories'
 import { prepareCloudinaryUploadTrpcRoute } from './upload/prepareCloudinaryUpload'
 // @endindex
 
@@ -36,9 +36,7 @@ export const trpcRouter = createTrpcRouter({
   // @index('./**/index.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop()}TrpcRoute,`)
   createCategory: createCategoryTrpcRoute,
   createSubcategory: createSubcategoryTrpcRoute,
-  getCategories: getCategoriesTrpcRoute,
-  getCategoryStats: getCategoryStatsTrpcRoute,
-  getSubcategories: getSubcategoriesTrpcRoute,
+  getCategoriesSubcategoriesStats: getCategoriesSubcategoriesStatsTrpcRoute,
   updateCategory: updateCategoryTrpcRoute,
   updateSubcategory: updateSubcategoryTrpcRoute,
   getUsers: getUsersTrpcRoute,
@@ -62,6 +60,8 @@ export const trpcRouter = createTrpcRouter({
   signUp: signUpTrpcRoute,
   updatePassword: updatePasswordTrpcRoute,
   updateProfile: updateProfileTrpcRoute,
+  getCategories: getCategoriesTrpcRoute,
+  getSubcategories: getSubcategoriesTrpcRoute,
   prepareCloudinaryUpload: prepareCloudinaryUploadTrpcRoute,
   // @endindex
 })

@@ -8,6 +8,16 @@ export const createVehicleBrandTrpcRoute = trpcLoggedProcedure
       throw Error('UNAUTHORIZED')
     }
 
+    const existingBrand = await ctx.prisma.vehicleBrand.findFirst({
+      where: {
+        name: input.name,
+      },
+    })
+
+    if (existingBrand) {
+      throw new Error('Название должно быть уникальным')
+    }
+
     await ctx.prisma.vehicleBrand.create({
       data: {
         name: input.name,

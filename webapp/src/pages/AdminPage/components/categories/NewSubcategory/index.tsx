@@ -7,19 +7,25 @@ import { Alert } from '../../../../../components/Alert'
 import { Input } from '../../../../../components/Input'
 import { Select } from '../../../../../components/Select'
 
-export const CreateSubcategory = () => {
+interface CreateSubcategoryProps {
+  onSuccess?: () => void
+}
+
+export const CreateSubcategory = ({ onSuccess }: CreateSubcategoryProps) => {
   const createSubcategory = trpc.createSubcategory.useMutation()
   const { data } = trpc.getCategories.useQuery({})
 
   const { formik, alertProps, buttonProps } = useForm({
     initialValues: {
       name: '',
+      slug: '',
       sequence: '',
       categoryId: '',
     },
     validationSchema: zCreateSubcategoryTrpcInput,
     onSubmit: async (values) => {
       await createSubcategory.mutateAsync(values)
+      onSuccess?.()
     },
     successMessage: 'Подкатегория успешно создана',
   })
@@ -28,6 +34,7 @@ export const CreateSubcategory = () => {
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
         <Input label="Название" name="name" type="text" formik={formik} />
+        <Input label="Идентификатор" name="slug" type="text" formik={formik} />
         <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
         <Select
           label="Категория"

@@ -19,6 +19,19 @@ export const updateVehicleBrandTrpcRoute = trpcLoggedProcedure
       throw new ExpectedError('Бренд транспортного средства не найден')
     }
 
+    const existingBrand = await ctx.prisma.vehicleBrand.findFirst({
+      where: {
+        name: input.name,
+        id: {
+          not: input.id,
+        },
+      },
+    })
+
+    if (existingBrand) {
+      throw new Error('Название бренда должно быть уникальным')
+    }
+
     await ctx.prisma.vehicleBrand.update({
       where: {
         id: input.id,

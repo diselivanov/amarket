@@ -8,6 +8,16 @@ export const createVehicleModelTrpcRoute = trpcLoggedProcedure
       throw Error('UNAUTHORIZED')
     }
 
+    const existingModel = await ctx.prisma.vehicleModel.findFirst({
+      where: {
+        name: input.name,
+      },
+    })
+
+    if (existingModel) {
+      throw new Error('Название модели должно быть уникальным')
+    }
+
     await ctx.prisma.vehicleModel.create({
       data: {
         name: input.name,

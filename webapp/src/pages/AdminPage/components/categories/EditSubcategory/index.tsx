@@ -11,6 +11,7 @@ import { zUpdateSubcategoryTrpcInput } from '@amarket/backend/src/router/admin/c
 interface EditSubcategoryProps {
   subcategoryId: string
   initialName: string
+  initialSlug: string
   initialSequence: string
   initialCategoryId: string
   onSuccess?: () => void
@@ -19,6 +20,7 @@ interface EditSubcategoryProps {
 export const EditSubcategory = ({
   subcategoryId,
   initialName,
+  initialSlug,
   initialSequence,
   initialCategoryId,
   onSuccess,
@@ -30,6 +32,7 @@ export const EditSubcategory = ({
     initialValues: {
       id: subcategoryId,
       name: initialName,
+      slug: initialSlug,
       sequence: initialSequence,
       categoryId: initialCategoryId,
     },
@@ -38,6 +41,7 @@ export const EditSubcategory = ({
       await updateSubcategory.mutateAsync({
         id: values.id,
         name: values.name,
+        slug: values.slug,
         sequence: values.sequence,
         categoryId: values.categoryId,
       })
@@ -51,6 +55,7 @@ export const EditSubcategory = ({
     formik.setValues({
       id: subcategoryId,
       name: initialName,
+      slug: initialSlug,
       sequence: initialSequence,
       categoryId: initialCategoryId,
     })
@@ -60,6 +65,7 @@ export const EditSubcategory = ({
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
         <Input label="Название" name="name" type="text" formik={formik} />
+        <Input label="Идентификатор" name="slug" type="text" formik={formik} />
         <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
         <Select
           label="Категория"

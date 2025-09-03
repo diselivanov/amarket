@@ -14,46 +14,16 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { useState, useEffect } from 'react'
 import css from './index.module.scss'
 import { Select } from '../../../components/Select'
+import { TrpcRouterOutput } from '@amarket/backend/src/router'
 
-interface Category {
-  id: string
-  name: string
-}
+type Category = TrpcRouterOutput['getCategories']['categories'][number]
+type Subcategory = TrpcRouterOutput['getSubcategories']['subcategories'][number]
 
-interface Subcategory {
-  id: string
-  name: string
-  categoryId: string
-}
+// Типы для значений формы
+type CreateAdInput = typeof zCreateAdTrpcInput._type
+type CreateCarInfoInput = Omit<typeof zCreateCarInfoTrpcInput._type, 'adId'>
 
-// Базовые значения формы без CarInfo полей
-interface BaseFormValues {
-  categoryId: string
-  subcategoryId: string
-  title: string
-  description: string
-  price: string
-  city: string
-  images: string[]
-}
-
-// Поля для CarInfo
-interface CarInfoValues {
-  brand: string
-  model: string
-  year: string
-  steering: string
-  bodyType: string
-  power: string
-  engineType: string
-  transmission: string
-  driveType: string
-  mileage: string
-  condition: string
-}
-
-// Полные значения формы
-type FormValues = BaseFormValues & Partial<CarInfoValues>
+type FormValues = CreateAdInput & Partial<CreateCarInfoInput>
 
 export const NewAdPage = withPageWrapper({
   authorizedOnly: true,
@@ -74,13 +44,13 @@ export const NewAdPage = withPageWrapper({
     { enabled: !!selectedBrandId }
   )
 
-  const isCarCategory = selectedSubcategory?.name === 'Легковые автомобили'
+  const isCarCategory = selectedSubcategory?.slug === 'cars'
 
   // Фильтруем модели по выбранному бренду
   const filteredModels = vehicleModelsData?.vehicleModels || []
 
-  // Базовые начальные значения с пустыми строками вместо undefined
-  const baseInitialValues: BaseFormValues = {
+  // Базовые начальные значения
+  const baseInitialValues: CreateAdInput = {
     categoryId: '',
     subcategoryId: '',
     title: '',
@@ -90,10 +60,10 @@ export const NewAdPage = withPageWrapper({
     images: [],
   }
 
-  // Полные начальные значения с CarInfo полями
-  const carInfoInitialValues: CarInfoValues = {
-    brand: '',
-    model: '',
+  // Начальные значения для CarInfo
+  const carInfoInitialValues: CreateCarInfoInput = {
+    vehicleBrandId: '',
+    vehicleModelId: '',
     year: '',
     steering: '',
     bodyType: '',
@@ -115,45 +85,45 @@ export const NewAdPage = withPageWrapper({
     validationSchema: isCarCategory
       ? zCreateAdTrpcInput.merge(zCreateCarInfoTrpcInput.omit({ adId: true }))
       : zCreateAdTrpcInput,
-    onSubmit: async (values: any) => {
-  try {
-    let title = values.title;
-    
-    // Если это автомобиль, формируем title из названий бренда и модели
-    if (isCarCategory) {
-      const brandName = vehicleBrandsData?.vehicleBrands.find(b => b.id === values.brand)?.name || '';
-      const modelName = filteredModels.find(m => m.id === values.model)?.name || '';
-      title = `${brandName} ${modelName}`;
-    }
+    onSubmit: async (values: FormValues) => {
+      try {
+        let title = values.title
 
-    // Создаем объявление с правильным title
-    const adResult = await createAd.mutateAsync({
-      categoryId: values.categoryId,
-      subcategoryId: values.subcategoryId,
-      title: title, // Используем сформированное название
-      description: values.description,
-      price: values.price,
-      city: values.city,
-      images: values.images,
-    })
+        // Если это автомобиль, формируем title из названий бренда и модели
+        if (isCarCategory) {
+          const brandName = vehicleBrandsData?.vehicleBrands.find((b) => b.id === values.vehicleBrandId)?.name || ''
+          const modelName = filteredModels.find((m) => m.id === values.vehicleModelId)?.name || ''
+          title = `${brandName} ${modelName}`
+        }
 
-    // Если это категория автомобилей, создаем CarInfo с ID
-    if (isCarCategory && adResult.id) {
-      await createCarInfo.mutateAsync({
-        vehicleBrandId: values.brand, // ID бренда
-        vehicleModelId: values.model, // ID модели
-        year: values.year,
-        steering: values.steering,
-        bodyType: values.bodyType,
-        power: values.power,
-        engineType: values.engineType,
-        transmission: values.transmission,
-        driveType: values.driveType,
-        mileage: values.mileage,
-        condition: values.condition,
-        adId: adResult.id,
-      })
-    }
+        // Создаем объявление с правильным title
+        const adResult = await createAd.mutateAsync({
+          categoryId: values.categoryId,
+          subcategoryId: values.subcategoryId,
+          title: title,
+          description: values.description,
+          price: values.price,
+          city: values.city,
+          images: values.images,
+        })
+
+        // Если это категория автомобилей, создаем CarInfo с ID
+        if (isCarCategory && adResult.id) {
+          await createCarInfo.mutateAsync({
+            vehicleBrandId: values.vehicleBrandId!,
+            vehicleModelId: values.vehicleModelId!,
+            year: values.year!,
+            steering: values.steering!,
+            bodyType: values.bodyType!,
+            power: values.power!,
+            engineType: values.engineType!,
+            transmission: values.transmission!,
+            driveType: values.driveType!,
+            mileage: values.mileage!,
+            condition: values.condition!,
+            adId: adResult.id,
+          })
+        }
 
         formik.resetForm()
         setShowForm(false)
@@ -168,24 +138,27 @@ export const NewAdPage = withPageWrapper({
     showValidationAlert: true,
   })
 
-  // Устанавливаем заглушку для title при выборе бренда (только если title еще не установлен)
-useEffect(() => {
-  if (isCarCategory && (formik.values as FormValues).brand && !formik.values.title) {
-    const brandName = vehicleBrandsData?.vehicleBrands.find(b => b.id === (formik.values as FormValues).brand)?.name || '';
-    formik.setFieldValue('title', brandName);
-  }
-}, [(formik.values as FormValues).brand, isCarCategory, vehicleBrandsData]);
+  // Для удобства доступа к значениям формы
+  const values = formik.values as FormValues
+
+  // Устанавливаем заглушку для title при выборе бренда
+  useEffect(() => {
+    if (isCarCategory && values.vehicleBrandId && !values.title) {
+      const brandName = vehicleBrandsData?.vehicleBrands.find((b) => b.id === values.vehicleBrandId)?.name || ''
+      formik.setFieldValue('title', brandName)
+    }
+  }, [values.vehicleBrandId, isCarCategory, vehicleBrandsData])
 
   // Обработчик выбора бренда
   const handleBrandChange = (value: string) => {
     setSelectedBrandId(value)
-    formik.setFieldValue('brand', value)
-    formik.setFieldValue('model', '') // Сбрасываем модель при смене бренда
+    formik.setFieldValue('vehicleBrandId', value)
+    formik.setFieldValue('vehicleModelId', '') // Сбрасываем модель при смене бренда
   }
 
   // Обработчик выбора модели
   const handleModelChange = (value: string) => {
-    formik.setFieldValue('model', value)
+    formik.setFieldValue('vehicleModelId', value)
   }
 
   const handleSubcategorySelect = (category: Category, subcategory: Subcategory) => {
@@ -193,7 +166,7 @@ useEffect(() => {
     setSelectedSubcategory(subcategory)
 
     // Сбрасываем форму с новыми начальными значениями
-    const newInitialValues = subcategory.name === 'Легковые автомобили' ? fullInitialValues : baseInitialValues
+    const newInitialValues = subcategory.slug === 'cars' ? fullInitialValues : baseInitialValues
 
     formik.resetForm({
       values: {
@@ -232,32 +205,33 @@ useEffect(() => {
 
         <form onSubmit={formik.handleSubmit}>
           <FormItems>
-
             {/* Если категория - легковые автомобили */}
             {isCarCategory && (
               <>
                 <h3>Информация об автомобиле</h3>
-                
-                 {/* Select для бренда автомобиля */}
+
+                {/* Select для бренда автомобиля */}
                 <Select
-                  name="brand"
+                  name="vehicleBrandId"
                   label="Марка"
                   formik={formik}
-                  options={vehicleBrandsData?.vehicleBrands.map((brand) => ({
-                    value: brand.id,
-                    label: brand.name
-                  })) || []}
+                  options={
+                    vehicleBrandsData?.vehicleBrands.map((brand) => ({
+                      value: brand.id,
+                      label: brand.name,
+                    })) || []
+                  }
                   onChange={handleBrandChange}
                 />
 
                 {/* Select для модели автомобиля */}
                 <Select
-                  name="model"
+                  name="vehicleModelId"
                   label="Модель"
                   formik={formik}
                   options={filteredModels.map((model) => ({
                     value: model.id,
-                    label: model.name
+                    label: model.name,
                   }))}
                   onChange={handleModelChange}
                   disabled={!selectedBrandId}

@@ -19,12 +19,28 @@ export const updateSubcategoryTrpcRoute = trpcLoggedProcedure
       throw new ExpectedError('Подкатегория не найдена')
     }
 
+    if (input.slug !== subcategory.slug) {
+      const existingSubcategoryWithSlug = await ctx.prisma.subcategory.findFirst({
+        where: {
+          slug: input.slug,
+          id: {
+            not: input.id,
+          },
+        },
+      })
+
+      if (existingSubcategoryWithSlug) {
+        throw new Error('Идентификатор должен быть уникальным')
+      }
+    }
+
     await ctx.prisma.subcategory.update({
       where: {
         id: input.id,
       },
       data: {
         name: input.name,
+        slug: input.slug,
         sequence: input.sequence,
         categoryId: input.categoryId,
       },

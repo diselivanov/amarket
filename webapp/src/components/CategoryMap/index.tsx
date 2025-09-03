@@ -1,17 +1,8 @@
 import { useState } from 'react'
 import css from './index.module.scss'
 import { Icon } from '../Icon'
-
-interface Category {
-  id: string
-  name: string
-  subcategories: Subcategory[]
-}
-
-interface Subcategory {
-  id: string
-  name: string
-}
+import { trpc } from '../../lib/trpc'
+import type { TrpcRouterOutput } from '@amarket/backend/src/router'
 
 interface CategoryMapButtonProps {
   isOpen: boolean
@@ -31,39 +22,40 @@ export const CategoryMap = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null)
 
-  // Данные категорий и подкатегорий
-  const categories: Category[] = [
-    {
-      id: '1',
-      name: 'Электроника',
-      subcategories: [
-        { id: '1-1', name: 'Смартфоны' },
-        { id: '1-2', name: 'Ноутбуки' },
-        { id: '1-3', name: 'Телевизоры' },
-      ],
-    },
-    {
-      id: '2',
-      name: 'Одежда',
-      subcategories: [
-        { id: '2-1', name: 'Мужская' },
-        { id: '2-2', name: 'Женская' },
-        { id: '2-3', name: 'Детская' },
-      ],
-    },
-    {
-      id: '3',
-      name: 'Дом и сад',
-      subcategories: [
-        { id: '3-1', name: 'Мебель' },
-        { id: '3-2', name: 'Текстиль' },
-        { id: '3-3', name: 'Инструменты' },
-      ],
-    },
-  ]
+  // Используем типы из tRPC вместо ручного описания
+  type CategoryType = TrpcRouterOutput['getCategories']['categories'][number]
+  type SubcategoryType = TrpcRouterOutput['getSubcategories']['subcategories'][number]
 
-  const handleSubcategoryClick = (_id: string) => {
+  // Запрашиваем категории
+  const { data: categoriesData, isLoading: categoriesLoading } = trpc.getCategories.useQuery({})
+  
+  // Запрашиваем подкатегории
+  const { data: subcategoriesData, isLoading: subcategoriesLoading } = trpc.getSubcategories.useQuery({})
+
+  // Формируем данные в нужном формате с использованием типов tRPC
+  const categories = categoriesData?.categories?.map((category: CategoryType) => ({
+    id: category.id,
+    name: category.name,
+    subcategories: subcategoriesData?.subcategories
+      ?.filter((sub: SubcategoryType) => sub.categoryId === category.id)
+      ?.map((sub: SubcategoryType) => ({
+        id: sub.id,
+        name: sub.name
+      })) || []
+  })) || []
+
+  const handleSubcategoryClick = (id: string) => {
     setIsOpen(false)
+    // Тут можно добавить навигацию и т.п.
+  }
+
+  if (categoriesLoading || subcategoriesLoading) {
+    return (
+      <div className={css.CategoryMap}>
+        <CategoryMapButton isOpen={isOpen} onClick={() => setIsOpen(!isOpen)} />
+        {isOpen && <div>Загрузка категорий...</div>}
+      </div>
+    )
   }
 
   return (

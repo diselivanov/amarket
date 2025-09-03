@@ -1,10 +1,16 @@
-import { zMileageRequired, zPowerRequired, zReleaseYearRequired, zStringRequired } from '@amarket/shared/src/zod'
+import {
+  zIdRequired,
+  zMileageRequired,
+  zPowerRequired,
+  zReleaseYearRequired,
+  zStringRequired,
+} from '@amarket/shared/src/zod'
 import { z } from 'zod'
 
 export const zCreateCarInfoTrpcInput = z.object({
-  vehicleBrandId: z.string().optional(),
-  vehicleModelId: z.string().optional(),
-  adId: z.string().optional(),
+  vehicleBrandId: zIdRequired,
+  vehicleModelId: zIdRequired,
+  adId: zIdRequired,
   year: zReleaseYearRequired,
   steering: zStringRequired,
   bodyType: zStringRequired,

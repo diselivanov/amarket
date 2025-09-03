@@ -19,7 +19,6 @@ export const updateVehicleModelTrpcRoute = trpcLoggedProcedure
       throw new ExpectedError('Модель транспортного средства не найдена')
     }
 
-    // Проверяем существование бренда, если он меняется
     if (input.brandId !== vehicleModel.brandId) {
       const brand = await ctx.prisma.vehicleBrand.findUnique({
         where: {
@@ -30,6 +29,19 @@ export const updateVehicleModelTrpcRoute = trpcLoggedProcedure
       if (!brand) {
         throw new ExpectedError('Бренд транспортного средства не найден')
       }
+    }
+
+    const existingModel = await ctx.prisma.vehicleModel.findFirst({
+      where: {
+        name: input.name,
+        id: {
+          not: input.id,
+        },
+      },
+    })
+
+    if (existingModel) {
+      throw new Error('Название модели должно быть уникальным')
     }
 
     await ctx.prisma.vehicleModel.update({

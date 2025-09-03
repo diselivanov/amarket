@@ -19,6 +19,7 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Category" (
     "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -29,6 +30,7 @@ CREATE TABLE "Category" (
 -- CreateTable
 CREATE TABLE "Subcategory" (
     "id" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "sequence" TEXT NOT NULL,
     "categoryId" TEXT NOT NULL,
@@ -93,6 +95,7 @@ CREATE TABLE "CarInfo" (
     "id" TEXT NOT NULL,
     "vehicleBrandId" TEXT,
     "vehicleModelId" TEXT,
+    "adId" TEXT,
     "year" TEXT NOT NULL,
     "steering" TEXT NOT NULL,
     "bodyType" TEXT NOT NULL,
@@ -102,7 +105,6 @@ CREATE TABLE "CarInfo" (
     "driveType" TEXT NOT NULL,
     "mileage" TEXT NOT NULL,
     "condition" TEXT NOT NULL,
-    "adId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "CarInfo_pkey" PRIMARY KEY ("id")
@@ -110,6 +112,18 @@ CREATE TABLE "CarInfo" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_slug_key" ON "Category"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Subcategory_slug_key" ON "Subcategory"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VehicleBrand_name_key" ON "VehicleBrand"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "VehicleModel_name_key" ON "VehicleModel"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Ad_serialNumber_key" ON "Ad"("serialNumber");

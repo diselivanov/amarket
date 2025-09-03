@@ -91,7 +91,7 @@ const DeleteAd = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) 
 
 const CarInfoSection = ({ ad }: { ad: NonNullable<TrpcRouterOutput['getAd']['ad']> }) => {
   // Проверяем, является ли объявление автомобильным
-  const isCarAd = ad.subcategory.name === 'Легковые автомобили'
+  const isCarAd = ad.subcategory.slug === 'cars'
 
   const { data: carInfoData, isLoading } = trpc.getCarInfo.useQuery(
     { adId: ad.id },
