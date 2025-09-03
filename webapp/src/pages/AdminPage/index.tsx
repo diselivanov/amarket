@@ -10,15 +10,15 @@ export const AdminPage = withPageWrapper({
 })(() => {
   return (
     <Tabs>
-      <Tab label="Категории" icon={<Icon name={'list'} size={20} />}>
+      <Tab label="Категории" icon={<Icon name={'list'} size={22} />}>
         <CategoryTable />
       </Tab>
 
-      <Tab label="Пользователи" icon={<Icon name={'users'} size={20} />}>
+      <Tab label="Пользователи" icon={<Icon name={'users'} size={22} />}>
         <UsersTable />
       </Tab>
 
-      <Tab label="Транспорт" icon={<Icon name={'car'} size={20} />}>
+      <Tab label="Транспорт" icon={<Icon name={'car'} size={22} />}>
         <VehicleTable />
       </Tab>
     </Tabs>

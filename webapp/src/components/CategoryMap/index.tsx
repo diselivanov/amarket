@@ -28,21 +28,23 @@ export const CategoryMap = () => {
 
   // Запрашиваем категории
   const { data: categoriesData, isLoading: categoriesLoading } = trpc.getCategories.useQuery({})
-  
+
   // Запрашиваем подкатегории
   const { data: subcategoriesData, isLoading: subcategoriesLoading } = trpc.getSubcategories.useQuery({})
 
   // Формируем данные в нужном формате с использованием типов tRPC
-  const categories = categoriesData?.categories?.map((category: CategoryType) => ({
-    id: category.id,
-    name: category.name,
-    subcategories: subcategoriesData?.subcategories
-      ?.filter((sub: SubcategoryType) => sub.categoryId === category.id)
-      ?.map((sub: SubcategoryType) => ({
-        id: sub.id,
-        name: sub.name
-      })) || []
-  })) || []
+  const categories =
+    categoriesData?.categories?.map((category: CategoryType) => ({
+      id: category.id,
+      name: category.name,
+      subcategories:
+        subcategoriesData?.subcategories
+          ?.filter((sub: SubcategoryType) => sub.categoryId === category.id)
+          ?.map((sub: SubcategoryType) => ({
+            id: sub.id,
+            name: sub.name,
+          })) || [],
+    })) || []
 
   const handleSubcategoryClick = (id: string) => {
     setIsOpen(false)

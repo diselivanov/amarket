@@ -12,7 +12,7 @@ export const zEnvHost = z.enum(['local', 'production'])
 
 export const zStringRequired = z.string({ required_error: 'Заполните поле' }).min(1, 'Заполните поле')
 
-export const zIdRequired = z.string().optional()
+export const zIdRequired = z.string()
 
 export const zStringOptional = z.string().optional()
 

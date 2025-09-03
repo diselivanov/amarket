@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import css from './index.module.scss'
 import CircularProgress from '@mui/material/CircularProgress'
 
-type ButtonColor = 'red' | 'green'
+type ButtonColor = 'red' | 'green' | 'blue' | 'black' | 'transparent'
 export type ButtonProps = {
   children: React.ReactNode
   loading?: boolean

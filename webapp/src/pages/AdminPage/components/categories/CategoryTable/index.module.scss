@@ -1,15 +1,14 @@
+// index.module.scss
 @use '../../../../../styles/vars' as *;
 @use '../../../../../styles/mixins' as *;
 
 .tableContainer {
   width: 100%;
   height: 100%;
-  border: 1px solid $border-color;
   user-select: none;
   display: flex;
   flex-direction: column;
   background-color: $background-1;
-  border-radius: $border-radius-6;
   overflow: hidden;
 }
 
@@ -18,7 +17,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 5px;
-  border-bottom: 1px solid $border-color;
+  border-top: 1px solid $border-color;
+  border-left: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  border-top-right-radius: $border-radius-8;
+  border-top-left-radius: $border-radius-8;
   z-index: 100;
   flex-shrink: 0;
 }
@@ -26,17 +29,15 @@
 .headerStats {
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
   margin-left: 10px;
-  font-size: $font-size-13;
+  font-size: 14px;
+  color: $color-2;
 }
 
 .statItem {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: $font-size-13;
 }
 
 .statLabel {
@@ -48,17 +49,15 @@
 }
 
 .percentageGreen {
-  font-size: $font-size-9;
   color: $green;
-  background-color: rgba($green, 0.12);
+  background-color: rgba($green, 0.15);
   padding: 2px 3px;
   border-radius: $border-radius-3;
 }
 
 .percentageRed {
-  font-size: $font-size-9;
   color: $red;
-  background-color: rgba($red, 0.12);
+  background-color: rgba($red, 0.15);
   padding: 2px 3px;
   border-radius: $border-radius-3;
 }
@@ -69,9 +68,27 @@
   gap: 5px;
 }
 
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  gap: 10px;
+}
+
+.tablePanel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+}
+
 .tableWrapper {
   flex: 1;
   overflow: auto;
+  border: 1px solid $border-color;
+  border-bottom-left-radius: $border-radius-8;
+  border-bottom-right-radius: $border-radius-8;
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -84,7 +101,6 @@
 
   &::-webkit-scrollbar-thumb {
     background: rgba($color-2, 0.2);
-    border-radius: 25px;
 
     &:hover {
       background: rgba($color-2, 0.3);
@@ -92,18 +108,89 @@
   }
 }
 
+.sellersPanelContainer {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartPanelContainer {
+  width: 280px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sellersPanel {
+  width: 100%;
+  height: 100%;
+  border: 1px solid $border-color;
+  display: flex;
+  flex-direction: column;
+  background-color: $background-1;
+  border-radius: $border-radius-8;
+  overflow: hidden;
+}
+
+.sellersTitle {
+  font-size: $font-size-14;
+  font-weight: 500;
+  color: $color-2;
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid $border-color;
+}
+
+.sellersList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sellerItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  transition: background-color $transition ease;
+  border-bottom: 1px solid $border-color;
+  
+  &:hover {
+    background-color: $background-2;
+  }
+}
+
+.sellerName {
+  font-size: $font-size-14;
+  color: $color-1;
+}
+
+.sellerAvatar {
+  width: 30px;
+  height: 30px;
+  border-radius: $border-radius-250;
+}
+
+.noSellers {
+  text-align: center;
+  color: $color-2;
+  font-style: italic;
+  padding: 20px 0;
+}
+
 .tableHeader {
   display: flex;
   align-items: center;
   background-color: $background-1;
-  font-size: $font-size-13;
   text-align: left;
   color: $color-2;
   position: sticky;
   top: 0;
   z-index: 10;
   border-bottom: 1px solid $border-color;
-  min-width: 800px;
+  min-width: 400px;
 
   > div {
     padding: 5px 10px;
@@ -115,27 +202,19 @@
   }
 
   > div:nth-child(1) {
-    width: 25%;
+    width: 80%;
     padding-left: 16px;
   }
 
-  > div:nth-child(2),
-  > div:nth-child(3),
-  > div:nth-child(4),
-  > div:nth-child(5),
-  > div:nth-child(6) {
-    width: 14%;
-  }
-
-  > div:last-child {
-    flex: 1;
+  > div:nth-child(2) {
+    width: 20%;
+    justify-content: center;
   }
 }
 
 .categoryTable {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
 
   th,
   td {
@@ -148,7 +227,7 @@
 
   th {
     background-color: $background-1;
-    font-size: $font-size-13;
+    font-size: $font-size-15;
     text-align: left;
     color: $color-2;
     position: sticky;
@@ -160,6 +239,7 @@
 .categoryRow {
   background-color: $background-1;
   transition: background-color $transition ease;
+  cursor: pointer;
 
   &:hover {
     background-color: $background-2;
@@ -169,14 +249,19 @@
 .subcategoryRow {
   background-color: $background-1;
   transition: background-color $transition ease;
+  cursor: pointer;
 
   &:hover {
     background-color: $background-2;
   }
 
   td {
-    font-size: $font-size-14;
+    font-size: $font-size-15;
   }
+}
+
+.selectedRow {
+  background-color: rgba($purple, 0.1) !important;
 }
 
 .lastRow {
@@ -186,7 +271,7 @@
 }
 
 .colName {
-  width: 25%;
+  width: 100%;
   padding-left: 16px !important;
 
   .label {
@@ -199,17 +284,145 @@
   }
 }
 
-.colStats {
-  width: 14%;
-
-  .statValue {
-    font-size: $font-size-12;
-    color: $color-1;
-  }
+.colActions {
+  text-align: center;
 }
 
-.statWithPercentage {
+.actionsContainer {
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chartPanel {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: $background-1;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-8;
+}
+
+.pieChartContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.pieChartTitle {
+  font-size: $font-size-16;
+  font-weight: 500;
+  color: $color-1;
+  margin: 0;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.pieChartWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.pieChart {
+  display: block;
+}
+
+.pieChartCenterText {
+  font-size: 20px;
+  font-weight: bold;
+  fill: $color-1;
+}
+
+.pieChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-14;
+  gap: 6px;
+  border: 1px dashed $border-color;
+  padding: 5px 10px;
+  border-radius: $border-radius-6;
+}
+
+.activeValue {
+  color: $color-1;
+}
+
+.activePercentage {
+  color: $green;
+  background-color: rgba($green, 0.12);
+  padding: 2px 4px;
+  border-radius: $border-radius-3;
+}
+
+.deletedValue {
+  color: $color-1;
+}
+
+.deletedPercentage {
+  color: $red;
+  background-color: rgba($red, 0.12);
+  padding: 2px 5px;
+  border-radius: $border-radius-3;
+}
+
+.additionalStats {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.statLabel {
+  color: $color-2;
+  font-size: $font-size-14;
+}
+
+.statValue {
+  color: $color-1;
+  font-size: $font-size-14;
+  font-weight: 500;
+}
+
+.closeChartButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: $color-2;
+  cursor: pointer;
+  transition: background-color $transition ease;
+
+  &:hover {
+    background-color: $background-3;
+  }
 }

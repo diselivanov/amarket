@@ -29,18 +29,16 @@
   gap: 15px;
   flex-wrap: wrap;
   margin-left: 10px;
-  font-size: $font-size-13;
 }
 
 .statItem {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: $font-size-13;
 }
 
 .statLabel {
-  color: $color-2;
+  color: $color-3;
 }
 
 .statValue {
@@ -67,11 +65,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba($color-2, 0.2);
+    background: rgba($color-3, 0.2);
     border-radius: 25px;
 
     &:hover {
-      background: rgba($color-2, 0.3);
+      background: rgba($color-3, 0.3);
     }
   }
 }
@@ -80,9 +78,8 @@
   display: flex;
   align-items: center;
   background-color: $background-1;
-  font-size: $font-size-13;
   text-align: left;
-  color: $color-2;
+  color: $color-3;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -132,9 +129,9 @@
 
   th {
     background-color: $background-1;
-    font-size: $font-size-13;
+    font-size: $font-size-15;
     text-align: left;
-    color: $color-2;
+    color: $color-3;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -159,7 +156,7 @@
   }
 
   td {
-    font-size: $font-size-14;
+    font-size: $font-size-15;
   }
 }
 
@@ -187,7 +184,7 @@
       content: '→';
       position: absolute;
       left: 0;
-      color: $color-2;
+      color: $color-3;
     }
   }
 }
@@ -196,7 +193,6 @@
   width: 25%;
 
   .statValue {
-    font-size: $font-size-12;
     color: $color-1;
   }
 }
@@ -205,7 +201,6 @@
   width: 15%;
 
   .statValue {
-    font-size: $font-size-12;
     color: $color-1;
   }
 }

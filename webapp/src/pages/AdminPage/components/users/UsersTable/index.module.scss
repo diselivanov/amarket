@@ -40,7 +40,7 @@
 }
 
 .statLabel {
-  color: $color-2;
+  color: $color-3;
 }
 
 .statValue {
@@ -62,11 +62,11 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: rgba($color-2, 0.2);
+    background: rgba($color-3, 0.2);
     border-radius: 25px;
 
     &:hover {
-      background: rgba($color-2, 0.3);
+      background: rgba($color-3, 0.3);
     }
   }
 }
@@ -79,7 +79,7 @@
 
 .tableHeader {
   background-color: $background-1;
-  color: $color-2;
+  color: $color-3;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -174,7 +174,7 @@
 }
 
 .userDescription {
-  color: $color-2;
+  color: $color-3;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

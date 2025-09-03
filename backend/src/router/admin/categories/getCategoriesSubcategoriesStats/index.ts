@@ -1,3 +1,4 @@
+// trpc route
 import { trpcLoggedProcedure } from '../../../../lib/trpc'
 import { zgetCategoriesSubcategoriesStatsInput } from './input'
 
@@ -10,7 +11,7 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
           include: {
             ads: {
               where: {
-                blockedAt: null, // Фильтруем только незаблокированные объявления
+                blockedAt: null,
               },
               include: {
                 author: true,
@@ -20,7 +21,7 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
         },
         ads: {
           where: {
-            blockedAt: null, // Фильтруем только незаблокированные объявления
+            blockedAt: null,
           },
           include: {
             author: true,
@@ -32,60 +33,76 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
       },
     })
 
-    // Собираем всех авторов из всех объявлений для расчета общего количества уникальных продавцов
-    const allAuthors = new Set<string>()
+    // Собираем всех авторов из всех объявлений
+    const allAuthors = new Map<string, any>();
 
     const categoryStats = await Promise.all(
       categories.map(async (category) => {
-        const allCategoryAds = category.ads
-        const activeCategoryAds = allCategoryAds.filter((ad) => !ad.deletedAt)
-        const deletedCategoryAds = allCategoryAds.filter((ad) => ad.deletedAt)
+        const allCategoryAds = category.ads;
+        const activeCategoryAds = allCategoryAds.filter((ad) => !ad.deletedAt);
+        const deletedCategoryAds = allCategoryAds.filter((ad) => ad.deletedAt);
 
         // Добавляем авторов этой категории в общий набор
         allCategoryAds.forEach((ad) => {
-          if (ad.authorId) {
-            allAuthors.add(ad.authorId)
+          if (ad.authorId && !allAuthors.has(ad.authorId)) {
+            allAuthors.set(ad.authorId, ad.author);
           }
-        })
+        });
 
         const avgPrice =
           allCategoryAds.length > 0
             ? Math.round(
                 allCategoryAds.reduce((sum, ad) => {
-                  const price = parseFloat(ad.price) || 0
-                  return sum + price
+                  const price = parseFloat(ad.price) || 0;
+                  return sum + price;
                 }, 0) / allCategoryAds.length
               )
-            : 0
+            : 0;
 
-        const uniqueSellers = new Set(allCategoryAds.map((ad) => ad.authorId)).size
+        const uniqueSellers = new Set(allCategoryAds.map((ad) => ad.authorId)).size;
+
+        // Получаем продавцов для этой категории
+        const categorySellers = Array.from(
+          new Set(allCategoryAds.map(ad => ad.authorId))
+        ).map(id => allAuthors.get(id)).filter(Boolean);
 
         const subcategoriesStats = await Promise.all(
           category.subcategories.map(async (subcategory) => {
-            // Дополнительно запрашиваем объявления подкатегории с фильтрацией blockedAt
             const subcategoryAds = await ctx.prisma.ad.findMany({
               where: {
                 subcategoryId: subcategory.id,
-                blockedAt: null, // Фильтруем только незаблокированные объявления
+                blockedAt: null,
               },
               include: {
                 author: true,
               },
-            })
+            });
 
-            const activeSubcategoryAds = subcategoryAds.filter((ad) => !ad.deletedAt)
-            const deletedSubcategoryAds = subcategoryAds.filter((ad) => ad.deletedAt)
+            const activeSubcategoryAds = subcategoryAds.filter((ad) => !ad.deletedAt);
+            const deletedSubcategoryAds = subcategoryAds.filter((ad) => ad.deletedAt);
+
+            // Добавляем авторов подкатегории в общий набор
+            subcategoryAds.forEach((ad) => {
+              if (ad.authorId && !allAuthors.has(ad.authorId)) {
+                allAuthors.set(ad.authorId, ad.author);
+              }
+            });
 
             const subAvgPrice =
               subcategoryAds.length > 0
                 ? Math.round(
                     subcategoryAds.reduce((sum, ad) => {
-                      const price = parseFloat(ad.price) || 0
-                      return sum + price
+                      const price = parseFloat(ad.price) || 0;
+                      return sum + price;
                     }, 0) / subcategoryAds.length
                   )
-                : 0
-            const subUniqueSellers = new Set(subcategoryAds.map((ad) => ad.authorId)).size
+                : 0;
+            const subUniqueSellers = new Set(subcategoryAds.map((ad) => ad.authorId)).size;
+
+            // Получаем продавцов для этой подкатегории
+            const subSellers = Array.from(
+              new Set(subcategoryAds.map(ad => ad.authorId))
+            ).map(id => allAuthors.get(id)).filter(Boolean);
 
             return {
               id: subcategory.id,
@@ -98,13 +115,14 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
               deletedAds: deletedSubcategoryAds.length,
               avgPrice: subAvgPrice,
               uniqueSellers: subUniqueSellers,
-            }
+              sellers: subSellers,
+            };
           })
-        )
+        );
 
         const sortedSubcategories = subcategoriesStats.sort((a, b) => {
-          return parseInt(a.sequence) - parseInt(b.sequence)
-        })
+          return parseInt(a.sequence) - parseInt(b.sequence);
+        });
 
         return {
           id: category.id,
@@ -116,17 +134,19 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
           deletedAds: deletedCategoryAds.length,
           avgPrice: avgPrice,
           uniqueSellers: uniqueSellers,
+          sellers: categorySellers,
           subcategories: sortedSubcategories,
-        }
+        };
       })
-    )
+    );
 
     const sortedCategoryStats = categoryStats.sort((a, b) => {
-      return parseInt(a.sequence) - parseInt(b.sequence)
-    })
+      return parseInt(a.sequence) - parseInt(b.sequence);
+    });
 
     return {
       categories: sortedCategoryStats,
+      allSellers: Array.from(allAuthors.values()),
       totalUniqueSellers: allAuthors.size,
-    }
-  })
+    };
+  });
