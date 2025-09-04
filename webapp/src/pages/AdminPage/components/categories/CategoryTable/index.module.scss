@@ -1,6 +1,23 @@
-// index.module.scss
 @use '../../../../../styles/vars' as *;
 @use '../../../../../styles/mixins' as *;
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: $background-1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($color-1, 0.05);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba($color-1, 0.1);
+}
 
 .tableContainer {
   width: 100%;
@@ -8,7 +25,6 @@
   user-select: none;
   display: flex;
   flex-direction: column;
-  background-color: $background-1;
   overflow: hidden;
 }
 
@@ -22,6 +38,8 @@
   border-right: 1px solid $border-color;
   border-top-right-radius: $border-radius-8;
   border-top-left-radius: $border-radius-8;
+  background-color: $background-1;
+
   z-index: 100;
   flex-shrink: 0;
 }
@@ -72,15 +90,15 @@
   display: flex;
   flex: 1;
   overflow: hidden;
-  gap: 10px;
+  gap: 8px;
 }
 
 .tablePanel {
-  flex: 1;
+  flex: 0 0 566px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-width: 400px;
+  resize: horizontal;
 }
 
 .tableWrapper {
@@ -89,37 +107,23 @@
   border: 1px solid $border-color;
   border-bottom-left-radius: $border-radius-8;
   border-bottom-right-radius: $border-radius-8;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: none;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($color-2, 0.2);
-
-    &:hover {
-      background: rgba($color-2, 0.3);
-    }
-  }
+  background-color: $background-1;
 }
 
 .sellersPanelContainer {
-  width: 260px;
-  flex-shrink: 0;
+  flex: 0 0 386px;
   display: flex;
   flex-direction: column;
+  resize: horizontal;
 }
 
 .chartPanelContainer {
-  width: 280px;
-  flex-shrink: 0;
+  flex: 0 0 240px;
   display: flex;
   flex-direction: column;
+  resize: horizontal;
+  min-width: 200px;
+  max-width: 300px;
 }
 
 .sellersPanel {
@@ -135,11 +139,9 @@
 
 .sellersTitle {
   font-size: $font-size-14;
-  font-weight: 500;
   color: $color-2;
   padding: 10px;
   text-align: center;
-  border-bottom: 1px solid $border-color;
 }
 
 .sellersList {
@@ -153,7 +155,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 8px;
+  padding: 5px 10px;
   transition: background-color $transition ease;
   border-bottom: 1px solid $border-color;
   
@@ -162,9 +164,61 @@
   }
 }
 
+.sellerNameStats {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .sellerName {
   font-size: $font-size-14;
   color: $color-1;
+}
+
+.sellerStats {
+  display: flex;
+  align-items: center;
+}
+
+.adsCount {
+  font-size: 12px;
+  display: flex;
+  gap: 4px;
+}
+
+.activeAds {
+  color: $green;
+}
+
+.deletedAds {
+  color: $red;
+}
+
+.loadMoreContainer {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.loadMoreButton {
+  padding: 6px 15px;
+  background-color: $background-2;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-6;
+  color: $color-1;
+  font-size: $font-size-14;
+  cursor: pointer;
+  transition: background-color $transition ease;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($purple, 0.1);
+    border-color: rgba($purple, 0.5);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
 }
 
 .sellerAvatar {
@@ -178,38 +232,6 @@
   color: $color-2;
   font-style: italic;
   padding: 20px 0;
-}
-
-.tableHeader {
-  display: flex;
-  align-items: center;
-  background-color: $background-1;
-  text-align: left;
-  color: $color-2;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border-bottom: 1px solid $border-color;
-  min-width: 400px;
-
-  > div {
-    padding: 5px 10px;
-    vertical-align: middle;
-    height: 32px;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-  }
-
-  > div:nth-child(1) {
-    width: 80%;
-    padding-left: 16px;
-  }
-
-  > div:nth-child(2) {
-    width: 20%;
-    justify-content: center;
-  }
 }
 
 .categoryTable {
@@ -226,7 +248,6 @@
   }
 
   th {
-    background-color: $background-1;
     font-size: $font-size-15;
     text-align: left;
     color: $color-2;
@@ -237,7 +258,6 @@
 }
 
 .categoryRow {
-  background-color: $background-1;
   transition: background-color $transition ease;
   cursor: pointer;
 
@@ -247,7 +267,6 @@
 }
 
 .subcategoryRow {
-  background-color: $background-1;
   transition: background-color $transition ease;
   cursor: pointer;
 
@@ -410,19 +429,76 @@
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 24px;
-  height: 24px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
+  background-color: rgba($purple, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  color: $color-2;
+  border: 1px solid rgba($purple, 0.3);
+  color: $purple;
   cursor: pointer;
   transition: background-color $transition ease;
 
   &:hover {
-    background-color: $background-3;
+     background-color: rgba($purple, 0.14);
   }
+}
+
+// Стили для поиска
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  color: $color-3;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 8px 8px 8px 32px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-6;
+  background-color: $background-1;
+  font-size: $font-size-14;
+  font-family: $font-family;
+  color: $color-1;
+
+  &:focus {
+    outline: none;
+    border-color: $purple;
+    box-shadow: 0 0 0 1px $purple;
+  }
+
+  &::placeholder {
+      color: $color-3;
+      opacity: 1;
+      font-family: $font-family;
+      user-select: none;
+    }
+}
+
+.sellersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid $border-color;
+}
+
+.sellerInfo {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.sellerEmail {
+  font-size: 12px;
+  color: $color-2;
+  margin-bottom: 4px;
 }

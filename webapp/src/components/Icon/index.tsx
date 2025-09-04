@@ -9,9 +9,13 @@ import { BiSolidInfoCircle } from 'react-icons/bi'
 import { ImUsers } from 'react-icons/im'
 import { MdSettings, MdOutlineModeEditOutline } from 'react-icons/md'
 import { FiChevronLeft, FiChevronRight, FiChevronUp, FiChevronDown, FiBarChart2 } from 'react-icons/fi'
-import { IoAdd, IoCarSportOutline } from 'react-icons/io5'
+import { IoAdd } from 'react-icons/io5'
 import { SiAlwaysdata } from 'react-icons/si'
 import { BsList } from 'react-icons/bs'
+import { RxReset } from "react-icons/rx";
+import { IoCarSportSharp } from "react-icons/io5";
+import { BiSolidCategory } from "react-icons/bi";
+import { TbCopy } from "react-icons/tb";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
@@ -30,9 +34,12 @@ const icons = {
   arrowUp: FiChevronUp,
   edit: MdOutlineModeEditOutline,
   add: IoAdd,
+  copy: TbCopy,
   chart: FiBarChart2,
   list: BsList,
-  car: IoCarSportOutline,
+  car: IoCarSportSharp,
+  reset: RxReset,
+  category: BiSolidCategory,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {

@@ -10,7 +10,7 @@ export const AdminPage = withPageWrapper({
 })(() => {
   return (
     <Tabs>
-      <Tab label="Категории" icon={<Icon name={'list'} size={22} />}>
+      <Tab label="Категории" icon={<Icon name={'category'} size={22} />}>
         <CategoryTable />
       </Tab>
 

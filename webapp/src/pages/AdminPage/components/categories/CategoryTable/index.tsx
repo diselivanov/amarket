@@ -1,5 +1,4 @@
-// CategoryTable.tsx
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
@@ -20,7 +19,6 @@ interface PieChartProps {
   active: number
   deleted: number
   total: number
-  uniqueSellers: number
   avgPrice: number
 }
 
@@ -30,10 +28,17 @@ interface Seller {
   email: string
   avatar: string | null
   ads: any[]
-  adsLikes: any[]
 }
 
-const PieChart: React.FC<PieChartProps> = ({ active, deleted, total, uniqueSellers, avgPrice }) => {
+interface SellerWithStats extends Seller {
+  activeAds: number
+  deletedAds: number
+  totalAds: number
+}
+
+const SELLERS_PER_PAGE = 12;
+
+const PieChart: React.FC<PieChartProps> = ({ active, deleted, total, avgPrice }) => {
   const activePercentage = total > 0 ? (active / total) * 100 : 0;
   const deletedPercentage = total > 0 ? (deleted / total) * 100 : 0;
   
@@ -159,10 +164,6 @@ const PieChart: React.FC<PieChartProps> = ({ active, deleted, total, uniqueSelle
       
       <div className={css.additionalStats}>
         <div className={css.statRow}>
-          <span className={css.statLabel}>Продавцы:</span>
-          <span className={css.statValue}>{uniqueSellers}</span>
-        </div>
-        <div className={css.statRow}>
           <span className={css.statLabel}>Средняя цена:</span>
           <span className={css.statValue}>{hasData ? `${formatPrice(avgPrice)} ₽` : '—'}</span>
         </div>
@@ -171,20 +172,82 @@ const PieChart: React.FC<PieChartProps> = ({ active, deleted, total, uniqueSelle
   );
 };
 
-const SellersList: React.FC<{ sellers: Seller[], title: string }> = ({ sellers, title }) => {
+const SellersList: React.FC<{ 
+  sellers: SellerWithStats[], 
+  count: number,
+  searchQuery: string,
+  onSearchChange: (query: string) => void,
+  onLoadMore: () => void,
+  isLoadingMore: boolean,
+  hasMore: boolean
+}> = ({ sellers, count, searchQuery, onSearchChange, onLoadMore, isLoadingMore, hasMore }) => {
+  const filteredSellers = useMemo(() => {
+    if (!searchQuery) return sellers;
+    return sellers.filter(seller => 
+      seller.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [sellers, searchQuery]);
+
   return (
     <div className={css.sellersPanel}>
-      <h3 className={css.sellersTitle}>{title}</h3>
+      <div className={css.sellersHeader}>
+        <h3 className={css.sellersTitle}>Продавцы: {count}</h3>
+        <div className={css.searchContainer}>
+          <Icon name="search" size={16} className={css.searchIcon} />
+          <input
+            type="text"
+            placeholder="Поиск по email"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className={css.searchInput}
+          />
+        </div>
+      </div>
       <div className={css.sellersList}>
-        {sellers.length > 0 ? (
-          sellers.map(seller => (
-            <div key={seller.id} className={css.sellerItem}>
-              <img className={css.sellerAvatar} alt="" src={getAvatarUrl(seller.avatar, 'small')} />
-              <span className={css.sellerName}>{seller.name}</span>
-            </div>
-          ))
+        {filteredSellers.length > 0 ? (
+          <>
+            {filteredSellers.map(seller => (
+              <div key={seller.id} className={css.sellerItem}>
+                <img className={css.sellerAvatar} alt="" src={getAvatarUrl(seller.avatar, 'small')} />
+                <div className={css.sellerInfo}>
+                  <div className={css.sellerNameStats}>
+                    <div  className={css.sellerName}>
+                      {seller.name}
+                    </div>
+                    <div className={css.sellerStats}>
+                    <span className={css.adsCount}>
+                      <span className={css.activeAds}>{seller.activeAds}</span>
+                      {seller.deletedAds > 0 && (
+                        <span className={css.deletedAds}>{seller.deletedAds}</span>
+                      )}
+                    </span>
+                  </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            
+            {/* Кнопка загрузить еще */}
+            {hasMore && (
+              <div className={css.loadMoreContainer}>
+                <button 
+                  className={css.loadMoreButton}
+                  onClick={onLoadMore}
+                  disabled={isLoadingMore}
+                >
+                  {isLoadingMore ? (
+                    <Loader type="section" />
+                  ) : (
+                    'Загрузить еще'
+                  )}
+                </button>
+              </div>
+            )}
+          </>
         ) : (
-          <div className={css.noSellers}>Нет продавцов</div>
+          <div className={css.noSellers}>
+            {searchQuery ? 'Продавцы не найдены' : 'Нет продавцов'}
+          </div>
         )}
       </div>
     </div>
@@ -200,6 +263,9 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
   } = trpc.getCategoriesSubcategoriesStats.useQuery({})
 
   const [selectedCategory, setSelectedCategory] = useState<any>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sellersPage, setSellersPage] = useState(1)
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
   const stopPropagation = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -211,6 +277,16 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
 
   const handleCategoryClick = (category: any) => {
     setSelectedCategory(category)
+    setSearchQuery('')
+    setSellersPage(1) // Сбрасываем пагинацию при выборе новой категории
+  }
+
+  const handleLoadMore = async () => {
+    setIsLoadingMore(true)
+    // Имитируем задержку для плавности
+    await new Promise(resolve => setTimeout(resolve, 300))
+    setSellersPage(prev => prev + 1)
+    setIsLoadingMore(false)
   }
 
   if (isStatsLoading) {
@@ -223,43 +299,89 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
 
   const allCategories = statsData?.categories || []
   const allSellers = statsData?.allSellers || []
+  const allAds = statsData?.allAds || []
 
-  // Получаем продавцов для выбранной категории или всех продавцов
-  const getSellersForSelection = () => {
-    if (!selectedCategory) return allSellers;
+  // Функция для получения статистики продавца по всем его объявлениям
+  const getSellerStatsFromAllAds = (sellerId: string) => {
+    const sellerAds = allAds.filter(ad => ad.authorId === sellerId);
+    const activeAds = sellerAds.filter(ad => !ad.deletedAt);
+    const deletedAds = sellerAds.filter(ad => ad.deletedAt);
+    
+    return {
+      activeAds: activeAds.length,
+      deletedAds: deletedAds.length,
+      totalAds: sellerAds.length
+    };
+  };
+
+  // Получаем всех продавцов с их статистикой
+  const getAllSellersWithStats = (): SellerWithStats[] => {
+    return allSellers.map(seller => {
+      const stats = getSellerStatsFromAllAds(seller.id);
+      return {
+        ...seller,
+        activeAds: stats.activeAds,
+        deletedAds: stats.deletedAds,
+        totalAds: stats.totalAds
+      };
+    });
+  };
+
+  // Получаем продавцов с количеством объявлений для выбранной категории
+  const getSellersWithStatsForSelection = (): SellerWithStats[] => {
+    if (!selectedCategory) {
+      return getAllSellersWithStats();
+    }
     
     // Для категории
     if (!selectedCategory.categoryId) {
       const category = allCategories.find(c => c.id === selectedCategory.id);
       if (!category) return [];
       
-      // Собираем всех уникальных продавцов из категории и ее подкатегорий
-      const sellerIds = new Set<string>();
-      const sellers: Seller[] = [];
+      const sellerStats = new Map<string, { active: number, deleted: number }>();
       
-      // Добавляем продавцов из самой категории
-      if (category.sellers) {
-        category.sellers.forEach(seller => {
-          if (!sellerIds.has(seller.id)) {
-            sellerIds.add(seller.id);
-            sellers.push(seller);
+      // Обрабатываем объявления самой категории
+      if (category.ads) {
+        category.ads.forEach(ad => {
+          if (!ad.authorId) return;
+          
+          const current = sellerStats.get(ad.authorId) || { active: 0, deleted: 0 };
+          if (ad.deletedAt) {
+            current.deleted += 1;
+          } else {
+            current.active += 1;
           }
+          sellerStats.set(ad.authorId, current);
         });
       }
       
-      // Добавляем продавцов из подкатегорий
+      // Обрабатываем объявления подкатегорий
       category.subcategories?.forEach(sub => {
-        if (sub.sellers) {
-          sub.sellers.forEach(seller => {
-            if (!sellerIds.has(seller.id)) {
-              sellerIds.add(seller.id);
-              sellers.push(seller);
+        if (sub.ads) {
+          sub.ads.forEach(ad => {
+            if (!ad.authorId) return;
+            
+            const current = sellerStats.get(ad.authorId) || { active: 0, deleted: 0 };
+            if (ad.deletedAt) {
+              current.deleted += 1;
+            } else {
+              current.active += 1;
             }
+            sellerStats.set(ad.authorId, current);
           });
         }
       });
       
-      return sellers;
+      // Формируем результат с продавцами и их статистикой
+      return Array.from(sellerStats.entries()).map(([sellerId, stats]) => {
+        const seller = allSellers.find(s => s.id === sellerId);
+        return seller ? {
+          ...seller,
+          activeAds: stats.active,
+          deletedAds: stats.deleted,
+          totalAds: stats.active + stats.deleted
+        } : null;
+      }).filter(Boolean) as SellerWithStats[];
     }
     
     // Для подкатегории
@@ -270,13 +392,41 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
     if (!parentCategory) return [];
     
     const subcategory = parentCategory.subcategories?.find(sub => sub.id === selectedCategory.id);
-    return subcategory?.sellers || [];
+    if (!subcategory || !subcategory.ads) return [];
+    
+    // Собираем статистику по продавцам для подкатегории
+    const sellerStats = new Map<string, { active: number, deleted: number }>();
+    
+    subcategory.ads.forEach(ad => {
+      if (!ad.authorId) return;
+      
+      const current = sellerStats.get(ad.authorId) || { active: 0, deleted: 0 };
+      if (ad.deletedAt) {
+        current.deleted += 1;
+      } else {
+        current.active += 1;
+      }
+      sellerStats.set(ad.authorId, current);
+    });
+    
+    // Формируем результат с продавцами и их статистикой
+    return Array.from(sellerStats.entries()).map(([sellerId, stats]) => {
+      const seller = allSellers.find(s => s.id === sellerId);
+      return seller ? {
+        ...seller,
+        activeAds: stats.active,
+        deletedAds: stats.deleted,
+        totalAds: stats.active + stats.deleted
+      } : null;
+    }).filter(Boolean) as SellerWithStats[];
   };
 
-  const currentSellers = getSellersForSelection();
-  const sellersTitle = selectedCategory 
-    ? `Продавцы: ${selectedCategory.name}` 
-    : `Все продавцы: ${allSellers.length}`;
+  // Получаем всех продавцов для текущей выборки
+  const allSellersForSelection = getSellersWithStatsForSelection();
+  
+  // Пагинируем продавцов
+  const paginatedSellers = allSellersForSelection.slice(0, sellersPage * SELLERS_PER_PAGE);
+  const hasMoreSellers = paginatedSellers.length < allSellersForSelection.length;
 
   // Получаем статистику для отображения
   const getStatsForSelection = () => {
@@ -293,7 +443,6 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
         active: activeAds,
         deleted: deletedAds,
         total: totalAds,
-        uniqueSellers: allSellers.length,
         avgPrice: avgPrice
       };
     }
@@ -303,7 +452,6 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
       active: selectedCategory.activeAds,
       deleted: selectedCategory.deletedAds,
       total: selectedCategory.totalAds,
-      uniqueSellers: currentSellers.length,
       avgPrice: selectedCategory.avgPrice
     };
   };
@@ -317,20 +465,20 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
         <div className={css.tablePanel}>
 
           <div className={css.header}>
-        <div className={css.headerStats}>
-          Категории и подкатегории
-        </div>
+            <div className={css.headerStats}>
+              Категории и подкатегории
+            </div>
 
-        <div className={css.headerButtons}>
-          <Modal title={'Создание категории'} buttonText="Категория">
-            <CreateCategory onSuccess={handleSuccess} />
-          </Modal>
+            <div className={css.headerButtons}>
+              <Modal title={'Создание категории'} buttonText="Категория">
+                <CreateCategory onSuccess={handleSuccess} />
+              </Modal>
 
-          <Modal title={'Создание подкатегории'} buttonText={'Подкатегория'}>
-            <CreateSubcategory onSuccess={handleSuccess} />
-          </Modal>
-        </div>
-      </div>
+              <Modal title={'Создание подкатегории'} buttonText={'Подкатегория'}>
+                <CreateSubcategory onSuccess={handleSuccess} />
+              </Modal>
+            </div>
+          </div>
       
           <div className={css.tableWrapper}>
             <table className={css.categoryTable}>
@@ -408,7 +556,15 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
         </div>
 
         <div className={css.sellersPanelContainer}>
-          <SellersList sellers={currentSellers} title={sellersTitle} />
+          <SellersList 
+            sellers={paginatedSellers} 
+            count={allSellersForSelection.length} 
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            onLoadMore={handleLoadMore}
+            isLoadingMore={isLoadingMore}
+            hasMore={hasMoreSellers}
+          />
         </div>
 
         <div className={css.chartPanelContainer}>
@@ -417,16 +573,19 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
               active={currentStats.active}
               deleted={currentStats.deleted}
               total={currentStats.total}
-              uniqueSellers={currentStats.uniqueSellers}
               avgPrice={currentStats.avgPrice}
             />
             {selectedCategory && (
               <button 
                 className={css.closeChartButton}
-                onClick={() => setSelectedCategory(null)}
+                onClick={() => {
+                  setSelectedCategory(null)
+                  setSearchQuery('')
+                  setSellersPage(1) // Сбрасываем пагинацию
+                }}
                 aria-label="Сбросить выбор"
               >
-                <Icon name="delete" />
+                <Icon name="reset" size={18} />
               </button>
             )}
           </div>

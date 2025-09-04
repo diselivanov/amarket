@@ -51,24 +51,6 @@
   flex: 1;
   overflow: auto;
   position: relative;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: none;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($color-3, 0.2);
-    border-radius: 25px;
-
-    &:hover {
-      background: rgba($color-3, 0.3);
-    }
-  }
 }
 
 .usersTable {

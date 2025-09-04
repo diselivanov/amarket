@@ -33,6 +33,16 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
       },
     })
 
+    // Получаем все объявления для общей статистики
+    const allAds = await ctx.prisma.ad.findMany({
+      where: {
+        blockedAt: null,
+      },
+      include: {
+        author: true,
+      },
+    });
+
     // Собираем всех авторов из всех объявлений
     const allAuthors = new Map<string, any>();
 
@@ -116,6 +126,7 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
               avgPrice: subAvgPrice,
               uniqueSellers: subUniqueSellers,
               sellers: subSellers,
+              ads: subcategoryAds,
             };
           })
         );
@@ -136,6 +147,7 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
           uniqueSellers: uniqueSellers,
           sellers: categorySellers,
           subcategories: sortedSubcategories,
+          ads: allCategoryAds,
         };
       })
     );
@@ -147,6 +159,7 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
     return {
       categories: sortedCategoryStats,
       allSellers: Array.from(allAuthors.values()),
+      allAds: allAds, // Добавляем все объявления для общей статистики
       totalUniqueSellers: allAuthors.size,
     };
   });

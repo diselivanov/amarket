@@ -14,14 +14,14 @@
   flex-direction: column;
   align-items: center;
   border-right: 1px solid $border-color;
-  width: 60px;
+  width: 56px;
 }
 
 .tabButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
+  width: 56px;
   height: 50px;
   text-align: left;
   border: none;
@@ -34,14 +34,11 @@
   }
 
   &:hover {
-    .tabIcon {
-      color: $color-1;
-    }
   }
 
   &.active {
     .tabIcon {
-      color: $purple;
+      color: $color-1;
     }
   }
 }
@@ -49,9 +46,10 @@
 .tabsContent {
   flex: 1;
   overflow: auto;
+  background-color: $background-2;
 }
 
 .tabContent {
-  padding: 10px;
+  padding: 8px;
   height: 100%;
 }
