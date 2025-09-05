@@ -191,7 +191,7 @@ const SellersList: React.FC<{
   return (
     <div className={css.sellersPanel}>
       <div className={css.sellersHeader}>
-        <h3 className={css.sellersTitle}>Продавцы: {count}</h3>
+        <h3 className={css.sellersTitle}>Продавцы <span className={css.count}>{count}</span></h3>
         <div className={css.searchContainer}>
           <Icon name="search" size={16} className={css.searchIcon} />
           <input
@@ -236,7 +236,7 @@ const SellersList: React.FC<{
                   disabled={isLoadingMore}
                 >
                   {isLoadingMore ? (
-                    <Loader type="section" />
+                    "Загрузка..."
                   ) : (
                     'Загрузить еще'
                   )}

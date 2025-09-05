@@ -141,11 +141,9 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
           <div className={css.loadMoreContainer}>
             <button className={css.loadMoreButton} onClick={handleLoadMore} disabled={isUsersLoading}>
               {isUsersLoading ? (
-                <Loader type="section" />
+                "Загрузка..."
               ) : (
-                <>
-                  <span>Загрузить еще</span>
-                </>
+                  "Загрузить еще"
               )}
             </button>
           </div>

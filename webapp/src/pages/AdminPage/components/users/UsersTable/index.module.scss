@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   background-color: $background-1;
-  border-radius: $border-radius-6;
+  border-radius: $border-radius-5;
   overflow: hidden;
   position: relative;
   min-height: 400px;
@@ -174,7 +174,7 @@
   background-color: $background-2;
   color: $color-1;
   border: 1px solid $border-color;
-  border-radius: $border-radius-6;
+  border-radius: $border-radius-5;
   cursor: pointer;
   transition: all $transition ease;
 

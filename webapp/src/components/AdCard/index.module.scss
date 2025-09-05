@@ -78,12 +78,13 @@
 
 .city {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 2px 5px 5px 5px;
-  border-radius: $border-radius-8;
-  background-color: rgba($color-1, 0.4);
-  color: $background-1;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(1px);
+  bottom: 5px;
+  right: 5px;
+  padding: 4px 8px;
+  font-size: $font-size-14;
+  border-radius: $border-radius-5;
+  background-color: rgba(black, 0.2);
+  color: white;
+  border: 1px solid rgba(white, 0.3);
+  backdrop-filter: blur(2px);
 }

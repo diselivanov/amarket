@@ -105,12 +105,13 @@ export const AdCard = ({ id, title, price, city, images }: AdCardProps) => {
             ))}
           </div>
         )}
+
+        <p className={css.city}>{city}</p>
       </div>
 
       <div className={css.info}>
         <p className={css.title}>{title}</p>
         <p className={css.price}>{price} ₽</p>
-        <p className={css.city}>{city}</p>
       </div>
     </Link>
   )
