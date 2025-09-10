@@ -160,9 +160,8 @@
   align-items: center;
   gap: 10px;
   padding: 5px 10px;
-  transition: background-color $transition ease;
   border-bottom: 1px solid $border-color;
-  
+
   &:hover {
     background-color: $background-2;
   }
@@ -212,7 +211,6 @@
   color: $color-1;
   font-size: $font-size-14;
   cursor: pointer;
-  transition: background-color $transition ease;
 
   &:hover:not(:disabled) {
     background-color: $background-3;
@@ -261,7 +259,6 @@
 }
 
 .categoryRow {
-  transition: background-color $transition ease;
   cursor: pointer;
 
   &:hover {
@@ -270,7 +267,6 @@
 }
 
 .subcategoryRow {
-  transition: background-color $transition ease;
   cursor: pointer;
 
   &:hover {
@@ -442,10 +438,9 @@
   border: 1px solid rgba($purple, 0.3);
   color: $purple;
   cursor: pointer;
-  transition: background-color $transition ease;
 
   &:hover {
-     background-color: rgba($purple, 0.14);
+    background-color: rgba($purple, 0.14);
   }
 }
 
@@ -479,11 +474,11 @@
   }
 
   &::placeholder {
-      color: $color-3;
-      opacity: 1;
-      font-family: $font-family;
-      user-select: none;
-    }
+    color: $color-3;
+    opacity: 1;
+    font-family: $font-family;
+    user-select: none;
+  }
 }
 
 .sellersHeader {

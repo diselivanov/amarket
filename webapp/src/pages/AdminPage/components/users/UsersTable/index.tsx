@@ -140,11 +140,7 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
         {hasMore && (
           <div className={css.loadMoreContainer}>
             <button className={css.loadMoreButton} onClick={handleLoadMore} disabled={isUsersLoading}>
-              {isUsersLoading ? (
-                "Загрузка..."
-              ) : (
-                  "Загрузить еще"
-              )}
+              {isUsersLoading ? 'Загрузка...' : 'Загрузить еще'}
             </button>
           </div>
         )}

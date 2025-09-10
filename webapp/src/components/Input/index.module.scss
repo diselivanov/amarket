@@ -24,7 +24,6 @@
     color: $color-1;
     outline: none;
     width: 100%;
-    transition: all $transition ease;
 
     &:focus {
       box-shadow: 0 0 0 1px $green;

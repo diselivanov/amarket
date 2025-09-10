@@ -12,10 +12,10 @@ import { FiChevronLeft, FiChevronRight, FiChevronUp, FiChevronDown, FiBarChart2 
 import { IoAdd } from 'react-icons/io5'
 import { SiAlwaysdata } from 'react-icons/si'
 import { BsList } from 'react-icons/bs'
-import { RxReset } from "react-icons/rx";
-import { IoCarSportSharp } from "react-icons/io5";
-import { BiSolidCategory } from "react-icons/bi";
-import { TbCopy } from "react-icons/tb";
+import { RxReset } from 'react-icons/rx'
+import { IoCarSportSharp } from 'react-icons/io5'
+import { BiSolidCategory } from 'react-icons/bi'
+import { TbCopy } from 'react-icons/tb'
 
 const icons = {
   likeEmpty: AiOutlineHeart,

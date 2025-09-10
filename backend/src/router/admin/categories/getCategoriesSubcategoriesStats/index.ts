@@ -41,40 +41,40 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
       include: {
         author: true,
       },
-    });
+    })
 
     // Собираем всех авторов из всех объявлений
-    const allAuthors = new Map<string, any>();
+    const allAuthors = new Map<string, any>()
 
     const categoryStats = await Promise.all(
       categories.map(async (category) => {
-        const allCategoryAds = category.ads;
-        const activeCategoryAds = allCategoryAds.filter((ad) => !ad.deletedAt);
-        const deletedCategoryAds = allCategoryAds.filter((ad) => ad.deletedAt);
+        const allCategoryAds = category.ads
+        const activeCategoryAds = allCategoryAds.filter((ad) => !ad.deletedAt)
+        const deletedCategoryAds = allCategoryAds.filter((ad) => ad.deletedAt)
 
         // Добавляем авторов этой категории в общий набор
         allCategoryAds.forEach((ad) => {
           if (ad.authorId && !allAuthors.has(ad.authorId)) {
-            allAuthors.set(ad.authorId, ad.author);
+            allAuthors.set(ad.authorId, ad.author)
           }
-        });
+        })
 
         const avgPrice =
           allCategoryAds.length > 0
             ? Math.round(
                 allCategoryAds.reduce((sum, ad) => {
-                  const price = parseFloat(ad.price) || 0;
-                  return sum + price;
+                  const price = parseFloat(ad.price) || 0
+                  return sum + price
                 }, 0) / allCategoryAds.length
               )
-            : 0;
+            : 0
 
-        const uniqueSellers = new Set(allCategoryAds.map((ad) => ad.authorId)).size;
+        const uniqueSellers = new Set(allCategoryAds.map((ad) => ad.authorId)).size
 
         // Получаем продавцов для этой категории
-        const categorySellers = Array.from(
-          new Set(allCategoryAds.map(ad => ad.authorId))
-        ).map(id => allAuthors.get(id)).filter(Boolean);
+        const categorySellers = Array.from(new Set(allCategoryAds.map((ad) => ad.authorId)))
+          .map((id) => allAuthors.get(id))
+          .filter(Boolean)
 
         const subcategoriesStats = await Promise.all(
           category.subcategories.map(async (subcategory) => {
@@ -86,33 +86,33 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
               include: {
                 author: true,
               },
-            });
+            })
 
-            const activeSubcategoryAds = subcategoryAds.filter((ad) => !ad.deletedAt);
-            const deletedSubcategoryAds = subcategoryAds.filter((ad) => ad.deletedAt);
+            const activeSubcategoryAds = subcategoryAds.filter((ad) => !ad.deletedAt)
+            const deletedSubcategoryAds = subcategoryAds.filter((ad) => ad.deletedAt)
 
             // Добавляем авторов подкатегории в общий набор
             subcategoryAds.forEach((ad) => {
               if (ad.authorId && !allAuthors.has(ad.authorId)) {
-                allAuthors.set(ad.authorId, ad.author);
+                allAuthors.set(ad.authorId, ad.author)
               }
-            });
+            })
 
             const subAvgPrice =
               subcategoryAds.length > 0
                 ? Math.round(
                     subcategoryAds.reduce((sum, ad) => {
-                      const price = parseFloat(ad.price) || 0;
-                      return sum + price;
+                      const price = parseFloat(ad.price) || 0
+                      return sum + price
                     }, 0) / subcategoryAds.length
                   )
-                : 0;
-            const subUniqueSellers = new Set(subcategoryAds.map((ad) => ad.authorId)).size;
+                : 0
+            const subUniqueSellers = new Set(subcategoryAds.map((ad) => ad.authorId)).size
 
             // Получаем продавцов для этой подкатегории
-            const subSellers = Array.from(
-              new Set(subcategoryAds.map(ad => ad.authorId))
-            ).map(id => allAuthors.get(id)).filter(Boolean);
+            const subSellers = Array.from(new Set(subcategoryAds.map((ad) => ad.authorId)))
+              .map((id) => allAuthors.get(id))
+              .filter(Boolean)
 
             return {
               id: subcategory.id,
@@ -127,13 +127,13 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
               uniqueSellers: subUniqueSellers,
               sellers: subSellers,
               ads: subcategoryAds,
-            };
+            }
           })
-        );
+        )
 
         const sortedSubcategories = subcategoriesStats.sort((a, b) => {
-          return parseInt(a.sequence) - parseInt(b.sequence);
-        });
+          return parseInt(a.sequence) - parseInt(b.sequence)
+        })
 
         return {
           id: category.id,
@@ -148,18 +148,18 @@ export const getCategoriesSubcategoriesStatsTrpcRoute = trpcLoggedProcedure
           sellers: categorySellers,
           subcategories: sortedSubcategories,
           ads: allCategoryAds,
-        };
+        }
       })
-    );
+    )
 
     const sortedCategoryStats = categoryStats.sort((a, b) => {
-      return parseInt(a.sequence) - parseInt(b.sequence);
-    });
+      return parseInt(a.sequence) - parseInt(b.sequence)
+    })
 
     return {
       categories: sortedCategoryStats,
       allSellers: Array.from(allAuthors.values()),
       allAds: allAds, // Добавляем все объявления для общей статистики
       totalUniqueSellers: allAuthors.size,
-    };
-  });
+    }
+  })

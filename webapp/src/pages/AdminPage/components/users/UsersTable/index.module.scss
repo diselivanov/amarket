@@ -79,7 +79,6 @@
 
 .userRow {
   background-color: $background-1;
-  transition: background-color $transition ease;
 
   &:hover {
     background-color: $background-2;
@@ -176,7 +175,6 @@
   border: 1px solid $border-color;
   border-radius: $border-radius-5;
   cursor: pointer;
-  transition: all $transition ease;
 
   &:hover:not(:disabled) {
     background-color: $background-3;

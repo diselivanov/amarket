@@ -122,7 +122,6 @@
 
 .brandRow {
   background-color: $background-1;
-  transition: background-color $transition ease;
 
   &:hover {
     background-color: $background-2;
@@ -131,7 +130,6 @@
 
 .modelRow {
   background-color: $background-1;
-  transition: background-color $transition ease;
 
   &:hover {
     background-color: $background-2;
