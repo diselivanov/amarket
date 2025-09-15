@@ -3,12 +3,13 @@ import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
 import { Icon } from '../../../../../components/Icon'
-import { Modal } from '../../Modal'
-import css from './index.module.scss'
+import { Modal } from '../../../../../components/Modal'
 import { EditVehicleBrand } from '../EditVehicleBrand'
 import { EditVehicleModel } from '../EditVehicleModel'
 import { CreateVehicleModel } from '../NewVehicleModel'
 import { CreateVehicleBrand } from '../NewVehicleBrand'
+import { DataTable } from '../../../../../components/DataTable'
+import css from './index.module.scss'
 
 interface VehicleBrandsProps {
   className?: string
@@ -49,110 +50,84 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
   const allBrands = brandsData?.vehicleBrands || []
   const allModels = modelsData?.vehicleModels || []
 
+  // Подготовка данных для таблицы
+  const tableData = allBrands.flatMap((brand) => {
+    const brandModels = allModels.filter((model) => model.brandId === brand.id)
+    
+    const brandRow = {
+      name: brand.name,
+      sequence: brand.sequence,
+      actions: (
+        <div className={css.actionsContainer} onClick={stopPropagation}>
+          <Modal title={'Редактирование бренда'} buttonText={<Icon name={'edit'} />}>
+            <EditVehicleBrand
+              brandId={brand.id}
+              initialName={brand.name}
+              initialSequence={brand.sequence}
+              onSuccess={handleSuccess}
+            />
+          </Modal>
+        </div>
+      )
+    }
+
+    const modelRows = brandModels.map((model) => ({
+      name: `${model.name}`,
+      type: model.type,
+      sequence: model.sequence,
+      actions: (
+        <div className={css.actionsContainer} onClick={stopPropagation}>
+          <Modal title={'Редактирование модели'} buttonText={<Icon name={'edit'} />}>
+            <EditVehicleModel
+              vehicleModelId={model.id}
+              initialName={model.name}
+              initialSequence={model.sequence}
+              initialType={model.type}
+              initialBrandId={model.brandId}
+              onSuccess={handleSuccess}
+            />
+          </Modal>
+        </div>
+      )
+    }))
+
+    return [brandRow, ...modelRows]
+  })
+
+  // Определение колонок таблицы
+  const columns = [
+    { key: 'name', title: 'Бренд / Модель', width: '50%' },
+    { key: 'type', title: 'Тип', width: '25%' },
+    { key: 'sequence', title: 'Порядок', width: '15%' }
+  ]
+
+  // Кнопки для заголовка таблицы (onSuccess={handleSuccess} нужен у CreateVehicleBrand и CreateVehicleModel)
+  const headerButtons = (
+    <>
+      <Modal title={'Создание бренда'} buttonText="Бренд">
+        <CreateVehicleBrand />
+      </Modal>
+      <Modal title={'Создание модели'} buttonText={'Модель'}>
+        <CreateVehicleModel />
+      </Modal>
+    </>
+  )
+
+  // Статистика для заголовка
+  const headerStats = (
+    <>
+      <span>Брендов: {allBrands.length}</span>
+      <span>Моделей: {allModels.length}</span>
+    </>
+  )
+
   return (
-    <div className={`${css.tableContainer} ${className || ''}`}>
-      <div className={css.header}>
-        <div className={css.headerStats}>
-          <div className={css.statItem}>
-            <span className={css.statLabel}>Брендов:</span>
-            <span className={css.statValue}>{allBrands.length}</span>
-          </div>
-          <div className={css.statItem}>
-            <span className={css.statLabel}>Моделей:</span>
-            <span className={css.statValue}>{allModels.length}</span>
-          </div>
-        </div>
-
-        <div className={css.headerButtons}>
-          <Modal title={'Создание бренда'} buttonText="Бренд">
-            <CreateVehicleBrand />
-          </Modal>
-
-          <Modal title={'Создание модели'} buttonText={'Модель'}>
-            <CreateVehicleModel />
-          </Modal>
-        </div>
-      </div>
-
-      <div className={css.tableWrapper}>
-        <div className={css.tableHeader}>
-          <div className={css.colName}>Бренд / Модель</div>
-          <div className={css.colType}>Тип</div>
-          <div className={css.colSequence}>Порядок</div>
-          <div></div>
-        </div>
-
-        <table className={css.brandsTable}>
-          <tbody>
-            {allBrands.map((brand, brandIndex) => {
-              const brandModels = allModels.filter((model) => model.brandId === brand.id)
-              const isLastBrand = brandIndex === allBrands.length - 1 && brandModels.length === 0
-
-              return (
-                <React.Fragment key={brand.id}>
-                  <tr className={`${css.brandRow} ${isLastBrand ? css.lastRow : ''}`}>
-                    <td className={css.colName}>
-                      <span className={css.label}>{brand.name}</span>
-                    </td>
-
-                    <td className={css.colType}>
-                      <span className={css.statValue}>-</span>
-                    </td>
-
-                    <td className={css.colSequence}>
-                      <span className={css.statValue}>{brand.sequence}</span>
-                    </td>
-
-                    <td onClick={stopPropagation}>
-                      <Modal title={'Редактирование бренда'} buttonText={<Icon name={'edit'} />}>
-                        <EditVehicleBrand
-                          brandId={brand.id}
-                          initialName={brand.name}
-                          initialSequence={brand.sequence}
-                          onSuccess={handleSuccess}
-                        />
-                      </Modal>
-                    </td>
-                  </tr>
-
-                  {brandModels.map((model, modelIndex) => {
-                    const isLastModel = brandIndex === allBrands.length - 1 && modelIndex === brandModels.length - 1
-
-                    return (
-                      <tr key={model.id} className={`${css.modelRow} ${isLastModel ? css.lastRow : ''}`}>
-                        <td className={css.colName}>
-                          <span className={css.leafLabel}>{model.name}</span>
-                        </td>
-
-                        <td className={css.colType}>
-                          <span className={css.statValue}>{model.type}</span>
-                        </td>
-
-                        <td className={css.colSequence}>
-                          <span className={css.statValue}>{model.sequence}</span>
-                        </td>
-
-                        <td onClick={stopPropagation}>
-                          <Modal title={'Редактирование модели'} buttonText={<Icon name={'edit'} />}>
-                            <EditVehicleModel
-                              vehicleModelId={model.id}
-                              initialName={model.name}
-                              initialSequence={model.sequence}
-                              initialType={model.type}
-                              initialBrandId={model.brandId}
-                              onSuccess={handleSuccess}
-                            />
-                          </Modal>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </React.Fragment>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <DataTable
+      columns={columns}
+      data={tableData}
+      headerButtons={headerButtons}
+      headerStats={headerStats}
+      className={className}
+    />
   )
 }

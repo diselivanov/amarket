@@ -1,0 +1,142 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: $background-1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($color-1, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba($color-1, 0.2);
+}
+
+.tableContainer {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: $font-size-14;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-top: 1px solid $border-color;
+  border-left: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+  border-top-right-radius: $border-radius-8;
+  border-top-left-radius: $border-radius-8;
+  background-color: $background-1;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+}
+
+.headerStats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: $color-2;
+  font-size: $font-size-14;
+  margin-left: 10px;
+}
+
+.headerButtons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tablePanel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tableWrapper {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid $border-color;
+  border-bottom-left-radius: $border-radius-8;
+  border-bottom-right-radius: $border-radius-8;
+  background-color: $background-1;
+}
+
+.tableHeader {
+  display: flex;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: $background-1;
+  border-bottom: 1px solid $border-color;
+}
+
+.tableHeaderCell {
+  padding: 10px 15px;
+  color: $color-2;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.tableBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableRow {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid $border-color;
+  box-sizing: border-box;
+  
+  &:hover {
+    background-color: $background-2;
+  }
+}
+
+.lastRow {
+  border-bottom: none !important;
+}
+
+.tableCell {
+  padding: 5px 15px;
+  vertical-align: middle;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.tableFooter {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  border-top: 1px solid $border-color;
+  background-color: $background-1;
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import css from './index.module.scss'
-import { Icon } from '../../../../components/Icon'
+import { Icon } from '../../components/Icon'
 
 interface ModalProps {
   children: React.ReactNode

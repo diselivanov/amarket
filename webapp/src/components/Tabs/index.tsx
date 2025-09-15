@@ -34,6 +34,7 @@ export const Tabs = ({ children, defaultActiveTab = 0 }: TabsProps) => {
             onClick={() => setActiveTab(index)}
           >
             {tab.icon && <span className={css.tabIcon}>{tab.icon}</span>}
+            <span className={css.tabLabel}>{tab.label}</span>
           </button>
         ))}
       </div>

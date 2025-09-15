@@ -1,131 +1,6 @@
 @use '../../../../../styles/vars' as *;
 @use '../../../../../styles/mixins' as *;
 
-.tableContainer {
-  width: 100%;
-  height: 100%;
-  border: 1px solid $border-color;
-  user-select: none;
-  display: flex;
-  flex-direction: column;
-  background-color: $background-1;
-  border-radius: $border-radius-5;
-  overflow: hidden;
-  position: relative;
-  min-height: 400px;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px;
-  border-bottom: 1px solid $border-color;
-  z-index: 100;
-  flex-shrink: 0;
-}
-
-.headerStats {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
-  margin-left: 10px;
-}
-
-.statItem {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.statLabel {
-  color: $color-3;
-}
-
-.statValue {
-  color: $color-1;
-}
-
-.tableWrapper {
-  flex: 1;
-  overflow: auto;
-  position: relative;
-}
-
-.usersTable {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.tableHeader {
-  background-color: $background-1;
-  color: $color-3;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  border-bottom: 1px solid $border-color;
-
-  th {
-    padding: 8px 10px;
-    vertical-align: middle;
-    height: 32px;
-    box-sizing: border-box;
-    text-align: left;
-    border-bottom: 1px solid $border-color;
-  }
-}
-
-.userRow {
-  background-color: $background-1;
-
-  &:hover {
-    background-color: $background-2;
-  }
-
-  td {
-    padding: 5px 10px;
-    border-bottom: 1px solid $border-color;
-    vertical-align: middle;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
-
-.lastRow {
-  td {
-    border-bottom: none !important;
-  }
-}
-
-.colName {
-  width: 20%;
-  padding-left: 16px !important;
-}
-
-.colEmail {
-  width: 20%;
-}
-
-.colPhone {
-  width: 15%;
-}
-
-.colStats {
-  width: 10%;
-
-  .statValue {
-    color: $color-1;
-  }
-}
-
-.colDate {
-  width: 15%;
-}
-
 .userInfo {
   display: flex;
   align-items: center;
@@ -159,13 +34,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: $font-size-12;
 }
 
-.loadMoreContainer {
-  display: flex;
-  justify-content: center;
-  padding: 15px;
-  border-top: 1px solid $border-color;
+.statValue {
+  color: $color-1;
 }
 
 .loadMoreButton {
@@ -173,7 +46,7 @@
   background-color: $background-2;
   color: $color-1;
   border: 1px solid $border-color;
-  border-radius: $border-radius-5;
+  border-radius: $border-radius-6;
   cursor: pointer;
 
   &:hover:not(:disabled) {

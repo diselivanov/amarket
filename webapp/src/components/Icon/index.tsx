@@ -6,16 +6,16 @@ import { TiWarning } from 'react-icons/ti'
 import { LuSearch } from 'react-icons/lu'
 import { FaCheck } from 'react-icons/fa6'
 import { BiSolidInfoCircle } from 'react-icons/bi'
-import { ImUsers } from 'react-icons/im'
+import { TbUserScan } from "react-icons/tb";
 import { MdSettings, MdOutlineModeEditOutline } from 'react-icons/md'
 import { FiChevronLeft, FiChevronRight, FiChevronUp, FiChevronDown, FiBarChart2 } from 'react-icons/fi'
 import { IoAdd } from 'react-icons/io5'
 import { SiAlwaysdata } from 'react-icons/si'
 import { BsList } from 'react-icons/bs'
 import { RxReset } from 'react-icons/rx'
-import { IoCarSportSharp } from 'react-icons/io5'
-import { BiSolidCategory } from 'react-icons/bi'
+import { IoCarSportOutline } from "react-icons/io5";
 import { TbCopy } from 'react-icons/tb'
+import { HiOutlineViewGrid } from "react-icons/hi";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
@@ -26,7 +26,7 @@ const icons = {
   success: FaCheck,
   info: BiSolidInfoCircle,
   stats: SiAlwaysdata,
-  users: ImUsers,
+  users: TbUserScan,
   settings: MdSettings,
   arrowRight: FiChevronRight,
   arrowLeft: FiChevronLeft,
@@ -37,9 +37,9 @@ const icons = {
   copy: TbCopy,
   chart: FiBarChart2,
   list: BsList,
-  car: IoCarSportSharp,
+  car: IoCarSportOutline,
   reset: RxReset,
-  category: BiSolidCategory,
+  category: HiOutlineViewGrid,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {

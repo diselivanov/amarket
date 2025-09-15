@@ -1,5 +1,5 @@
 import { withPageWrapper } from '../../lib/pageWrapper'
-import { Tabs, Tab } from './components/Tabs'
+import { Tabs, Tab } from '../../components/Tabs'
 import { Icon } from '../../components/Icon'
 import { CategoryTable } from './components/categories/CategoryTable'
 import { UsersTable } from './components/users/UsersTable'

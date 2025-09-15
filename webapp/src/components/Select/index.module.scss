@@ -22,7 +22,6 @@
   width: 100%;
   padding: 11px;
   font-family: $font-family;
-  font-weight: $font-weight-1;
   border: 1px solid $border-color;
   border-radius: $border-radius-8;
   background-color: $background-1;
@@ -86,7 +85,7 @@
 .option {
   padding: 10px 12px;
   color: $color-1;
-  border-radius: $border-radius-5;
+  border-radius: $border-radius-6;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -115,7 +114,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: $font-size-14;
+  font-size: $font-size-12;
   margin-top: 5px;
   color: $red;
   user-select: none;

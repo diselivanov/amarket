@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
-import css from './index.module.scss'
+import { DataTable } from '../../../../../components/DataTable'
 import { getAvatarUrl } from '@amarket/shared/src/cloudinary'
+import css from './index.module.scss'
 
 interface UsersTableProps {
   className?: string
@@ -23,7 +24,7 @@ interface User {
 
 export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
   const [page, setPage] = useState(1)
-  const limit = 11
+  const limit = 12
   const [allUsers, setAllUsers] = useState<User[]>([])
 
   const {
@@ -57,6 +58,53 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
     }).format(new Date(date))
   }
 
+  // Подготовка данных для таблицы
+  const tableData = allUsers.map((user) => ({
+    name: (
+      <div className={css.userInfo}>
+        <img className={css.avatar} alt="" src={getAvatarUrl(user.avatar, 'small')} />
+        <div className={css.userDetails}>
+          <span className={css.userName}>{user.name || 'Не указано'}</span>
+          {user.description && <span className={css.userDescription}>{user.description}</span>}
+        </div>
+      </div>
+    ),
+    email: <span className={css.statValue}>{user.email}</span>,
+    phone: <span className={css.statValue}>{user.phone || 'Не указан'}</span>,
+    ads: <span className={css.statValue}>{user.adsCount}</span>,
+    likes: <span className={css.statValue}>{user.likesCount}</span>,
+    date: <span className={css.statValue}>{formatDate(user.createdAt)}</span>,
+  }))
+
+  // Определение колонок таблицы
+  const columns = [
+    { key: 'name', title: 'Имя', width: '20%' },
+    { key: 'email', title: 'Email', width: '20%' },
+    { key: 'phone', title: 'Телефон', width: '15%' },
+    { key: 'ads', title: 'Объявления', width: '10%', align: 'center' as const },
+    { key: 'likes', title: 'Лайки', width: '10%', align: 'center' as const },
+    { key: 'date', title: 'Дата регистрации', width: '15%' },
+  ]
+
+  // Статистика для заголовка
+  const headerStats = (
+    <>
+      <span>Всего: {usersData?.totalCount || 0}</span>
+      <span>Загружено: {allUsers.length}</span>
+    </>
+  )
+
+  // Кнопка загрузки еще (будет в footer)
+  const footerContent = (
+    <>
+      {usersData && allUsers.length < usersData.totalCount && (
+        <button className={css.loadMoreButton} onClick={handleLoadMore} disabled={isUsersLoading}>
+          {isUsersLoading ? 'Загрузка...' : 'Загрузить еще'}
+        </button>
+      )}
+    </>
+  )
+
   if (isUsersLoading && page === 1) {
     return <Loader type="section" />
   }
@@ -65,86 +113,13 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
     return <Alert color="red">Ошибка загрузки данных: {usersError.message}</Alert>
   }
 
-  const { totalCount } = usersData || {}
-  const hasMore = allUsers.length < (totalCount || 0)
-
   return (
-    <div className={`${css.tableContainer} ${className || ''}`}>
-      <div className={css.header}>
-        <div className={css.headerStats}>
-          <div className={css.statItem}>
-            <span className={css.statLabel}>Всего:</span>
-            <span className={css.statValue}>{totalCount}</span>
-          </div>
-          <div className={css.statItem}>
-            <span className={css.statLabel}>Загружено:</span>
-            <span className={css.statValue}>{allUsers.length}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={css.tableWrapper}>
-        <table className={css.usersTable}>
-          <thead>
-            <tr className={css.tableHeader}>
-              <th className={css.colName}>Имя</th>
-              <th className={css.colEmail}>Email</th>
-              <th className={css.colPhone}>Телефон</th>
-              <th className={css.colStats}>Объявления</th>
-              <th className={css.colStats}>Лайки</th>
-              <th className={css.colDate}>Дата регистрации</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {allUsers.map((user: User, index: number) => {
-              const isLastRow = index === allUsers.length - 1
-
-              return (
-                <tr key={user.id} className={`${css.userRow} ${isLastRow ? css.lastRow : ''}`}>
-                  <td className={css.colName}>
-                    <div className={css.userInfo}>
-                      <img className={css.avatar} alt="" src={getAvatarUrl(user.avatar, 'small')} />
-                      <div className={css.userDetails}>
-                        <span className={css.userName}>{user.name || 'Не указано'}</span>
-                        {user.description && <span className={css.userDescription}>{user.description}</span>}
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className={css.colEmail}>
-                    <span className={css.statValue}>{user.email}</span>
-                  </td>
-
-                  <td className={css.colPhone}>
-                    <span className={css.statValue}>{user.phone || 'Не указан'}</span>
-                  </td>
-
-                  <td className={css.colStats}>
-                    <span className={css.statValue}>{user.adsCount}</span>
-                  </td>
-
-                  <td className={css.colStats}>
-                    <span className={css.statValue}>{user.likesCount}</span>
-                  </td>
-
-                  <td className={css.colDate}>
-                    <span className={css.statValue}>{formatDate(user.createdAt)}</span>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-
-        {hasMore && (
-          <div className={css.loadMoreContainer}>
-            <button className={css.loadMoreButton} onClick={handleLoadMore} disabled={isUsersLoading}>
-              {isUsersLoading ? 'Загрузка...' : 'Загрузить еще'}
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+    <DataTable
+      columns={columns}
+      data={tableData}
+      headerStats={headerStats}
+      className={className}
+      footerContent={footerContent}
+    />
   )
 }
