@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import css from './index.module.scss'
 
 interface BadgeProps {
-  color: 'green' | 'red' | 'blue' | 'purple'
+  color: 'green' | 'red' | 'blue'
   children: React.ReactNode
   className?: string
   title?: string

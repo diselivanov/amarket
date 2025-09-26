@@ -14,6 +14,7 @@ export const getUsersTrpcRoute = trpcLoggedProcedure.input(zGetUsersTrpcInput).q
         description: true,
         phone: true,
         avatar: true,
+        balance: true,
         createdAt: true,
         _count: {
           select: {
@@ -40,6 +41,7 @@ export const getUsersTrpcRoute = trpcLoggedProcedure.input(zGetUsersTrpcInput).q
     description: user.description,
     phone: user.phone,
     avatar: user.avatar,
+    balance: user.balance,
     createdAt: user.createdAt,
     adsCount: user._count.ads,
     likesCount: user._count.adsLikes,

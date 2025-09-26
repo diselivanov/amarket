@@ -107,14 +107,14 @@
 .checkIcon {
   color: $color-1;
   flex-shrink: 0;
-  font-size: $font-size-12;
+  font-size: $font-size-15;
 }
 
 .error {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: $font-size-12;
+  font-size: $font-size-15;
   margin-top: 5px;
   color: $red;
   user-select: none;

@@ -1,28 +1,15 @@
-import React from 'react'
+import { useState } from 'react'
 import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
-import { Icon } from '../../../../../components/Icon'
 import { Badge } from '../../../../../components/Badge'
-import { CreateCategory } from '../NewCategory'
-import { CreateSubcategory } from '../NewSubcategory'
+import { NewCategory } from '../NewCategory'
+import { NewSubcategory } from '../NewSubcategory'
 import { EditCategory } from '../EditCategory'
 import { EditSubcategory } from '../EditSubcategory'
-import { Modal } from '../../../../../components/Modal'
 import { DataTable } from '../../../../../components/DataTable'
+import { EmojiWithText } from '../../../../../components/Emoji'
 import css from './index.module.scss'
-
-// Изображения категорий
-import imageCars from '../../../../../assets/images/cars.png'
-import imageRealty from '../../../../../assets/images/realty.png'
-import imageElectronics from '../../../../../assets/images/electronics.png'
-import imageWork from '../../../../../assets/images/work.png'
-import imageServices from '../../../../../assets/images/services.png'
-import imageItems from '../../../../../assets/images/items.png'
-import imageHome from '../../../../../assets/images/home.png'
-import imageHobby from '../../../../../assets/images/hobby.png'
-import imageAnimals from '../../../../../assets/images/animals.png'
-import imageBusiness from '../../../../../assets/images/business.png'
 
 interface CategoriesProps {
   className?: string
@@ -34,18 +21,31 @@ interface StatsBadgesProps {
   total: number
 }
 
+// Маппинг slug'ов категорий на названия emoji
+const slugToEmojiMap: Record<string, string> = {
+  realty: 'House',
+  transport: 'Automobile',
+  accessories: 'Gear',
+  electronics: 'Laptop',
+  work: 'Briefcase',
+  services: 'Hammer and Wrench',
+  items: 'T-Shirt',
+  home: 'Potted Plant',
+  hobby: 'Soccer Ball',
+  animals: 'Dog',
+  business: 'Money Bag'
+}
+
 const StatsBadges: React.FC<StatsBadgesProps> = ({ active, deleted, total }) => {
-  // Рассчитываем проценты
   const activePercentage = total > 0 ? Math.round((active / total) * 100) : 0
   const deletedPercentage = total > 0 ? Math.round((deleted / total) * 100) : 0
 
-  // Формируем текст для подсказок
   const totalTooltip = `Общее количество`
   const activeTooltip = `Активные ${activePercentage}%`
   const deletedTooltip = `Удаленные ${deletedPercentage}%`
 
   return (
-    <div className={css.statsBadges}>
+    <>
       <Badge color="blue" title={totalTooltip}>
         {total}
       </Badge>
@@ -55,39 +55,32 @@ const StatsBadges: React.FC<StatsBadgesProps> = ({ active, deleted, total }) => 
       <Badge color="red" title={deletedTooltip}>
         {deleted}
       </Badge>
-    </div>
+    </>
   )
 }
 
-// Функция для получения изображения по slug категории
-const getCategoryImage = (slug: string) => {
-  switch (slug) {
-    case 'cars':
-      return imageCars
-    case 'realty':
-      return imageRealty
-    case 'electronics':
-      return imageElectronics
-    case 'work':
-      return imageWork
-    case 'services':
-      return imageServices
-    case 'items':
-      return imageItems
-    case 'home':
-      return imageHome
-    case 'hobby':
-      return imageHobby
-    case 'animals':
-      return imageAnimals
-    case 'business':
-      return imageBusiness
-    default:
-      return null
-  }
+interface TableItem {
+  id: string
+  type: 'category' | 'subcategory'
+  name: string
+  slug: string
+  sequence: string
+  categoryId?: string
+  emojiName?: string
+  uniqueSellers: number
+  avgPrice: number
+  totalAds: number
+  activeAds: number
+  deletedAds: number
 }
 
+type DetailViewMode = 'none' | 'new-category' | 'new-subcategory' | 'edit-category' | 'edit-subcategory'
+
 export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
+  const [selectedRow, setSelectedRow] = useState<number | null>(null)
+  const [selectedItem, setSelectedItem] = useState<TableItem | null>(null)
+  const [detailViewMode, setDetailViewMode] = useState<DetailViewMode>('none')
+
   const {
     data: statsData,
     isLoading: isStatsLoading,
@@ -95,13 +88,37 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
     refetch: refetchStats,
   } = trpc.getCategoriesSubcategoriesStats.useQuery({})
 
-  const stopPropagation = (e: React.MouseEvent) => {
-    e.stopPropagation()
-  }
-
   const handleSuccess = () => {
     refetchStats()
+    setSelectedRow(null)
+    setSelectedItem(null)
+    setDetailViewMode('none')
   }
+
+  const handleRowClick = (index: number) => {
+    setSelectedRow(selectedRow === index ? null : index)
+    
+    if (flatData[index]) {
+      setSelectedItem(flatData[index])
+      setDetailViewMode(flatData[index].type === 'category' ? 'edit-category' : 'edit-subcategory')
+    } else {
+      setSelectedItem(null)
+      setDetailViewMode('none')
+    }
+  }
+
+  const handleNewCategoryClick = () => {
+    setSelectedRow(null)
+    setSelectedItem(null)
+    setDetailViewMode('new-category')
+  }
+
+  const handleNewSubcategoryClick = () => {
+    setSelectedRow(null)
+    setSelectedItem(null)
+    setDetailViewMode('new-subcategory')
+  }
+
 
   if (isStatsLoading) {
     return <Loader type="section" />
@@ -124,93 +141,81 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
     return new Intl.NumberFormat('ru-RU').format(Math.round(price))
   }
 
-  // Подготовка данных для таблицы
-  const tableData = allCategories.flatMap((category) => {
+  // Подготавливаем плоский список данных для таблицы
+  const flatData: TableItem[] = allCategories.flatMap((category) => {
     const categorySubcategories = category.subcategories || []
-    const categoryImage = getCategoryImage(category.slug)
+    const emojiName = slugToEmojiMap[category.slug]
     
-    const categoryRow = {
-      name: (
-        <div className={css.nameCell}>
-          {categoryImage && (
-            <div className={css.categoryImageContainer}>
-              <img src={categoryImage} className={css.categoryImage} alt={category.name} />
-            </div>
-          )}
-          {category.name}
-        </div>
-      ),
-      sellers: category.uniqueSellers,
-      price: category.totalAds > 0 ? `${formatPrice(category.avgPrice)} ₽` : '—',
-      ads: (
-        <StatsBadges
-          active={category.activeAds}
-          deleted={category.deletedAds}
-          total={category.totalAds}
-        />
-      ),
-      actions: (
-        <div className={css.actionsContainer} onClick={stopPropagation}>
-          <Modal title={'Редактирование категории'} buttonText={<Icon name={'edit'} />}>
-            <EditCategory
-              categoryId={category.id}
-              initialName={category.name}
-              initialSlug={category.slug}
-              initialSequence={category.sequence}
-              onSuccess={handleSuccess}
-            />
-          </Modal>
-        </div>
-      )
+    const categoryItem: TableItem = {
+      id: category.id,
+      type: 'category',
+      name: category.name,
+      slug: category.slug,
+      sequence: category.sequence,
+      emojiName,
+      uniqueSellers: category.uniqueSellers,
+      avgPrice: category.avgPrice,
+      totalAds: category.totalAds,
+      activeAds: category.activeAds,
+      deletedAds: category.deletedAds
     }
 
-    const subcategoryRows = categorySubcategories.map((subcategory) => ({
+    const subcategoryItems: TableItem[] = categorySubcategories.map((subcategory) => ({
+      id: subcategory.id,
+      type: 'subcategory',
       name: subcategory.name,
-      sellers: subcategory.uniqueSellers,
-      price: subcategory.totalAds > 0 ? `${formatPrice(subcategory.avgPrice)} ₽` : '—',
-      ads: (
-        <StatsBadges
-          active={subcategory.activeAds}
-          deleted={subcategory.deletedAds}
-          total={subcategory.totalAds}
-        />
-      ),
-      actions: (
-        <div className={css.actionsContainer} onClick={stopPropagation}>
-          <Modal title={'Редактирование подкатегории'} buttonText={<Icon name={'edit'} />}>
-            <EditSubcategory
-              subcategoryId={subcategory.id}
-              initialName={subcategory.name}
-              initialSlug={subcategory.slug}
-              initialSequence={subcategory.sequence}
-              initialCategoryId={subcategory.categoryId}
-              onSuccess={handleSuccess}
-            />
-          </Modal>
-        </div>
-      )
+      slug: subcategory.slug,
+      sequence: subcategory.sequence,
+      categoryId: subcategory.categoryId,
+      uniqueSellers: subcategory.uniqueSellers,
+      avgPrice: subcategory.avgPrice,
+      totalAds: subcategory.totalAds,
+      activeAds: subcategory.activeAds,
+      deletedAds: subcategory.deletedAds
     }))
 
-    return [categoryRow, ...subcategoryRows]
+    return [categoryItem, ...subcategoryItems]
   })
+
+  // Подготовка данных для таблицы
+  const tableData = flatData.map((item) => ({
+    name: item.type === 'category' ? (
+      <EmojiWithText name={item.emojiName} text={item.name} />
+    ) : (
+      <span>{item.name}</span>
+    ),
+    sellers: item.uniqueSellers,
+    price: item.totalAds > 0 ? `${formatPrice(item.avgPrice)} ₽` : '—',
+    ads: (
+      <StatsBadges
+        active={item.activeAds}
+        deleted={item.deletedAds}
+        total={item.totalAds}
+      />
+    )
+  }))
 
   // Определение колонок таблицы
   const columns = [
-    { key: 'name', title: 'Название', width: '40%' },
-    { key: 'sellers', title: 'Продавцы', width: '15%' },
+    { key: 'name', title: 'Категория / Подкатегория', width: '35%' },
+    { key: 'sellers', title: 'Продавцы', width: '20%' },
     { key: 'price', title: 'Средняя цена', width: '20%' },
-    { key: 'ads', title: 'Объявления', width: '15%' }
+    { key: 'ads', title: 'Объявления', width: '20%' }
   ]
 
   // Кнопки для заголовка таблицы
-  const headerButtons = (
+  const headerActions = (
     <>
-      <Modal title={'Создание категории'} buttonText="Категория">
-        <CreateCategory onSuccess={handleSuccess} />
-      </Modal>
-      <Modal title={'Создание подкатегории'} buttonText={'Подкатегория'}>
-        <CreateSubcategory onSuccess={handleSuccess} />
-      </Modal>
+      <button 
+        onClick={handleNewCategoryClick}
+      >
+        Создать категорию
+      </button>
+      <button 
+        onClick={handleNewSubcategoryClick}
+      >
+        Создать подкатегорию
+      </button>
     </>
   )
 
@@ -222,13 +227,56 @@ export const CategoryTable: React.FC<CategoriesProps> = ({ className }) => {
     </>
   )
 
+  // Контент для правой панели
+  const renderDetailContent = () => {
+    switch (detailViewMode) {
+      case 'new-category':
+        return (
+          <NewCategory onSuccess={handleSuccess} />
+        )
+      
+      case 'new-subcategory':
+        return (
+          <NewSubcategory onSuccess={handleSuccess} />
+        )
+      
+      case 'edit-category':
+        if (!selectedItem) return null
+        return (
+          <EditCategory
+              categoryId={selectedItem.id}
+              initialName={selectedItem.name}
+              initialSlug={selectedItem.slug}
+              initialSequence={selectedItem.sequence}
+              onSuccess={handleSuccess}
+            />
+        )
+      
+      case 'edit-subcategory':
+        if (!selectedItem) return null
+        return (
+          <EditSubcategory
+              subcategoryId={selectedItem.id}
+              initialName={selectedItem.name}
+              initialSlug={selectedItem.slug}
+              initialSequence={selectedItem.sequence}
+              initialCategoryId={selectedItem.categoryId}
+              onSuccess={handleSuccess}
+            />
+        )
+    }
+  }
+
   return (
     <DataTable
       columns={columns}
       data={tableData}
-      headerButtons={headerButtons}
+      headerActions={headerActions}
       headerStats={headerStats}
       className={className}
+      onRowClick={handleRowClick}
+      selectedRow={selectedRow}
+      detailContent={renderDetailContent()}
     />
   )
 }

@@ -10,6 +10,7 @@ CREATE TABLE "User" (
     "description" TEXT NOT NULL DEFAULT '',
     "phone" TEXT NOT NULL DEFAULT '',
     "avatar" TEXT,
+    "balance" TEXT NOT NULL DEFAULT '0',
     "permissions" "UserPermission"[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

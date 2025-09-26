@@ -16,6 +16,8 @@ import { RxReset } from 'react-icons/rx'
 import { IoCarSportOutline } from "react-icons/io5";
 import { TbCopy } from 'react-icons/tb'
 import { HiOutlineViewGrid } from "react-icons/hi";
+import { RiMoreFill } from "react-icons/ri";
+import { IoWalletOutline } from "react-icons/io5";
 
 const icons = {
   likeEmpty: AiOutlineHeart,
@@ -40,6 +42,8 @@ const icons = {
   car: IoCarSportOutline,
   reset: RxReset,
   category: HiOutlineViewGrid,
+  more: RiMoreFill,
+  wallet: IoWalletOutline,
 }
 
 export const Icon = ({ name, ...restProps }: { name: keyof typeof icons } & IconBaseProps) => {

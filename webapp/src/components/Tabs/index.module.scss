@@ -11,10 +11,12 @@
 .tabsHeader {
   display: flex;
   flex-direction: column;
-  width: 180px;
+  gap: 2px;
+  width: 170px;
   flex-shrink: 0;
   overflow-y: auto;
   border-right: 1px solid $border-color;
+  padding: 5px;
 }
 
 .tabButton {
@@ -30,6 +32,7 @@
   font-family: $font-family;
   font-size: $font-size-14;
   color: $color-1;
+  border-radius: $border-radius-6;
 
   &:hover {
     background-color: $background-2;
@@ -44,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  color: $blue;
 }
 
 .tabLabel {
@@ -54,7 +58,6 @@
 
 .tabsContent {
   flex: 1;
-  padding: 10px;
   overflow-y: auto;
 }
 

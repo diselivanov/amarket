@@ -51,18 +51,18 @@ export const EditCategory = ({
       slug: initialSlug,
       sequence: initialSequence,
     })
-  }, [categoryId, initialName, initialSequence, formik.setValues])
+  }, [categoryId, initialName, initialSlug, initialSequence, formik.setValues])
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <FormItems>
-        <Input label="Название" name="name" type="text" formik={formik} />
-        <Input label="Идентификатор" name="slug" type="text" formik={formik} />
-        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
+      <form onSubmit={formik.handleSubmit}>
+        <FormItems>
+          <Input label="Название" name="name"   formik={formik} />
+          <Input label="Слаг" name="slug"   formik={formik} />
+          <Input label="Порядковый номер" name="sequence"   formik={formik} />
 
-        <Alert {...alertProps} />
-        <Button {...buttonProps}>Сохранить</Button>
-      </FormItems>
-    </form>
+          <Alert {...alertProps} />
+          <Button {...buttonProps}>Сохранить</Button>
+        </FormItems>
+      </form>
   )
 }

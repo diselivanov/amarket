@@ -3,6 +3,7 @@ import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
 import { DataTable } from '../../../../../components/DataTable'
+import { EditUser } from '../EditUser'
 import { getAvatarUrl } from '@amarket/shared/src/cloudinary'
 import css from './index.module.scss'
 
@@ -20,6 +21,7 @@ interface User {
   createdAt: Date
   adsCount: number
   likesCount: number
+  balance: string
 }
 
 export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
@@ -74,6 +76,17 @@ export const UsersTable: React.FC<UsersTableProps> = ({ className }) => {
     ads: <span className={css.statValue}>{user.adsCount}</span>,
     likes: <span className={css.statValue}>{user.likesCount}</span>,
     date: <span className={css.statValue}>{formatDate(user.createdAt)}</span>,
+    actions: (
+      <EditUser 
+        userId={user.id}
+        initialName={user.name}
+        initialEmail={user.email}
+        initialDescription={user.description || ''}
+        initialPhone={user.phone || ''}
+        initialBalance={user.balance} 
+        initialAvatar={user.avatar || ''}
+      />
+    )
   }))
 
   // Определение колонок таблицы

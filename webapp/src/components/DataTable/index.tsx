@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import css from './index.module.scss'
 
 interface Column {
@@ -16,20 +16,44 @@ interface TableRow {
 interface DataTableProps {
   columns: Column[]
   data: TableRow[]
-  headerButtons?: React.ReactNode
+  headerActions?: React.ReactNode
   headerStats?: React.ReactNode
   footerContent?: React.ReactNode
   className?: string
+  onRowClick?: (index: number) => void
+  selectedRow?: number | null
+  detailContent?: React.ReactNode
 }
 
 export const DataTable: React.FC<DataTableProps> = ({
   columns,
   data,
-  headerButtons,
+  headerActions,
   headerStats,
-  footerContent, // Добавить это
-  className
+  footerContent,
+  className,
+  onRowClick,
+  selectedRow,
+  detailContent
 }) => {
+  const [internalSelectedRow, setInternalSelectedRow] = useState<number | null>(null)
+
+  const handleRowClick = (index: number) => {
+    const finalSelectedRow = selectedRow !== undefined ? selectedRow : internalSelectedRow
+    if (onRowClick) {
+      onRowClick(index)
+    } else {
+      setInternalSelectedRow(finalSelectedRow === index ? null : index)
+    }
+  }
+
+  const isRowSelected = (index: number) => {
+    if (selectedRow !== undefined) {
+      return selectedRow === index
+    }
+    return internalSelectedRow === index
+  }
+
   return (
     <div className={`${css.tableContainer} ${className || ''}`}>
       <div className={css.contentWrapper}>
@@ -42,8 +66,8 @@ export const DataTable: React.FC<DataTableProps> = ({
                 </div>
               )}
             </div>
-            <div className={css.headerButtons}>
-              {headerButtons}
+            <div className={css.headerActions}>
+              {headerActions}
             </div>
           </div>
 
@@ -65,7 +89,7 @@ export const DataTable: React.FC<DataTableProps> = ({
               {data.some(row => row.actions) && (
                 <div
                   className={css.tableHeaderCell}
-                  style={{ width: '10%', justifyContent: 'flex-end' }}
+                  style={{ width: '5%', justifyContent: 'flex-end' }}
                 >
                 </div>
               )}
@@ -75,7 +99,10 @@ export const DataTable: React.FC<DataTableProps> = ({
               {data.map((row, index) => (
                 <div
                   key={index}
-                  className={`${css.tableRow} ${index === data.length - 1 ? css.lastRow : ''}`}
+                  className={`${css.tableRow} ${index === data.length - 1 ? css.lastRow : ''} ${
+                    isRowSelected(index) ? css.selectedRow : ''
+                  }`}
+                  onClick={() => handleRowClick(index)}
                 >
                   {columns.map((column) => (
                     <div
@@ -93,7 +120,7 @@ export const DataTable: React.FC<DataTableProps> = ({
                   {row.actions && (
                     <div
                       className={css.tableCell}
-                      style={{ width: '10%', justifyContent: 'flex-end' }}
+                      style={{ width: '5%', justifyContent: 'flex-end' }}
                     >
                       {row.actions}
                     </div>
@@ -105,6 +132,17 @@ export const DataTable: React.FC<DataTableProps> = ({
             {footerContent && (
               <div className={css.tableFooter}>
                 {footerContent}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Правая панель для просмотра данных */}
+        <div className={css.detailPanel}>
+          <div className={css.detailContent}>
+            {detailContent || (
+              <div className={css.emptyState}>
+                Выберите элемент для просмотра
               </div>
             )}
           </div>

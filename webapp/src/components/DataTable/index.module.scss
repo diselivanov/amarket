@@ -2,21 +2,7 @@
 @use '../../styles/mixins' as *;
 
 ::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: $background-1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba($color-1, 0.05);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba($color-1, 0.2);
+  width: 0;
 }
 
 .tableContainer {
@@ -26,20 +12,59 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  font-size: $font-size-14;
+  font-size: $font-size-15;
+}
+
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tablePanel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 8px;
+}
+
+.detailPanel {
+  width: 360px;
+  flex-shrink: 0;
+  border-left: 1px solid $border-color;
+  background-color: $background-1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.detailContent {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $color-2;
+  font-size: $font-size-15;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 5px;
-  border-top: 1px solid $border-color;
-  border-left: 1px solid $border-color;
-  border-right: 1px solid $border-color;
-  border-top-right-radius: $border-radius-8;
-  border-top-left-radius: $border-radius-8;
+  padding: 0 4px;
+  height: 38px;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-8;
   background-color: $background-1;
+  margin-bottom: 5px;
   z-index: 100;
   flex-shrink: 0;
 }
@@ -54,35 +79,37 @@
   align-items: center;
   gap: 10px;
   color: $color-2;
-  font-size: $font-size-14;
+  font-size: $font-size-15;
   margin-left: 10px;
 }
 
-.headerButtons {
+.headerActions {
   display: flex;
   align-items: center;
   gap: 5px;
-}
 
-.contentWrapper {
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-}
+  button {
+    padding: 5px 10px;
+    border: 1px solid rgba($blue, 0.2);
+    border-radius: $border-radius-6;
+    background-color: rgba($blue, 0.1);
+    color: $blue;
+    font-size: $font-size-14;
+    cursor: pointer;
+    transition: all 0.2s ease;
 
-.tablePanel {
-  flex: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  &:hover {
+    background-color: rgba($blue, 0.15);
+    border-color: rgba($blue, 0.3);
+  }
+ }
 }
 
 .tableWrapper {
   flex: 1;
   overflow: auto;
   border: 1px solid $border-color;
-  border-bottom-left-radius: $border-radius-8;
-  border-bottom-right-radius: $border-radius-8;
+  border-radius: $border-radius-8;
   background-color: $background-1;
 }
 
@@ -97,12 +124,18 @@
 }
 
 .tableHeaderCell {
-  padding: 10px 15px;
+  height: 36px;
+  padding: 0 15px;
   color: $color-2;
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  font-weight: 500;
+  font-weight: $font-weight-500;
+  border-right: 1px solid $border-color;
+
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .tableBody {
@@ -115,9 +148,26 @@
   width: 100%;
   border-bottom: 1px solid $border-color;
   box-sizing: border-box;
-  
+  cursor: pointer;
+  position: relative;
+
   &:hover {
     background-color: $background-2;
+  }
+
+  &.selectedRow {
+    background-color: rgba($blue, 0.1);
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      bottom: 2px;
+      width: 2.5px;
+      border-radius: $border-radius-10;
+      background-color: $blue;
+    }
   }
 }
 
@@ -126,11 +176,17 @@
 }
 
 .tableCell {
+  min-height: 36px;
   padding: 5px 15px;
   vertical-align: middle;
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  border-right: 1px solid $border-color;
+
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .tableFooter {

@@ -10,10 +10,12 @@
 
   &:hover,
   &:active {
-    color: $green;
+    color: $red;
   }
 }
 
-@mixin header {
-  margin: 0;
+@mixin header-1 {
+  color: $color-1;
+  font-size: $font-size-15;
+  user-select: none;
 }

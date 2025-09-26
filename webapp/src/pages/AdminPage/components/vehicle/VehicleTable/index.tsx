@@ -3,7 +3,7 @@ import { trpc } from '../../../../../lib/trpc'
 import { Loader } from '../../../../../components/Loader'
 import { Alert } from '../../../../../components/Alert'
 import { Icon } from '../../../../../components/Icon'
-import { Modal } from '../../../../../components/Modal'
+import { Sidebar } from '../../../../../components/Sidebar'
 import { EditVehicleBrand } from '../EditVehicleBrand'
 import { EditVehicleModel } from '../EditVehicleModel'
 import { CreateVehicleModel } from '../NewVehicleModel'
@@ -58,16 +58,14 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
       name: brand.name,
       sequence: brand.sequence,
       actions: (
-        <div className={css.actionsContainer} onClick={stopPropagation}>
-          <Modal title={'Редактирование бренда'} buttonText={<Icon name={'edit'} />}>
+        <Sidebar title={'Редактирование бренда'} buttonText={<Icon name={'edit'} />}>
             <EditVehicleBrand
               brandId={brand.id}
               initialName={brand.name}
               initialSequence={brand.sequence}
               onSuccess={handleSuccess}
             />
-          </Modal>
-        </div>
+          </Sidebar>
       )
     }
 
@@ -76,8 +74,7 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
       type: model.type,
       sequence: model.sequence,
       actions: (
-        <div className={css.actionsContainer} onClick={stopPropagation}>
-          <Modal title={'Редактирование модели'} buttonText={<Icon name={'edit'} />}>
+        <Sidebar title={'Редактирование модели'} buttonText={<Icon name={'edit'} />}>
             <EditVehicleModel
               vehicleModelId={model.id}
               initialName={model.name}
@@ -86,8 +83,7 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
               initialBrandId={model.brandId}
               onSuccess={handleSuccess}
             />
-          </Modal>
-        </div>
+          </Sidebar>
       )
     }))
 
@@ -102,14 +98,14 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
   ]
 
   // Кнопки для заголовка таблицы (onSuccess={handleSuccess} нужен у CreateVehicleBrand и CreateVehicleModel)
-  const headerButtons = (
+  const headerActions = (
     <>
-      <Modal title={'Создание бренда'} buttonText="Бренд">
+      <Sidebar title={'Создание бренда'} buttonText="Бренд">
         <CreateVehicleBrand />
-      </Modal>
-      <Modal title={'Создание модели'} buttonText={'Модель'}>
+      </Sidebar>
+      <Sidebar title={'Создание модели'} buttonText={'Модель'}>
         <CreateVehicleModel />
-      </Modal>
+      </Sidebar>
     </>
   )
 
@@ -125,7 +121,7 @@ export const VehicleTable: React.FC<VehicleBrandsProps> = ({ className }) => {
     <DataTable
       columns={columns}
       data={tableData}
-      headerButtons={headerButtons}
+      headerActions={headerActions}
       headerStats={headerStats}
       className={className}
     />

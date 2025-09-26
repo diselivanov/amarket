@@ -46,8 +46,8 @@ export const EditVehicleBrand = ({ brandId, initialName, initialSequence, onSucc
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
-        <Input label="Название бренда" name="name" type="text" formik={formik} />
-        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
+        <Input label="Название бренда" name="name"   formik={formik} />
+        <Input label="Порядковый номер" name="sequence"   formik={formik} />
 
         <Alert {...alertProps} />
         <Button {...buttonProps}>Сохранить</Button>

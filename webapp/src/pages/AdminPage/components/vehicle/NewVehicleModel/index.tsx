@@ -28,8 +28,8 @@ export const CreateVehicleModel = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <FormItems>
-        <Input label="Название модели" name="name" type="text" formik={formik} />
-        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
+        <Input label="Название модели" name="name"   formik={formik} />
+        <Input label="Порядковый номер" name="sequence"   formik={formik} />
         <Select
           name="type"
           label="Тип"

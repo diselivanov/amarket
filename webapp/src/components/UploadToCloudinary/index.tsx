@@ -8,8 +8,9 @@ import { type FormikProps } from 'formik'
 import memoize from 'lodash/memoize'
 import { useCallback, useRef, useState } from 'react'
 import { trpc } from '../../lib/trpc'
-import { Button, Buttons } from '../Button'
 import css from './index.module.scss'
+import { Icon } from '../Icon'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export const useUploadToCloudinary = (type: CloudinaryUploadTypeName) => {
   const prepareCloudinaryUpload = trpc.prepareCloudinaryUpload.useMutation()
@@ -83,71 +84,106 @@ export const UploadToCloudinary = <TTypeName extends CloudinaryUploadTypeName>({
 
   const { uploadToCloudinary } = useUploadToCloudinary(type)
 
+  const handleFileChange = async (files: FileList | null) => {
+    if (!files?.length) return
+
+    setLoading(true)
+    try {
+      const file = files[0]
+      const { publicId } = await uploadToCloudinary(file)
+      void formik.setFieldValue(name, publicId)
+    } catch (err: any) {
+      console.error(err)
+      formik.setFieldError(name, err.message)
+    } finally {
+      void formik.setFieldTouched(name, true, false)
+      setLoading(false)
+      if (inputEl.current) {
+        inputEl.current.value = ''
+      }
+    }
+  }
+
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    void formik.setFieldValue(name, null)
+    formik.setFieldError(name, undefined)
+    void formik.setFieldTouched(name)
+  }
+
   return (
-    <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
+    <div className={cn(css.avatarField, { [css.disabled]: disabled })}>
       <input
         className={css.fileInput}
         type="file"
         disabled={loading || disabled}
         accept="image/*"
         ref={inputEl}
-        onChange={({ target: { files } }) => {
-          void (async () => {
-            setLoading(true)
-            try {
-              if (files?.length) {
-                const file = files[0]
-                const { publicId } = await uploadToCloudinary(file)
-                void formik.setFieldValue(name, publicId)
-              }
-            } catch (err: any) {
-              console.error(err)
-              formik.setFieldError(name, err.message)
-            } finally {
-              void formik.setFieldTouched(name, true, false)
-              setLoading(false)
-              if (inputEl.current) {
-                inputEl.current.value = ''
-              }
-            }
-          })()
-        }}
+        onChange={({ target: { files } }) => void handleFileChange(files)}
       />
-      <label className={css.label} htmlFor={name}>
-        {label}
-      </label>
-      {!!value && !loading && (
-        <div className={css.previewPlace}>
-          <img className={css.preview} alt="" src={getCloudinaryUploadUrl(value, type, preset)} />
-        </div>
-      )}
-      <div className={css.buttons}>
-        <Buttons>
-          <Button
-            type="button"
-            onClick={() => inputEl.current?.click()}
-            loading={loading}
-            disabled={loading || disabled}
-            color="green"
+      
+      <div className={css.avatarContainer}>
+        <label className={css.avatarLabel} htmlFor={name}>
+          <div 
+            className={cn(css.avatar, { 
+              [css.hasImage]: !!value,
+              [css.loading]: loading 
+            })}
+            onClick={() => !disabled && !loading && inputEl.current?.click()}
           >
-            {value ? 'Изменить' : 'Загрузить'}
-          </Button>
-          {!!value && !loading && (
-            <Button
-              type="button"
-              color="red"
-              onClick={() => {
-                void formik.setFieldValue(name, null)
-                formik.setFieldError(name, undefined)
-                void formik.setFieldTouched(name)
-              }}
-              disabled={disabled}
-            >
-              Удалить
-            </Button>
-          )}
-        </Buttons>
+            {value ? (
+              <>
+                <img 
+                  className={css.avatarImage} 
+                  alt={label} 
+                  src={getCloudinaryUploadUrl(value, type, preset)} 
+                />
+                {!loading && (
+                  <div className={css.avatarOverlay}>
+                    <span className={css.changeText}>Изменить</span>
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className={css.avatarPlaceholder}>
+                {loading ? (
+                  <div className={css.loadingSpinner} />
+                ) : (
+                  <>
+                    <span className={css.uploadText}>Загрузить</span>
+                  </>
+                )}
+              </div>
+            )}
+            
+            {loading && (
+              <div className={css.loaderContainer}>
+                <CircularProgress
+                          size={30}
+                          color="inherit"
+                          sx={{
+                            '& .MuiCircularProgress-circle': {
+                              strokeLinecap: 'round',
+                            },
+                          }}
+                        />
+              </div>
+             )}
+          </div>
+        </label>
+
+        {!!value && !loading && (
+          <button
+            type="button"
+            className={css.removeButton}
+            onClick={handleRemove}
+            disabled={disabled}
+          >
+            Удалить фото
+          </button>
+        )}
       </div>
+
       {invalid && <div className={css.error}>{error}</div>}
     </div>
   )

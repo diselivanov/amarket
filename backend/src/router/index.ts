@@ -7,6 +7,7 @@ import { getCategoriesSubcategoriesStatsTrpcRoute } from './admin/categories/get
 import { updateCategoryTrpcRoute } from './admin/categories/updateCategory'
 import { updateSubcategoryTrpcRoute } from './admin/categories/updateSubcategory'
 import { getUsersTrpcRoute } from './admin/users/getUsers'
+import { updateUserTrpcRoute } from './admin/users/updateUser'
 import { createVehicleBrandTrpcRoute } from './admin/vehicle/createVehicleBrand'
 import { createVehicleModelTrpcRoute } from './admin/vehicle/createVehicleModel'
 import { getVehicleBrandsTrpcRoute } from './admin/vehicle/getVehicleBrands'
@@ -40,6 +41,7 @@ export const trpcRouter = createTrpcRouter({
   updateCategory: updateCategoryTrpcRoute,
   updateSubcategory: updateSubcategoryTrpcRoute,
   getUsers: getUsersTrpcRoute,
+  updateUser: updateUserTrpcRoute,
   createVehicleBrand: createVehicleBrandTrpcRoute,
   createVehicleModel: createVehicleModelTrpcRoute,
   getVehicleBrands: getVehicleBrandsTrpcRoute,

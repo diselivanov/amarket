@@ -19,6 +19,7 @@ model User {
   avatar      String?
   ads         Ad[]
   adsLikes    AdLike[]
+  balance     String   @default("0")
 
   permissions UserPermission[]
   createdAt   DateTime         @default(now())

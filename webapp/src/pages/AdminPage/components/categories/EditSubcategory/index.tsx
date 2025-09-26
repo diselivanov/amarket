@@ -59,30 +59,28 @@ export const EditSubcategory = ({
       sequence: initialSequence,
       categoryId: initialCategoryId,
     })
-  }, [subcategoryId, initialName, initialSequence, initialCategoryId, formik.setValues])
+  }, [subcategoryId, initialName, initialSlug, initialSequence, initialCategoryId, formik.setValues])
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <FormItems>
-        <Input label="Название" name="name" type="text" formik={formik} />
-        <Input label="Идентификатор" name="slug" type="text" formik={formik} />
-        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
-        <Select
-          label="Категория"
-          name="categoryId"
-          formik={formik}
-          options={
-            data?.categories?.map((c) => ({
-              value: c.id,
-              label: c.name,
-            })) || []
-          }
-        />
-        <Alert {...alertProps} />
-        <div style={{ display: 'flex', gap: '10px' }}>
+      <form onSubmit={formik.handleSubmit}>
+        <FormItems>
+          <Input label="Название" name="name"   formik={formik} />
+          <Input label="Слаг" name="slug"   formik={formik} />
+          <Input label="Порядковый номер" name="sequence"   formik={formik} />
+          <Select
+            label="Категория"
+            name="categoryId"
+            formik={formik}
+            options={
+              data?.categories?.map((c) => ({
+                value: c.id,
+                label: c.name,
+              })) || []
+            }
+          />
+          <Alert {...alertProps} />
           <Button {...buttonProps}>Сохранить</Button>
-        </div>
-      </FormItems>
-    </form>
+        </FormItems>
+      </form>
   )
 }

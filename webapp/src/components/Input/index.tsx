@@ -14,13 +14,22 @@ export const Input = ({
   label: string
   formik: FormikProps<any>
   maxWidth?: number | string
-  type?: 'text' | 'password'
+  type?: 'text' | 'password' | 'number'
 }) => {
   const value = formik.values[name]
   const error = formik.errors[name] as string | undefined
   const touched = formik.touched[name]
   const invalid = !!touched && !!error
   const disabled = formik.isSubmitting
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (type === 'number') {
+      const numValue = e.target.value === '' ? '' : Number(e.target.value)
+      void formik.setFieldValue(name, numValue)
+    } else {
+      void formik.setFieldValue(name, e.target.value)
+    }
+  }
 
   return (
     <div className={cn({ [css.field]: true, [css.disabled]: disabled })}>
@@ -34,9 +43,7 @@ export const Input = ({
         })}
         style={{ maxWidth }}
         type={type}
-        onChange={(e) => {
-          void formik.setFieldValue(name, e.target.value)
-        }}
+        onChange={handleChange}
         onBlur={() => {
           void formik.setFieldTouched(name)
         }}

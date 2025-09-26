@@ -6,11 +6,11 @@ import { Button } from '../../../../../components/Button'
 import { Alert } from '../../../../../components/Alert'
 import { Input } from '../../../../../components/Input'
 
-interface CreateCategoryProps {
+interface NewCategoryProps {
   onSuccess?: () => void
 }
 
-export const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
+export const NewCategory = ({ onSuccess }: NewCategoryProps) => {
   const createCategory = trpc.createCategory.useMutation()
 
   const { formik, alertProps, buttonProps } = useForm({
@@ -28,14 +28,14 @@ export const CreateCategory = ({ onSuccess }: CreateCategoryProps) => {
   })
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <FormItems>
-        <Input label="Название" name="name" type="text" formik={formik} />
-        <Input label="Идентификатор" name="slug" type="text" formik={formik} />
-        <Input label="Порядковый номер" name="sequence" type="text" formik={formik} />
-        <Alert {...alertProps} />
-        <Button {...buttonProps}>Создать</Button>
-      </FormItems>
-    </form>
+      <form onSubmit={formik.handleSubmit}>
+        <FormItems>
+          <Input label="Название" name="name"   formik={formik} />
+          <Input label="Идентификатор" name="slug"   formik={formik} />
+          <Input label="Порядковый номер" name="sequence"   formik={formik} />
+          <Alert {...alertProps} />
+          <Button {...buttonProps}>Создать</Button>
+        </FormItems>
+      </form>
   )
 }
